@@ -1,0 +1,3072 @@
+\documentclass[a4paper, 12pt]{report}
+\usepackage{geometry}	
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{multicol}
+\usepackage{titlesec}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{textcomp}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{comment}
+\usepackage{etoolbox}
+\usepackage{anyfontsize}
+\usepackage{url}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{tabu}
+% \usepackage{hyperref}
+\usepackage[colorlinks,citecolor=black, urlcolor=black]{hyperref}
+\usepackage{color}
+\usepackage{epigraph}
+\usepackage{makebox}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{setspace}
+% \usepackage{natbib}
+
+\usepackage{mathrsfs}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{makecell}
+\captionsetup{font={stretch=1.2}}
+\usepackage[english]{babel}
+% \graphicspath{{C:/Users/User/Desktop/Thesis/}{/Users/grewwc/Desktop/Thesis/}}
+
+\usepackage{biblatex}
+\renewbibmacro{in:}{}
+\addbibresource{bibfile.bib}
+\DeclareFieldFormat{pages}{#1}% no p
+\DeclareFieldFormat{journaltitle}{\mkbibemph{#1}\isdot}
+
+\renewbibmacro*{journal+issuetitle}{%
+  \usebibmacro{journal}%
+  \setunit*{\addcomma\space}%
+  \iffieldundef{series}
+    {}
+    {\newunit
+     \printfield{series}%
+     \setunit{\addspace}}%
+  \usebibmacro{volume+number+eid}%
+  \setunit{\addspace}%
+  \usebibmacro{issue+date}%
+  \setunit{\addcolon\space}%
+  \usebibmacro{issue}%
+  \newunit}
+
+\renewbibmacro{in:}{\addcomma\addspace}
+\DeclareFieldFormat[article]{title}{``#1''}
+\DeclareFieldFormat[unpublished]{title}{``#1''}
+\DeclareFieldFormat[book]{title}{``#1''}
+\DeclareFieldFormat[article]{volume}{#1}
+\DeclareFieldFormat[article]{number}{\bibstring{number}~#1}
+\DeclareFieldFormat{pages}{#1}
+\renewbibmacro*{volume+number+eid}{%
+  \printfield{volume}%
+  \setunit*{\addcomma\addspace}%
+   \printfield{number}%
+   \setunit{\addcomma\space}%
+   \printfield{eid}}
+\renewcommand{\arraystretch}{2}
+% \renewcommand{\bibname}{REFERENCES}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    %linkcolor=[RGB]{0,204,0},
+    linkcolor=black,
+    urlcolor=black
+}
+
+% \captionsetup[figure]{labelfont=bf, font=footnotesize}
+
+\setlength{\parskip}{1em}
+% \setcounter{tocdepth}{4} 
+% \setcounter{secnumdepth}{4}
+
+%this several lines is for: no number before suction. (This is a bug)
+\makeatletter
+\patchcmd{\ttlh@hang}{\parindent\z@}{\parindent\z@\leavevmode}{}{}
+\patchcmd{\ttlh@hang}{\noindent}{}{}{}
+\makeatother
+
+
+\geometry{
+	a4paper,
+	% total={210mm,297mm},
+ 	left=30mm,
+ 	top=30mm,
+  right=30mm,
+  bottom=30mm,
+}
+
+% \title{\textbf{Broadband Spectra Analysis of Three Energetic Millisecond Pulsars}\\ \vspace{1cm}
+% 			{\large Department of Physics, The University of Hong Kong, Pokfulam Road, Hong Kong}\\ \vspace{1cm}
+% 			% {\includegraphics[scale=0.2]{{hku.png}}}\\ \vspace{3cm}
+% }
+
+\title{\textbf{Gamma-ray Spectral Analysis of Three Energetic Millisecond Pulsars} \\ \vspace{1cm}
+  {\large Department of Physics, The University of Hong Kong, Pokfulam Road, Hong Kong}}
+
+\date{}
+\author{Wang Wenchao  \\3030053350}
+\setlength{\columnsep}{1cm}
+
+
+\newcommand{\mycaption}[1]{\protect \caption{#1}}
+%Below is the main content.
+
+%insert a single figure.
+%parameters: 
+%%  1. path
+%%  2. scale
+%%  3. caption
+\newcommand{\singleFig}[3]{
+  \begin{figure}[!htp]
+    \centering
+    \includegraphics[scale=#2]{#1}
+    \caption{#3}
+    \label{fig: #1}
+  \end{figure}
+}
+
+\newcommand{\gj}[0]{
+  Goldreich-Julian charge density
+}
+
+\newcommand{\fgl}[0]{
+  \textit{Fermi} LAT four-year Point Source Catalog
+}
+
+\newcommand{\question}[1]{
+  $<$\textbf{question}$>$#1$<$\textbf{/question}$>$
+}
+
+\newcommand{\change}[1]{
+  $<$\colorbox{red}{\textbf{change}}$>$#1$<$\colorbox{red}{\textbf{/change}}$>$
+}
+
+\newcommand{\add}[1]{
+  $<$\colorbox{red}{\textbf{add}}$>$#1$<$\colorbox{red}{\textbf{/add}}$>$
+}
+
+\newcommand{\mayAdd}[1]{
+  $<$\colorbox{red}{\textbf{mayAdd}}$>$#1$<$\colorbox{red}{\textbf{/mayAdd}}$>$
+}
+
+
+\newcommand{\mayChange}[1]{
+  $<$\colorbox{red}{\textbf{mayChange}}$>$#1$<$\colorbox{red}{\textbf{/mayChange}}$>$
+}
+
+\newcommand{\myComment}[1]{
+  %#1 
+  \newline
+}
+
+\newcommand{\Notice}[1]{
+  $<$\textbf{Notice}$>$#1$<$\textbf{/Notice}$>$
+}
+
+\newcommand{\blackhref}[2]{
+  \href{#1}{\color{black}{\textit{\small #2}}}
+}
+
+
+
+\begin{document}
+
+\begin{titlepage}
+  \begin{center}
+  \vspace*{3cm}
+  % Gamma-ray Spectral Analysis of Three Energetic Millisecond Pulsars
+  \Large \textbf{GAMMA-RAY SPECTRAL ANALYSIS 
+    \\[0.5cm] OF THREE ENERGETIC \\ [0.5cm] 
+    MILLISECOND PULSARS \\[3.7cm]}
+  \small
+    A THESIS \\[0.5cm] 
+    SUBMITTED TO THE DEPARTMENT OF PHYSICS \\[0.5cm]
+    OF THE UNIVERSITY OF HONG KONG \\[0.5cm]
+    IN PARTIAL FULFILLMENT OF THE REQUIREMENTS \\[0.5cm]
+    FOR THE DEGREE OF \\[0.5cm]
+    MASTER OF PHILOSOPHY \\[4.2cm]
+
+    \large By \\[0.5cm]
+    \large Wenchao Wang \\[0.5cm]
+    August 2018
+    \newpage 
+    \centering 
+    Abstract of thesis entitled \\[1.2cm]
+    \Large \textbf{GAMMA-RAY SPECTRAL ANALYSIS 
+    \\[0.5cm] OF THREE ENERGETIC \\ [0.5cm] 
+    MILLISECOND PULSARS \\[0.5cm]}
+    \normalsize Submitted by \\ [0.5cm]
+    \Large Wenchao Wang \\[1cm]
+    \normalsize for the degree of Master of Philosophy \\[0.5cm]
+    at the University of Hong Kong \\[0.5cm]
+    in August 2018 \\[1.9cm]
+  \end{center}
+    \doublespacing
+    \noindent A millisecond pulsar (MSP) is a fast-spinning pulsar whose rotational period is a few 
+    milliseconds. MSPs are believed to be old pulsars spun up by their companion stars. PSRs
+    J0218+4232, B1821$-$24 and B1937+21 are among the most energetic and fastest-spinning  
+    MSPs. They have been studied in radio, X-ray and gamma-ray bands, and show 
+    aligned pulse profile in different energy bands. However, all previous gamma-ray studies 
+    were done with previous \textit{Fermi} LAT Pass 7 data or earlier. The \textit{Fermi} LAT Pass 8 data was 
+    published in 2015 and has substantial improvements, such as increased effective area and 
+    wider energy range. Since the recent gamma-ray spectral analyses of the three MSPs are 
+    relatively old, I re-analyzed the gamma-ray spectra of the three MSPs with four-year more 
+    \textit{Fermi} LAT observational data and newly published Pass 8 data. Additionally, new X-ray 
+    studies of the three MSPs using NuSTAR had been published. I obtained better fit results
+    for gamma-ray spectra of the three MSPs with smaller error bars and larger test statistic 
+    values. I built a numerical model to explain the high-energy emission from X-rays to 
+    gamma-rays based on a two-layer outer gap model. By minimizing the differences between 
+    the predictions of the two-layer model and the real data, I fitted three independent 
+    parameters of the model. It is found that the simplified two-layer model can predict 
+    broadband spectra of the three MSPs which are very close to the observational data from 
+    in both X-rays and gamma-rays.
+
+\end{titlepage}
+
+% \bibpunct{(}{)}{;}{a}{}{,}
+% \bibliographystyle{apj}
+
+\linespread{1.25} 
+\maketitle
+
+\pagenumbering{roman}
+
+
+% \thispagestyle{empty}
+\cleardoublepage
+\chapter*{Declaration}
+  \doublespacing 
+  I hereby declare that this whole dissertation report is my own work, except the parts with due
+  acknowledgment, and that it has not been previously included in a thesis, dissertation or
+  report submitted to this University or to any other institution for a degree, diploma or other
+  qualifications. \\ \vspace{3cm}
+
+  \hspace{7cm} Signature: \rule{3cm}{0.4pt} 
+
+  \hspace*{7.5cm} Name:  Wenchao Wang 
+
+  \hspace*{7.6cm} Date:  August 2018 
+
+\addcontentsline{toc}{chapter}{Declaration}
+
+\cleardoublepage
+\chapter*{Acknowledgments}
+  \doublespacing
+  Lots of people give me much precious help. First of all, I really appreciate my 
+  supervisor Dr. Stephen Chi Yung Ng for his great support, patience and kindness. Prof. Takata 
+  also provides me much help in term of pulsars' emission mechanisms and numerical simulations and 
+  is really charming. In addition, I thank Ms. Ruby Cho Wing Ng for her invaluable guidance and 
+  advice. They give me not only knowledge and techniques but also encouragements. Therefore, I 
+  would like to express my most sincere thanks to them. 
+\addcontentsline{toc}{chapter}{Acknowledgments}
+ 
+
+% \cleardoublepage
+% \chapter*{Abstract}
+%   \doublespacing
+%   PSRs J0218+4232, B1821$-$24 and B1937+21 are among the most energetic and fastest-spinning 
+%   millisecond pulsars (MSPs). They have been studied in all radio, X-ray and gamma-ray bands. 
+%   The \textit{Fermi} LAT Pass 8 data was published in 2015 and has lots of advantages over 
+%   the old Pass 7 data, such as increased effective area and wider energy range. Since 
+%   the recent gamma-ray spectral analysis of the three MSPs are relatively old, 
+%   I redo the gamma-ray spectral analysis of the MSPs with 
+%   four-year more \textit{Fermi} LAT observational data and newly published Pass 8 data. 
+%   I obtain better fit results for gamma-ray spectra of the three MSPs with smaller errors 
+%   and larger test statistic values. I also do numerical simulations to test the 
+%   two-layer model using the new observational data. By minimizing the differences between 
+%   the predictions of the two-layer model and the real data, I fit the independent 
+%   parameters of the two-layer model. I find that the simplified two-layer model can 
+%   predict broadband spectra of the three MSPs which are very close to the observational data 
+%   from \textit{Fermi} LAT in most energy ranges.
+
+% \addcontentsline{toc}{chapter}{Abstract}
+
+\tableofcontents
+
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{\listfigurename}
+\listoffigures
+% \newpage
+
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{\listtablename}
+\listoftables
+% \newpage
+
+\pagenumbering{arabic}
+
+
+ 
+\cleardoublepage
+\newpage
+\listoftables
+
+
+\chapter{Introduction}   	   
+  \section{Neutron Stars and Pulsars}
+    Neutron stars are produced by supernovae explosion of massive stars whose mass 
+    is above eight solar mass. After a supernova explosion, a star leaves a central region. 
+    And the central region collapses because of the effect of 
+    gravity until protons and electrons combine to form neutrons 
+    ($e^{-}+p\rightarrow n+\nu_{e}$) ---the reason why they are called ``neutron stars''.  
+    Because neutrons have no electromagnetic force on each other, they can be squeezed very 
+    tightly. Therefore, a neutron star has a tremendous high density 
+    (about $5\times 10^{17} \mbox{kg/m}^3$) and its diameter and mass are about 20km and 
+    1.4 solar mass respectively. What
+    prevents a neutron star to continue to contract is the degeneracy pressure of neutrons. 
+    
+    Pulsars are fast-spinning neutron stars. They have rotational periods from a few 
+    milliseconds to several seconds. For example, the rotational period of PSR B1937+21 is 
+    about 1.56ms while PSR B1919+21 is approximately 1.34s. As we know, a star can be ripped 
+    by centrifugal force if the star rotates too fast. We can estimate lower limits of 
+    density of a star with the equation $\rho=\frac{3\pi}{P^2G}$, where $P$ is the 
+    rotational period of a pulsar. Just for simplicity, let $P$ be 1s. Then we 
+    get $\rho\approx 1.4\times 10^{11}\mbox{kg/m}^3$. With the knowledge that the 
+    density of a white dwarf is about $1\times 10^9\mbox{kg/m}^3$ which is smaller than 
+    the lower density limit, the observed fast-spinning stars belong to the kind of stars 
+    which are much denser than white dwarfs. As a result, neutron stars are ideal candidates 
+    for pulsars. 
+    
+    More than 2000 pulsars have been discovered so far. Most of them are in the disk of 
+    our Galaxy while we also can find a small portion of them in high latitude, which can be 
+    seen clearly in Figure \ref{fig: spatial_distribution}. This may 
+    because they cannot escape the gravitational potential if their kinetic energy is not 
+    large enough. Besides, even though they have large enough velocities to escape from their 
+    birth region, there are some probabilities that they become nearly non-detectable before 
+    reaching high latitude. 
+
+    \begin{figure}[!htp]
+      \centering
+      \includegraphics[scale=0.35]{pulsar_distribution.png}
+      \caption{Spatial distribution of some pulsars in galactic coordinate system.}
+      \label{fig: spatial_distribution}
+    \end{figure}
+
+    
+  \section{Emission Mechanism of Pulsars}
+    Although the emission mechanism of pulsars has not been fully understood yet, some 
+    models have been developed 
+    trying to explain observational data. The following is a simple model that can explain 
+    some basic features of pulsars spectra. I will first introduce the magnetic dipole model, 
+    then the synchrotron radiation and inverse Compton radiation. 
+    \subsection{Magnetic Dipole Model}
+      Assuming a pulsar has a magnetic dipole moment $\vec{m}$, the angle between rotation axis and 
+      direction of 
+      $\vec{m}$ is $\alpha$, its angular velocity is $\Omega$, radius is R and moment of inertia is $I$. 
+      Also assuming that energy of electromagnetic radiation is completely from the rotational energy, 
+      its spin-down rate can be written as: 
+      $$
+          \dot{\Omega}=-\frac{B_p^2 R^6 \Omega^3 \sin{\alpha}^3}{6c^3I}
+      $$
+      where $B_p$ is magnetic field strength in the pole of the pulsar. Its surface magnetic field can 
+      also be estimated by:
+      $$
+          B_s=\sqrt{\frac{3c^3I}{2\pi^2R^6}P\dot{P}}=3.2\times 10^{19}\sqrt{P\dot{P}}
+      $$
+      where $B_s$ is the strength of the surface magnetic field. \\
+      \indent In general, a pulsar's spin-down rate can be expressed as $\dot{\Omega}=-K\Omega^{n}$, 
+      where K is a constant and n is called braking index. In magnetic dipole model n is 
+      three \cite{Tong2015}. Then the characteristic age of the pulsar can be 
+      defined as $P/2\dot{P}$ in the magnetic dipole model. For example, the Crab 
+      pulsar's rotation period is about $0.033s$ and period derivative is 
+      $4.22\times 10^{-13}s/s$. The characteristic age is about 1200 years. The pulsar 
+      is a remnant of a supernova which is observed by ancient astronomers in 1054 
+      AD, so the record shows that characteristic age can give us and an order of magnitude 
+      estimation of a pulsar's real age. \\
+      \indent 
+      Although the braking index is 3 in the magnetic dipole model, most of the pulsars' 
+      braking index is less than 3 as shown in Figure \ref{fig:braking_index}. The reason is 
+      that if a pulsar's spin down is completely determined by pulsar winds, the braking 
+      index is one. Thus, the real braking index should be a combination of 1 and 3, which is usually 
+      less than three \cite{PhysRevD.91.063007}.
+        
+      \begin{figure}[!ht]
+        \centering
+        \includegraphics[scale=0.6]{table.png}
+        \caption{Braking indices of some pulsars.}
+        \label{fig:braking_index}
+      \end{figure}
+  
+    \subsection{Synchrotron Radiation}
+      Synchrotron radiation is a special case of cyclotron radiation when a particle's
+      speed is comparable to the speed of light. Because of the relativistic beaming 
+      effect, a very short radiation pulse can be observed when speeds of particles are
+      large. I only aim to analyze the spectral properties of MSPs, so I focus on the 
+      spectrum property of synchrotron radiation. 
+      With Larmor's Formula we can derive the synchrotron radiation power of an electron:
+      \begin{equation}
+        \label{func: sync_total_power_precise}
+        P = \frac{2e^4\gamma^2\beta^2B_{\perp}^2}{3m_e^2c^3} ,
+      \end{equation}
+      where $\gamma$ is the Lorentz factor of the electron, $\beta=v/c$ and $B_{\perp}$ 
+      is the strength of magnetic field perpendicular to the circular motion plane. 
+      When $\beta \sim 1$, Function \ref{func: sync_total_power_precise} can be 
+      simplified as:
+      \begin{equation}
+        \label{func: sync_total_power_simplified}
+        P = \frac{2}{3}\frac{e^2c}{R^2}\gamma^4 ,
+      \end{equation}
+      where $R = E / e B_{\perp}$ is the radius of the electron's circular motion. 
+      Furthermore, the power spectrum of a single electron  
+      can be described by Function \ref{func: syncrothron spectrum}
+      \begin{eqnarray}
+        \label{func: syncrothron spectrum}
+        P\left(\nu\right) &=& \frac{\sqrt{3} e^3 B \sin{\alpha}}{m c^2} 
+          \left(\frac{\nu}{\nu_c}\right) \int_{\nu / \nu_c}^{\infty} K_{5/3}\left(\eta \right)d\eta  \nonumber \\
+          &=& \frac{\sqrt{3}e^2}{m_eR}\gamma \left(\frac{\nu}{\nu_c}\right) \int_{\nu / \nu_c}^{\infty} K_{5/3}\left(\eta \right)d\eta ,
+      \end{eqnarray}
+      where $\nu_c$ is the critical frequency and $K_{5/3}$ is modified Bessel function. 
+      The critical frequency can be expressed by Function \ref{func: critical_frequency}
+      \begin{eqnarray}
+        \label{func: critical_frequency}
+        \nu_c &=& \frac{3}{2} \gamma^2 \nu_{cyc} \sin{\alpha} \nonumber \\
+              &=& \frac{3}{4\pi} \frac{c}{R} \gamma^3 ,
+      \end{eqnarray} 
+      where $\alpha$ is the pitch angle and the $\nu_{cyc}$ is the frequency of 
+      corresponding cyclotron radiation. These functions do not give us very much 
+      information because of the integration of the modified Bessel function. We let 
+      $x = \nu / \nu_c$ and fix the environment variables such as magnetic field ($B$), 
+      Function \ref{func: syncrothron spectrum} becomes: 
+      \begin{equation}
+        \label{func: to_x}
+        P\left(\nu\right) = C \times x \int_{x}^{\infty} K_{5/3}\left(\eta \right)d\eta ,
+      \end{equation}
+      where $C$ is a constant dependent on $B$. Thus, in order to analyze the power spectrum of synchrotron radiation,
+      we only concentrate on the later part, which is
+      \begin{equation}
+        \label{func: fx}
+        F\left(x\right) = x \int_{x}^{\infty} K_{5/3}\left(\eta \right)d\eta .
+      \end{equation}
+            
+      \begin{figure}[!htp]
+        \centering 
+        \includegraphics[scale=0.5]{sync_spectrum_loglog_combined.png}
+        \caption[Spectrum shape of synchrotron radiation for a single particle]
+        {Spectrum shape of synchrotron 
+        radiation for a single particle (top). According to Equation \ref{func: fx},
+        the top figure \ref{func: fx} describes the general shape of power spectrum of 
+        synchrotron radiation. When the frequency is larger than
+        the critical frequency $\nu_c$, the power goes down dramatically. However, the 
+        top figure does not show the information that at what frequency the charged 
+        particle emits the strongest power, which is revealed in the bottom figure. 
+        The bottom figure shows that most energy is emitted around the critical frequency.}
+        \label{fig: sync_spectrum_loglog_combined}
+      \end{figure}
+      % \singleFig{sync_spectrum_loglog_combined}{0.5}{Spectrum shape of synchrotron 
+      % radiation for a single particle (top). According to Equation \ref{func: fx},
+      % the top figure \ref{func: fx} describes the general shape of power spectrum of 
+      % synchrotron radiation. When the frequency is larger than
+      % the critical frequency $\nu_c$, the power goes down dramatically. However, the 
+      % top figure does not show the information that at what frequency the charged 
+      % particle emits the strongest power, which is revealed in the bottom figure. 
+      % The bottom figure shows that most energy is emitted around the critical frequency.}
+
+      In reality, synchrotron radiation is not generated by a single particle. We 
+      describe the number density distribution of electrons with respect to energy by a 
+      single power-law model:
+      \begin{equation}
+        \label{func: sync_number_density}
+        N\left(E\right) \approx C E^{-\delta} .
+      \end{equation}
+    
+      For simplicity, we set the ambient magnetic field $B$ to be a constant and make an 
+      approximation that all radiations are at a single frequency:
+      \begin{equation}
+        \label{func: sync_approximation}
+        \nu \approx \gamma^2 \nu_{cyc} ,
+      \end{equation}
+      where the meaning of $\nu_{cyc}$ is the same as Function 
+      \ref{func: critical_frequency}. Our objective is to know the relationship between 
+      total power of all electrons and their radiation frequency. We describe the 
+      relationship as Equation \ref{func: sync_power_single_frequency}
+        
+      \begin{eqnarray}
+        \label{func: sync_power_single_frequency}
+        -P\left(E\right)N\left(E\right)dE &=& Q_{\nu} d\nu\\
+        P\left(E\right) &=& \frac{4}{3} \sigma_{T} \beta^2 \gamma^2 c U_B ,
+      \end{eqnarray} 
+      where $\sigma_{T}$ is electron Thompson scattering section, $U_B$ is energy 
+      density of the environment magnetic field, $Q_{\nu}$ is the emission coefficient 
+      of synchrotron radiation and $E=\gamma m_e c^2$. With Equation 
+      \ref{func: sync_approximation}, we have
+      \begin{equation}
+        \label{func: sync_combine}
+        P = \frac{dE}{d\nu} = \frac{m_e c^2}{2\sqrt{\nu \nu_{cyc}}} .
+      \end{equation}
+      Combine Functions \ref{func: sync_combine} and 
+      \ref{func: sync_power_single_frequency} we get:
+      \begin{equation}
+        Q_{\nu} = \frac{4}{3} \sigma_{T} \beta^2 \gamma^2 c U_B \frac{m_e c^2}{2\sqrt{\nu \nu_{cyc}}} N\left(E\right) .
+      \end{equation}
+      Ignoring constants in Function \ref{func: sync_power_single_frequency} we have 
+      \begin{equation}
+        \label{func: sync_final}
+        Q_{\nu} \propto \nu^{(1-\delta)/2} .
+      \end{equation}
+      Function \ref{func: sync_final} shows that if the number density of electrons is 
+      a power-law distribution, the spectrum of synchrotron radiation is also a 
+      power-law model.  
+            
+
+    \subsection{Inverse-Compton radiation}
+      If an energetic photon collides with a charged particle from a 
+      proper incident angle, the photon's energy decreases and its direction changes. 
+      This is the process of Compton Scattering. Inverse-Compton radiation is the 
+      opposite process and a low energy photon gains energy from an ultra-relativistic 
+      electron in the process. 
+      
+      \singleFig{inverse_compton}{0.45}{Two photons collide with an 
+      electron. In the frame $S^{\prime}$, two photons collide with a rest electron 
+      successively. In the frame $S$, the electron is no longer at rest and the 
+      positions of the two events are $x_1$ and $x_2$}
+      As Figure \ref{fig: inverse_compton} shows, in the laboratory frame ($S$), the 
+      incident angle and energy of a photon is $\theta$ and $h \nu$ respectively. 
+      The speed of the electron is $v$. In the electron rest frame ($S^{\prime}$), 
+      we change the denotation to $\theta^{\prime}$ and $h \nu^{\prime}$. Also, let 
+      the position of the electron be the origin point of $S^{\prime}$. We can study 
+      the whole process in the $S^{\prime}$ frame, then transfer the result to the $S$ 
+      frame by Lorentz transformation. 
+
+      In the $S^{\prime}$ frame, the electron is at rest, so its energy is $m_e c^2$. 
+      For Inverse Compton scattering, the energy of an incident photon 
+      (less than several $keV$) is much less than the rest energy of an electron 
+      (about $0.51MeV$) and the relationship can be expressed by 
+      $h\nu^{\prime} \ll m_e c^2$. Therefore, this can be treated as Thompson 
+      Scattering process. Let the Poynting vector of incident photons be 
+      $\vec{S}^{\prime}$ and their energy density be $U_{rad}^{\prime}$, we have 
+      equation \ref{eq: poynting_and_energy_density}
+      \begin{equation}
+        \label{eq: poynting_and_energy_density}
+        \vec{S}^{\prime} = c U_{rad}^{\prime} .
+      \end{equation}
+      The electron absorbs the energy of the incident photons and then is accelerated. 
+      Thus, the accelerated electron will emit part of the energy taken from the incoming 
+      photon and the power of scattered radiation is denoted as $P^{\prime}$.
+      The ratio can be described by Thompson Scattering cross section $\sigma_{T}$ 
+      which is:
+      \begin{equation}
+        \label{eq: thompson_cross_section}
+        \sigma_{T} = \frac{8\pi}{3} \left(\frac{e^2}{m_e c^2}\right)^2 ,
+      \end{equation}
+      and the relationship between the electron radiation power and incoming photon 
+      energy flux can be described by Equation \ref{eq: relationship_power_poynting}
+      \begin{equation}
+        \label{eq: relationship_power_poynting}
+        P^{\prime} = \left| \vec{S}^{\prime} \right| \sigma_{T} ,
+      \end{equation}
+      Combine Equations \ref{eq: poynting_and_energy_density} and 
+      \ref{eq: relationship_power_poynting}, the radiation power emitted by the 
+      electron is: 
+      \begin{equation}
+        \label{eq: final_relationship}
+        P^{\prime} = c \sigma_{T} U^{\prime}_{rad} .
+      \end{equation}
+
+      Then we need to find the relationship between the two frames $S$ and $S^{\prime}$. 
+      It mainly contains two parts: the relationship between $P$, $P^{\prime}$ and 
+      $U_{rad}$, $U_{rad}^{\prime}$. Since $P = dE/dt$ and it is Lorentz invariant 
+      in inertial frame, we get the equation: 
+      \begin{equation}
+        \label{eq: power_is_equal}
+        P = P^{\prime} .
+      \end{equation}
+      Now we hope to write $U_{rad}^{\prime}$ in terms of $U_{rad}$. $U_{rad}$ is 
+      comprised by energy of a single photon and photon density. In the following
+      analysis, all the denotations are correspondent to Equation \ref{fig: inverse_compton}. 
+      According to the relativistic Doppler shift formula, we have: 
+      \begin{equation}
+        \label{eq: doppler_shift}
+        h \nu^{\prime} = \left(h \nu\right) \gamma \left(1 + \beta \cos{\theta} \right) ,
+      \end{equation}
+      where $\beta = v / c$ and $\gamma$ is Lorentz factor of an ultra-relativistic 
+      electron. Then we calculate the photon density. In the frame $S^{\prime}$, the 
+      photon density is inverse proportional to the time interval ($\Delta t$) between 
+      the two photons striking the electron since total number of photons is Lorentz 
+      invariant. In laboratory frame $S$, we consider two photons collide with the 
+      electron at the 4-dimension vector of 
+      $\left(x_{1}, 0, 0, t_{1}\right)$ and $\left(x_{2}, 0, 0, t_{2}\right)$. 
+      According to the Lorentz transformation between inertial frames: 
+      \begin{equation}
+        \label{eq: lorentz_transfer_general}
+          \begin{cases}
+            & x = \gamma \left( x^{\prime} + \beta c t^{\prime} \right)\\
+            & y = y^{\prime} \\
+            & z = z^{\prime} \\ 
+            & t = \gamma \left(t^{\prime} + \frac{\beta x^{\prime}}{c}\right) ,
+          \end{cases}       
+      \end{equation}
+      and because we set $x^{\prime} = 0$, from Equation \ref{eq: lorentz_transfer_general}, 
+      the two events of two successive photons collide with the electron can be 
+      expressed as:
+      $\left(\gamma v t_{1}^{\prime}, 0, 0, \gamma t_{1}^{\prime}\right)$ and 
+      $\left(\gamma v t_{2}^{\prime}, 0, 0, \gamma t_{2}^{\prime}\right)$. 
+      As Figure \ref{fig: inverse_compton_time_interval} shows, the time interval of two 
+      successive photons (reciprocal of frequency) in frame $S$ is: 
+      \begin{eqnarray}
+        \label{eq: inverse_compton_time_interval}
+        \Delta t &=& \left(t_2 - t_1\right) + \frac{\left(x_2 - x_1\right) \cos{\theta}}{c}  \nonumber \\ 
+                &=& \gamma \left(t_{2}^{\prime} - t_{1}^{\prime}\right) + \frac{\gamma v \left(t_{2}^{\prime} - t_{1}^{\prime}\right) \cos{\theta}}{c} \nonumber \\
+                &=&  \Delta t^{\prime} \gamma \left(1 + \beta \cos{\theta}\right) .
+      \end{eqnarray}
+      Equation \ref{eq: inverse_compton_time_interval} shows that the relationship of photon 
+      number density between frame $S$ and $S^{\prime}$ is:
+      \begin{equation}
+          \label{eq: inverse_compton_number_density_relationship}
+          n^{\prime} = n \gamma \left(1 + \beta \cos{\theta}\right) .
+      \end{equation}
+      Combine Equations \ref{eq: inverse_compton_number_density_relationship} and 
+      \ref{eq: doppler_shift} we can transfer the incident photon energy density from 
+      frame $S$ to $S^{\prime}$ according to Equation \ref{eq: inverse_compton_energy_density}
+      \begin{equation}
+        \label{eq: inverse_compton_energy_density}
+        U_{rad}^{\prime} = U_{rad} \left[\gamma \left(1 + \beta \cos{\theta}\right)\right]^{2} .
+      \end{equation}
+      In Equation \ref{eq: inverse_compton_energy_density}, the incoming photon energy density 
+      is a function of the incident angle ($\theta$), in order to get the total photon 
+      energy density, we integrate the equation over $\theta$. Then we get: 
+      \begin{equation}
+        \label{eq: inverse_compton_energy_density_total}
+        U_{rad}^{\prime} = \frac{4}{3} U_{rad} \left(\gamma^2 - \frac{1}{4}\right) .
+      \end{equation}
+      Combine Equations \ref{eq: inverse_compton_energy_density_total} and 
+      \ref{eq: final_relationship}, the total scattered radiation power is:
+      \begin{eqnarray}
+        \label{eq: inverse_compton_power}
+        P^{\prime} &=& P  \nonumber \\
+                  &=& \frac{4}{3} \sigma_{T} c U_{rad} \left(\gamma^2 - \frac{1}{4}\right) .
+      \end{eqnarray}
+      As mentioned before, $P^{\prime}$ and $P$ are the total radiation powers after 
+      scattering. Before the low energy photons gain energy, they give away some energy 
+      first which is $\sigma_{T} c U_{rad}$. 
+      Therefore, we have to subtract this value from Equation \ref{eq: inverse_compton_power} 
+      to calculate the rate of net energy gain, which is described by Equation 
+      \ref{eq: inverse_compton_net_gain}.
+      \begin{eqnarray}
+        \label{eq: inverse_compton_net_gain}
+        P^{\prime} = P = \frac{dE}{dt} &=& \frac{4}{3} \sigma_{T} c U_{rad} \left(\gamma^2 - \frac{1}{4}\right) - \sigma_{T} c U_{rad} \nonumber \\
+                                          &=& \frac{4}{3} \sigma_{T} c U_{rad} \beta^{2} \gamma^{2} .
+      \end{eqnarray}
+      If we compare Equation \ref{eq: inverse_compton_net_gain} with 
+      Equation \ref{func: sync_combine}, we find that the form is very similar between these 
+      two equations. 
+      \begin{equation}
+        \label{eq: comparision_inverse_compton_and_sync}
+        \frac{P_{IC}}{P_{sync}} = \frac{U_{rad}}{U_{B}} ,
+      \end{equation}
+      where $U_{B}$ is the energy density of environment magnetic field. 
+
+      \vspace{1cm}
+      \singleFig{inverse_compton_time_interval}{0.45}{Diagram of Inverse Compoton Process.}
+    
+    \subsection{Curvature Radiation}
+      Curvature radiation is the main source of gamma-ray photons. Charged particles  
+      not only move around magnetic field lines (synchrotron radiation), 
+      but also along magnetic field lines (curvature radiation) because the magnetic 
+      field is very strong.
+
+      Equation \ref{func: sync_total_power_precise} shows that total synchrotron radiation 
+      power is related to pitch angle (because of the term $B_\perp$), and if the 
+      pitch angle is $0$, there will be no synchrotron radiation. However, curvature 
+      radiation can still be generated and is dependent on the curvature radii of 
+      magnetic field lines:
+      \begin{equation}
+        \label{func: curvature_radiation}
+        P = \frac{2}{3}\frac{e^2c}{s^2}\gamma^4 ,
+      \end{equation}
+      where $s$ is the curvature radii of magnetic field lines. 
+      Equation \ref{func: curvature_radiation} is very similar to Equation 
+      \ref{func: sync_total_power_simplified} and the only difference is that 
+      $R$ is changed to $s$. Similarly, according to the Equation 
+      \ref{func: syncrothron spectrum}, the power spectrum of curvature radiation can 
+      be written as:
+      \begin{equation}
+        \label{func: curvature spectrum}
+        P = \frac{\sqrt{3}e^2}{m_es}\gamma \left(\frac{\nu}{\nu_c}\right) \int_{\nu / \nu_c}^{\infty} K_{5/3}\left(\eta \right)d\eta ,
+      \end{equation}
+      where $\nu_c$ is the critical frequencies of curvature photons and equals to:
+      \begin{equation}
+        \label{func: curvature critical frequency}
+        \nu_c = \frac{3}{4\pi}\frac{c}{s}\gamma^3 .
+      \end{equation}
+      According to Equations \ref{func: curvature_radiation}, \ref{func: curvature spectrum} 
+      and \ref{func: curvature critical frequency}, the spectral properties of curvature 
+      radiation are similar to synchrotron radiation. The only differences in the 
+      equations are particles' Lorentz factors and curvature radii. 
+
+
+  \section{Millisecond Pulsar} 
+    \subsection{$\mbox{P}$-$\dot{P}$ Diagram} 
+      $P$-$\dot{P}$ diagram is an important tool for analyzing evolutions of 
+      pulsars. Period ($\mbox{P}$) and time derivative of period ($\dot{P}$) are 
+      two of pulsars' important characteristics. Analyzing the position of a pulsar in 
+      the $P$-$\dot{P}$ diagram can give us some valuable information such as 
+      what evolution stage the pulsar is in or the type of the pulsar, etc. 
+      Figure \ref{fig:p-pdot} is an example of a $P$-$\dot{P}$ diagram. 
+      The horizontal axis is pulsars' rotation periods and the vertical axis is first time 
+      derivative of rotation periods ($\dot{P}$).
+      \begin{figure}[!htp]
+          \centering
+          \includegraphics[scale=0.3]{ppdot.png}
+          \caption{\protect Positions of pulsars in $\mbox{P}$-$\dot{\mbox{P}}$ diagram.}
+          \label{fig:p-pdot}
+      \end{figure}
+      In this $P$-$\dot{P}$ diagram, the negative slope lines represent the strengths 
+      of surface magnetic fields while the positive slope lines represent the characteristic 
+      ages of pulsars. The following is a short explanation for this. 
+      From previous discussion, we have known that the 
+      characteristic age of a pulsar is $\tau=-P/\dot{P}=P/(-\dot{P})$, so line of constant 
+      $\tau$ is a set of straight lines with equal positive slope. Since 
+      $B\propto\sqrt{P\dot{P}}$ the negative lines represent strengths of surface 
+      magnetic fields.
+
+      Figure \ref{fig:p-pdot} shows that most pulsars lie in the position of about 
+      $1$s, $10^{-14}$s/s. At the same time, a couple of stars lie at the bottom-left 
+      of Figure \ref{fig:p-pdot} --- these are millisecond pulsars (MSPs). Their 
+      rotation periods are about 1-20 milliseconds. It is believed that MSPs are spun 
+      up by accretion of mass from their companion stars. In the above 
+      $P$-$\dot{P}$ diagram, we can observe that millisecond pulsars' 
+      surface magnetic fields are about three to four orders of magnitude lower than those
+      of normal pulsars. However, an MSP has a relative strong magnetic field near its 
+      light cylinder ($B_{lc}$). For instance, PSR J1939+2134's $B_{lc}$ is about 
+      $1.02\times10^5$ which is larger than Crab pulsar ($9.55\times10^5$). 
+      \footnote{http://www.atnf.csiro.au/research/pulsar/psrcat/}
+      % \cite{ATNF}
+      The reason is that an MSP's radius 
+      of light cylinder ($R_{lc}=c/\omega)$ is much smaller than a normal pulsar's 
+      because of its short rotation period and the magnetic field near light cylinder can
+      be estimated as $B_{lc}\sim\left(R/R_{lc}\right)^3$. At the same time, 
+      pulsars' emission mechanism is closely related to their magnetic field near the light 
+      cylinder. As a result, like a normal pulsar, an MSP also can have a broadband spectrum 
+      from radio to gamma rays. 
+    \subsection{Origin of Millisecond Pulsars}
+      From pulsars' emission mechanisms, we know that the magnetic field of a pulsar 
+      decreases with time while the spin period increases with time. But MSPs' spin 
+      periods are much shorter than normal pulsars and surface magnetic fields are a 
+      lot weaker. This makes an MSP seem to be both young and old. As a result,
+      people think millisecond pulsars are old pulsars spun up by their companions. 
+      The companion stars transfer mass and angular momentum to accelerate the rotation
+      speed of pulsar. Therefore, the aged pulsar can spin faster gradually. 
+
+      \subsubsection{Mass Transfer And Accretion In Binary Systems}
+        X-ray binaries are a type of binary systems that is luminous in X-ray band. 
+        There are several kinds of X-ray binaries including low mass X-ray binaries 
+        (LMXB) and high mass X-ray binaries (HMXB). The mechanism of transferring mass 
+        is different in these two types of systems. Before discussing mass 
+        transfers, I will introduce Roche Lobe briefly. Figure 
+        \ref{fig:roche lobe} is a schematic diagram of Roche Lobe.
+        \begin{figure}[!htp]
+          \centering
+          \includegraphics[scale=0.5]{roche_lobes.jpg}
+          \caption[A schematic diagram of Roche lobe.]
+                  {A schematic diagram of Roche lobe. \protect $L_{1}$ is called inner 
+                    Lagrange point which is the intersection of equipotential lines 
+                    of the two stars.}
+          \label{fig:roche lobe}
+        \end{figure}
+        We call two stars in an LMXB as A and B respectively for convenience. It is 
+        obvious that if an object is close to star A, the gravitational influence of A 
+        is so strong that the gravitational effect of the star B can be ignored. Similarly, 
+        this is true for star B. As a result, there must be a point where the effect 
+        of star A is equal to star B which is called inner Lagrange point.
+        The two parts inside the largest equipotential lines of A and B are called Roche 
+        lobe. If star B crosses its Roche lobe, then its mass will be attracted by A, 
+        thus mass transfer between A and B happens. This is the main way of mass transfer 
+        in LMXB. While in HMXB, the mass can be transferred by strong winds of the massive 
+        companion star. 
+
+        The process of mass transfer can change the distance between two 
+        companion stars. If a low-mass star transfers mass to a high-mass companion star,
+        the orbital separation will become larger. This can actually stop the mass transfer
+        process and is a negative feedback. On the contrary, mass transfers from high-mass 
+        star to low-mass star will shrink the orbital distance.
+                       
+    
+  \section{Introduction to the Three MSPs and Previous Works}
+    PSR B1937+21 is second fast spinning millisecond pulsar whose rotation period 
+    is about $1.56$ms and was discovered in 1982 
+    \cite{1982Natur.300..615B}, which makes it be the first discovered MSP. It has 
+    extremely strong magnetic field at the light cylinder with about $10^6$ gauss, which 
+    is larger than Crab pulsar. Its basic properties are listed in Table 
+    \ref{table: basic_information_3_msps}. It has a double-peak pulse profile and the main 
+    pulse is much stronger than the other \cite{j1939_pulse_profile}. It has very sharp 
+    pulsations and nearly 100\% pulsed fractions. 
+    
+    Its gamma-ray properties were studied using \textit{Fermi} LAT and its 
+    spectra were fitted by both a simple power-law model and a power-law with exponential
+    cutoff (PLEC) model with photon-index of $2.38\pm0.07$ and $2.1\pm0.2$ respectively. 
+    However, the researchers report that the simple power-law model is preferred according 
+    to the convention in \cite{0067-0049-208-2-17} \cite{0004-637X-787-2-167}. In X-ray 
+    energy band, PSR B1937+21 has been observed with \textit{XMM-Newton} and \textit{NuSTAR} 
+    \cite{0004-637X-787-2-167,0004-637X-845-2-159}.
+    
+    PSR B1821$-$24 is in the globular cluster M28. There 
+    are about a dozen pulsars discovered in M28, and PSR B1821$-$24 is the brightest one. 
+    In addition, PSR B1821$-$24 is the most energetic MSP discovered whose spin-down
+    luminosity is about $2.2\times 10^{36}$ erg $\mbox{s}^{-1}$. Like PSR B1937+21, it has 
+    two very narrow pulses and the duty cycle is only about a few percent
+    \cite{1538-4357-627-2-L125}.
+
+    The gamma-ray spectrum of PSR B1821$-$24 is fitted by a PLEC model with a photon index of 
+    $1.6\pm0.3$ using 44 months of \textit{Fermi} LAT data \cite{2013ApJ...778..106J}.
+    \textit{NuSTAR} observed the globular cluster M28 in June 2015. Though \textit{NuSTAR}'s
+    clock drift makes it hard to resolve the rotation period of PSR B1821$-$24, 
+    researchers have invented a method the correct the photon arrival times
+    \cite{0004-637X-845-2-159}.
+    
+    PSR J0218+4232 is also a very energetic MSP with a spin-down luminosity of $2.4\times
+    10^{35}$ erg $\mbox{s}^{-1}$. Unlike the PSRs B1937+21 and B1821$-$24 which are solitary,
+    it is accompanied by a white dwarf with a orbital period of two days at a distance of 
+    about $3.15$ kpc \cite{article}. It was also studied using \textit{Fermi} LAT and 
+    its spectrum is fitted by a PLEC model whose photon index is $2.0\pm0.1$ 
+    \cite{0067-0049-208-2-17}.
+
+    All three MSPs are very energetic and have very strong magnetic field at the light 
+    cylinders as Table \ref{table: basic_information_3_msps} shows, which makes them can be 
+    observed in radio, X-ray and gamma-ray bands like young pulsars. Additionally, they 
+    show aligned pulse profiles in radio, X-ray and gamma-ray bands as Figure
+    \ref{fig:class } shows. This may implies a different emission mechanism that radio,
+    X-ray and gamma-ray emission is from the same location in a pulsar's magnetosphere. 
+    The gamma-ray spectral properties of the three MSPs are listed in Table 
+    \ref{table: previous_spectra_property}.  
+
+    \begin{figure}[!htp]   
+      \centering
+      \includegraphics[width=6.9cm,height=7.6cm]{bands.png}
+      \caption{Pulse profiles of PSR B1937+21 in radio, X-ray and gamma-ray bands. 
+        The figure is adopted from \cite{0004-637X-787-2-167}}.
+      \label{fig:class }
+    \end{figure}
+    
+    \begin{table}[!htp]
+      \centering
+      \scalebox{0.8}{
+      \begin{tabular}{|cccc|} 
+        \hline 
+        & J0218+4232 & B1821$-$24 & B1937+21 \\
+        \hline 
+        \hline 
+        Distance (kpc) & $3.15$ & $5.50$ & $3.50$ \\
+        Period ($\mbox{ms}$) & $2.32$  & $3.05$ & $1.56$ \\
+        Period Derivative ($\dot{\text{P}}$, $10^{-20} $) & $7.74$  & $162$ & $10.5$ \\             
+        Spin Down Age ($10^{8} $yr) & $4.76$ & $29.9$ & $2.35$ \\ 
+        Surface Magnetic Field ($10^{8}$ G) & $4.29$ & $22.5$  & $4.09$ \\
+        Light Cylinder Magnetic Field ($10^{5}$ G) & $3.21$ &$7.40$ & $10.2$ \\
+        Spin Down Energy ($\dot{\text{E}}$, $10^{35}$ erg $\text{s}^{-1}$) & $2.4$ & $22$ & $11$\\ 
+        \hline   
+      \end{tabular}}
+      \centering
+      \caption[Spin and derived properties of PSRs J0218+4232, B1821$-$24 and B1937+21.]
+        {Spin and derived properties of PSRs J0218+4232, B1821$-$24 and B1937+21. 
+        The data are from the ATNF Pulsar Catalogue \protect \footnotemark}
+      \label{table: basic_information_3_msps}
+    \end{table}
+
+    \footnotetext{http://www.atnf.csiro.au/research/pulsar/psrcat/}
+    
+    \begin{table}[!htp]
+      \centering
+      \scalebox{0.8}{
+      \begin{tabular}{|cccc|} 
+        \hline 
+        & J0218+4232 & B1821$-$24 & B1937+21 \\
+        \hline 
+        \hline 
+        Energy Range (GeV) & $0.1 \sim 100 $ & $0.1 \sim 100 $  & $0.5 \sim 6$ \\
+        Photon Index $\Gamma$ & $2.0\pm0.1$ & $1.6\pm0.3$ & $1.43\pm0.87$   \\
+        Cutoff Energy (GeV) & $4.6\pm1.2$ & $3.3\pm1.5$ & $1.15\pm0.74$\\
+        Photon Flux ($10^{-8}$ $\text{cm}^{-2}$ $\text{s}^{-1}$)& $7.7\pm0.7$& $1.5\pm0.6$ & $1.22\pm0.23$ \\
+        Energy Flux ($10^{-11}$ erg $\text{cm}^{-2}$ $\text{s}^{-1}$) & $4.56\pm0.24$ & $1.3\pm0.2$ & $1.98\pm0.32$ \\ 
+        \hline   
+      \end{tabular}}
+      \vspace{0.5cm}
+        \centering
+        \caption[Spectra properties of the three MSPs from previous studies.]
+          {Spectra properties of the three MSPs from previous studies
+          \footnote{http://www.atnf.csiro.au/research/pulsar/psrcat/}
+          \cite{0004-637X-787-2-167,J1939_old}.}
+        \label{table: previous_spectra_property}
+    \end{table}
+
+  \section{Objectives}
+    % In the paper (Guillemot \& Johnson et al. \cite{J1939_old}), they only study the PSR B1937+21 
+    % with energy range from $0.1$ GeV to $6$ GeV and another paper (C.-Y. Ng \& Takata et al. 
+    % \cite{0004-637X-787-2-167}) studied the MSP more 
+    % thoroughly with a wider energy range. The paper proposed that a power-law model is 
+    % preferred and the photon index is $2.38\pm0.07$ with a TS value of $112$. 
+    
+    Many gamma-ray studies about the three MSPs are a little bit old and now we have about 
+    a lot more \textit{Fermi} LAT data. Besides, in 2015, Fermi team released Pass 8 data 
+    including many improvements, such as better energy measurement and significantly 
+    improved effective area. Additionally, there are new hard X-ray studies of the three 
+    MSPs using \textit{NuSTAR} which provide better X-ray measurements.
+    As a result, it is time to redo the gamma-ray analysis with the newer dataset and
+    more gamma-ray data in order to gain more precise results. In addition, we also plan to 
+    build a self-consistent emission model to explain the non-thermal high energy
+    observations of the three MSPs. 
+
+    Therefore, my main objective is to use the new data to redo the gamma-ray
+    analysis of the three energetic MSPs mentioned above. Then, I will do a numerical
+    simulation based on a theoretical model called two-layer model and test if the  
+    predictions of the model are consistent with the new observational data. And finally, 
+    based on numerical simulations of the two-layer emission model, I will generate 
+    broadband spectra (including hard X-ray band and gamma-ray band) for all three MSPs. 
+
+    
+\chapter{Gamma-Ray Analysis and Results}
+  As mentioned before, because of very short rotation periods, MSPs usually have very small 
+  light cylinders compared with normal pulsars. Therefore, the magnetic field strength at 
+  the light cylinders are comparable with young pulsars, especially for my target objects 
+  --- PSRs J0218+4232, B1937+21 and B1821$-$24, which are among the fastest spinning and 
+  most energetic MSPs. Thus, as normal pulsars, the three MSPs have broadband emissions so 
+  it is intriguing to analyze the spectral properties of them in gamma-ray band.
+
+  \section{Introduction to the \textit{Fermi Gamma-Ray} \\ \textit{Space Telescope}}
+    The \textit{Fermi Gamma-Ray Space Telescope} was launched on June 11, 2008 and opened 
+    a new window of studying supermassive black-hole systems, pulsars and so on. Its 
+    original name was \textit{Gamma-Ray Large Area Space Telescope} (GLAST) and changed 
+    to \textit{Fermi Gamma-Ray Space Telescope} in honor of the great scientist Enrico Fermi. 
+
+    The \textit{Fermi Gamma-Ray Space Telescope} contains two parts: 
+    Gamma-Ray Burst Monitor (GBM) and Large Area Telescope (LAT) and the 
+    latter is the main instrument which is at least 30 times more sensitive than 
+    all gamma-ray telescopes launched before. I only use LAT for my purposes. Thus, I 
+    focus on the LAT instrument, which contains four main subcomponents including trackers, 
+    calorimeters, anti-coincidence detectors and data acquisition systems. The reason why the 
+    telescope is designed in this way is that high-energy gamma-rays cannot be refracted by
+    lens or mirrors. Therefore, the working principles of the \textit{Fermi} LAT and other 
+    gamma-ray telescopes are completely different.
+
+    \begin{figure}[!htp]  
+      \centering
+      \includegraphics[scale=0.7]
+              {Gamma_telescope_schematic.png}
+      \caption{The figure (\blackhref{https://www-glast.stanford.edu/instrument.html}
+              {https://www-glast.stanford.edu/instrument.html})
+              illustrates how \textit{Fermi} LAT tracks incident gamma-ray photons.}
+        \label{fig:fermi schematic}
+    \end{figure}
+    Figure \ref{fig:fermi schematic} demonstrates the very basic idea of the 
+    \textit{Fermi} LAT working principles. 
+
+    \begin{itemize}
+      \item Gamma-ray photons can enter the anti-coincidence detector freely while 
+        cosmic rays will generate signals which then tell the data acquisition system 
+        component to reject these particles. In this way, the \textit{Fermi} LAT can 
+        distinguish the gamma-ray photons from high energy cosmic rays with a confidence 
+        level over 99.9\%.
+      \item The conversion foil (Figure \ref{fig:fermi schematic}) can convert  
+        gamma-ray photons into electron and positron pairs. This procedure makes it 
+        possible to determine the directions of the incident gamma-ray photons. 
+      \item The tracker (particle tracking detectors in Figure \ref{fig:fermi schematic}) 
+        records the positions of the electrons and positrons generated from the gamma-ray 
+        photons. There are many trackers so the paths of particles can be constructed by 
+        numerical simulations.
+      \item When the electrons and positrons reach the calorimeter, their energies can be
+        measured. By calculating the energy relationships between the gamma-ray photons and 
+        the corresponding electrons and positrons, the energies of the original gamma-ray 
+        photons can also be obtained. 
+      \item The data acquisition system is like a filter of gamma-ray photons which can 
+        reject unwanted particles such as cosmic rays. Also, photons come from the Earth's 
+        atmosphere are also rejected. 
+    \end{itemize}
+
+    For a telescope, the ability to measuring the directions and energies of incident 
+    photons is very crucial. From the above descriptions of the \textit{Fermi} LAT 
+    working principles, we know that the precision of construction of particles' paths 
+    heavily influences how well we measure the directions and energies of gamma-ray 
+    photons. And this process is greatly dependent on simulations and available Fermi datasets,
+    which means that with the improvements of simulations and datasets,
+    the precision and sensitivity of \textit{Fermi} LAT can also be improved. The Pass 8 data 
+    have reprocessed the entire Fermi mission dataset, so the quality of the dataset is much 
+    better. This is the main reason why I redo the analysis of the three MSPs.
+
+  \section{A Brief Introduction to Fermi Data Analysis}
+    \subsubsection{Processes of Doing Fermi Analysis}
+      When doing \textit{Fermi} LAT data analysis, I basically dealt with two parts. The 
+      first part is processing observational data and the second is generating photon 
+      distributions based on spectra models. Cleaning data is straightforward including data 
+      selection, data filtering with good time intervals (GTIs), generating count maps 
+      and so on. Generating model-based count maps and count cubes needs a little bit 
+      more efforts and mainly includes the following procedures. 
+
+      Firstly, I need to generate a spectra model of all sources in our region of 
+      interest (ROI). The model basically describes how strong each source is in 
+      different energy bands and different positions. The initial parameters of the 
+      model are from Fermi database. I do not fit positions of both point sources and 
+      diffuse sources when doing the data analysis. However, the model alone is not very 
+      helpful and I have to know other information in order to simulate photon 
+      distributions discussed as the following.
+
+      Since I am going to compare my simulation with the observational data, I have to take 
+      the telescope status into account. For example, the effective area of the telescope 
+      decreases when away from the optical axis. In addition, inclination angles and 
+      observation time intervals have direct influences on the number of photon counts. 
+      In short, after I get the simulated photon distribution from a model, it is 
+      necessary to transfer the initial simulation into the real simulation by applying 
+      the telescope functions. 
+          
+      After obtaining the photon distributions and spectra simulations, I then do 
+      comparisons in order to get the maximum likelihood of the model. I can divide the 
+      total energy band into many smaller energy bins and denote
+      the number of photon counts in observational data as $n_{i}$, so that 
+      $\sum_{i}^{}n_{i} = N$, where $N$ is the total number of photons in full energy range. 
+      The observed number of photon counts in $ith$ bin is a Poisson distribution with a 
+      mean value of $m_{i}$. In fact, the value $m_{i}$ is the expected number of photon counts 
+      from our spectra model. Therefore, the distribution for $ith$
+      bin can be expressed by Equation \ref{func: maximum_likelihood_poisson}, where 
+      $P_{i}\left(n_{i}\right)$ is the possibility of observing the $n_{i}$ photon counts 
+      for the $ith$ bin. 
+
+      \begin{equation}
+        P_{i}\left(n_{i}\right) = \frac{e^{-m_{i}} m_{i}^{n_{i}}}{n_{i}!} .
+        \label{func: maximum_likelihood_poisson}
+      \end{equation}
+
+      As a result, it is not hard to generalize the possibility from each bin to all bins, 
+      just by multiplying the possibilities for different bins.
+      \begin{eqnarray}
+        P_{total} &=& \prod_{i}^{}P_{i}\left(n_{i}\right)  \nonumber \\ 
+                  &=& e^{-\sum_{i}^{}m_i}\prod_{i}^{}\frac{m_{i}^{n_i}}{n_i!} .
+        \label{func: maximum_likelihood_poisson_all}
+      \end{eqnarray}
+      In Equation \ref{func: maximum_likelihood_poisson_all}, $n_i$ is directly 
+      from observational data so they usually cannot be changed during the binned likelihood 
+      analysis. However, by changing the model, the $m_i$ can be altered. 
+      Hence, my aim is to tweak the spectra model in order to make the total possibility 
+      $P_{total}$ as large as possible. 
+
+      This is the basic idea and procedure of doing Fermi data analysis. After doing these,
+      I go further such as testing how significant the targets are by creating TS 
+      maps. The thesis basically follows the procedures. 
+
+      Before finishing this part, I should briefly introduce the basic idea of TS maps. 
+      TS value stands for Test Statistic value which can be expressed as Equation 
+      \ref{func: ts_definition} 
+      \begin{equation}
+        TS = -2 \ln{\frac{L_{max,0}}{L_{max,1}}} ,
+        \label{func: ts_definition}
+      \end{equation}
+      where $L_{max,0}$ and $L_{max,1}$ are the maximum likelihood of models in which the 
+      target source is not included and included respectively. According to Equation 
+      \ref{func: ts_definition}, the larger the TS value is, the larger $L_{max, 1}$ is, 
+      which means that the probability of existence of the target source is larger. 
+      In order to generate a TS map, I divide the whole map into many sub-grids. In each 
+      sub-grid, the ``gtlike'' algorithm basically does two things. The first procedure is 
+      calculating the maximum likelihood value directly based on the spectra model 
+      ($L_{max,0}$). Then it adds an imaginary point source in the sub-grid, fits the source 
+      and gets the maximum likelihood ($L_{max, 1}$) value. Therefore, I get two 
+      maximum likelihood values. In the end, it calculate the TS value for the 
+      sub-grid according to Equation \ref{func: ts_definition}. 
+
+      After calculating the TS values for all sub-grids, I generate a TS map just by 
+      rendering colors according to each grid's TS value. By comparing TS values of 
+      all sub-grids in a TS map, I can determine where the target source is most likely to 
+      be and how large the probability is. 
+      
+      Generally speaking, for each source, I generate two TS maps with and without the 
+      target source respectively. Then I determine how likely my target source is observed 
+      by calculating the TS values and compare the two TS maps. 
+      For instance, if the data show the source is observed, 
+      then the value of each pixel of the TS map containing the source should be low because 
+      the probability of adding an imaginary point source is low. 
+      On the contrary, the TS values of the pixels around the position of the target 
+      source should be significantly higher than other positions in the TS map if the target 
+      source is deleted from the fitted spectra model.
+       
+  \section{\textit{Fermi} LAT Data Analysis}
+    The basic idea of fitting spectral parameters is to make the count cube generated by 
+    the model be as similar to the observational data as possible. A count cube is just a 
+    combination of many count maps in different energy bands. For example, a dataset whose 
+    energy range is from $100\mbox{MeV}$ to $100\mbox{GeV}$ can be divided into 30 bins. 
+    I generate a count map in each energy bin, thus I have 30 count maps.
+    
+    A count map is basically generated by the following steps. Firstly, choose a 
+    pixel of a certain size. Then check each photon's direction to determine if 
+    the photon is in this pixel. If it is in the pixel, the photon counts of the 
+    pixel will add one. Therefore, the more photons fall within the pixel, the more 
+    photon counts the pixel has, hence the brighter the pixel is. By doing the same 
+    thing for every pixel in the ROI, a count map is generated. A count map shows 
+    what has been observed intuitively and offers a very basic idea of if 
+    the desired data is processed rightly.
+          
+    The calculation process can be summarized as follows. First of all, I have to generate 
+    a spectra model for every known source in the region of interest (ROI) based on the Fermi 
+    database. The database includes \textit{LAT} four-year Point Source Catalog (3FGL), 
+    Galactic diffuse emission (gll\_iem\_v06.fits) and the isotropic emission 
+    (iso\_P8R2\_SOURCE\_V6\_v06.txt). Then I produce a count cube based on the 
+    model. Generally speaking, the differences of the count cubes between the model and 
+    observation is obvious. Then, the Fermi software adjusts the parameters 
+    to make the difference smaller. Until the errors are acceptable, the software 
+    outputs the final fitted parameters of corresponding spectra models.    
+
+    I use a power-law with exponential-cutoff (PLEC) model to fit the 
+    observational data and it is a special case of the power-law with 
+    super-exponential-cutoff (PLSuperExpCutoff) model. The spectra of PLSuperExpCutoff 
+    can be described by Equation \ref{eq: fermi_model}:  
+    \begin{equation} 
+      \label{eq: fermi_model}
+      \frac{dN}{dE} = N_{0} \left(\frac{E}{E_0}\right)^{\gamma_1}\mbox{exp}\left[-\left(\frac{E}{E_c}\right)^{\gamma_2}\right] ,
+    \end{equation}  
+    where $N_0$ is called prefactor, $E_c$ is the cutoff energy and the $E_0$ is a scale 
+    parameter. PLEC model is the special case where $\gamma_2=1$. My aim is to 
+    fit the parameters $N_0$, $E_c$ and $\gamma_1$ to make the model be more 
+    consistent with the \textit{Fermi} LAT observational data.
+
+    \subsection{Verifying the Data Analysis Process}
+      Before analyzing the observations of my target sources, it is reasonable to test 
+      if my procedures for data processing are right. In order to do so, I try to do 
+      analysis for two bright pulsars PSRs J0007+7303 and J0534+2200. The reason I choose 
+      these two pulsars is that according to previous studies, they are bright and easy 
+      to detect with a large TS value of 43388 and 102653 for J0007+7303 and J0534+2200 
+      respectively \cite{0067-0049-208-2-17}.
+
+      In the spectra fit process, I do not use the same fit parameters as the previous 
+      paper (for instance, the number of free parameters in the ROI is different), 
+      however, I get similar results in terms of spectral index.  
+      In Table \ref{table: previous_result_comparison}, I used the observational data from 
+      2009-01-01 to 2013-02-01 in order to try to be consistent with the old results 
+      \cite{0067-0049-208-2-17}. In addition, I also fit spectra with 
+      observational data up to 2018-02-01 and Pass 8 dataset to test how big improvement 
+      I can make with the new Fermi Pass 8 dataset and more observational data. 
+      The results of year 2018 data are shown in Table \ref{table: 2018_fit_data}.
+
+      Tables \ref{table: previous_result_comparison} and \ref{table: 2018_fit_data} mainly 
+      show two pieces of information. Firstly, my procedures for dealing with observation 
+      data have no obvious problems, so basically I can trust fit results of my target 
+      sources. Secondly, the \textit{Fermi} Pass 8 LAT Data has improved the accuracy a 
+      lot. For example, as Table \ref{table: previous_result_comparison} shows, the photon 
+      indexes are $1.30\pm0.02$ and $1.4\pm0.1$, which shows that the errors reduce a lot. 
+      Additionally, the TS value is more than double as before.
+      % \question{However, the cutoff energies are not consistent between the previous result and the new result.
+        % (I need to explain this a little bit later).}
+      \vspace{1cm} 
+      \begin{table}[!htp]
+        \centering
+        \scalebox{0.8}{
+        \begin{tabular}{|c|c|c|c|c|c|c|} 
+          \hline 
+          & \multicolumn{3}{|c|}{Test Results} & \multicolumn{3}{|c|}{Previous Results} \\ 
+          \cline{2-7}
+          & $\Gamma$ & $E_c$ (MeV) & TS & $\Gamma$ & $E_c$ (MeV) & TS \\ 
+          \hline
+          J0007+7303 & $1.30\pm0.02$ & $2010\pm85$ & $96979$ & $1.4\pm0.1$ & $4700\pm200$ & $43388$  \\
+          \hline 
+          J0534+2200 & $2.07\pm0.01$ & $9880\pm572$ & $239015$ & $1.9\pm0.1$ & $4200\pm200$ & $102653$  \\
+          \hline
+        \end{tabular}}
+        \vspace{0.5cm}
+          \centering
+          \caption[The spectra fit results with data from 2008 August 4 to 2011 August 4.]
+            {The spectra fit results with data from 2008 August 4 to 2011 August 4. 
+            In the thesis, in order to make data 
+            analysis more convenient, I use some pipeline scripts to deal with the 
+            observational data. The "Test Results" column is the results generated by 
+            using the pipeline scripts. The "Previous Results" column lists the 
+            corresponding spectral properties based on the previous studies 
+            \cite{0067-0049-208-2-17}. According to the standard 
+            PLEC model (described in equation \ref{eq: fermi_model}), $\Gamma$ is 
+            photon index and $E_c$ is cutoff energy.}
+          \label{table: previous_result_comparison}
+      \end{table}
+      \vspace{1cm}            
+
+      \begin{table}[!ht]
+        \centering
+        \scalebox{0.85}{
+        \begin{tabular}{|cccc|}
+          \hline 
+          &$\Gamma$& $E_c$ (GeV) & TS Value\\ \hline \hline
+          J0007+7303 & $1.34\pm0.02$ & $2.20\pm0.67$ & $210166$ \\  
+          J0534+2200 & $2.01\pm0.01$ & $9.20\pm0.37$ & $449946$ \\
+          \hline
+        \end{tabular}}
+        \caption[Fit results with data from year 2009 to year 2018.]
+          {Fit results with data from year 2009 to year 2018. The physical 
+          meanings of $\Gamma$ and $E_c$ are the same as Table 
+          \ref{table: previous_result_comparison}}
+        \label{table: 2018_fit_data}
+      \end{table}
+      % \vspace{1cm}            
+
+  \section{PSR J0218+4232}
+  
+    The region of interest (ROI) is a circle with a radius of $20^\circ$ and all parameters of
+    sources which are $8^\circ$ outside of the center are fixed. For sources within 
+    $8^\circ$, initial values of parameters are the same as their default values according 
+    to \fgl. In this case, there are seven point sources which have free parameters. In 
+    Figure \ref{fig: j0218_count_map_and_model}, the green circles represent those sources.
+    There are some very bright sources which have no free parameters
+    in the outer parts of the count map. The reason is that they are so far away 
+    from PSR J0218+4232 that \textit{Fermi} LAT can distinguish if a photon comes 
+    from the target source or other outer sources. As a consequence, I do not need to fit 
+    any parameters for those outer sources and their spectral properties are from 
+    \fgl{}. However, it is a different case for the nearby sources and they have to be fitted
+    with the model.
+          
+    \subsection{Count Maps And Count Cubes}
+      \begin{figure}[!ht]  
+        \begin{center}
+        \begin{minipage}{0.45\textwidth}
+          \begin{center} 
+              \includegraphics[scale=0.33]{j0218_count_map_with_region.png}
+          \end{center}
+        \end{minipage}
+        \begin{minipage}{0.45\textwidth}
+          \begin{center} 
+              \includegraphics[scale=0.33]
+                  {j0218_count_map_model.png}
+          \end{center}
+        \end{minipage}
+      \end{center}
+      \begin{center}
+        \caption[The count maps of observational data and the spectral model.]
+        {The count map of PSR J0218+4232 (left) and the count map generated by 
+        the model (right). The target source is in black circle. In the left panel, 
+        the green circles represent sources needed 
+        to be fitted. The right panel is a count map created according to the fitted 
+        spectra model. The size of each figure is 141 pixels $\times$ 141 pixels, 
+        and the dimension for each pixel is $0.2^\circ \times 0.2^\circ$.}
+        \label{fig: j0218_count_map_and_model}  
+        \end{center} 
+      \end{figure}
+
+      The left panel of Figure \ref{fig: j0218_count_map_and_model} is the count map of 
+      PSR J0218+4232 created directly from the observational data. In the center of the left 
+      panel, the target source can be seen clearly.
+      The dimensions of the figures seem to be weird and the reason why the count 
+      map is $141$ pixels wide is that I need to select a circle region from the original 
+      data. However, when generating a count map, I have to assign the sizes for x and y 
+      axis separately, which means that a count map is actually rectangular. As a 
+      consequence, I have to crop a rectangular from the original circle region and usually, 
+      the rectangular is chosen as a square. 
+    
+      \begin{figure}[!htp]
+        \begin{minipage}{0.32\textwidth}
+          \begin{center} 
+            \includegraphics[scale=0.28]
+                  {j0218_ccube_start.png}
+          \end{center}
+        \end{minipage}
+        \begin{minipage}{0.32\textwidth}
+          \begin{center}
+            \includegraphics[scale=0.28]
+                  {j0218_ccube_middle.png}
+          \end{center}
+        \end{minipage}
+        \begin{minipage}{0.32\textwidth}
+          \begin{center}
+          \includegraphics[scale=0.28]
+                {j0218_ccube_end.png}
+          \end{center}
+        \end{minipage}
+        \caption[Three count maps from PSR J0218+4232's count cube.]
+          {Three count maps from PSR J0218+4232's count cube. The energy ranges of 
+          the figures are 100$\sim$123MeV (left), 1.873$\sim$2.310GeV (middle), 
+          35.11$\sim$43.29GeV (right).}
+        \label{fig: j0218_ccube_bin_1_and_15}
+      \end{figure}
+            
+      Figure \ref{fig: j0218_ccube_bin_1_and_15} is a comparison between PSR J0218+4232's 
+      count maps in different energy bands. The count map of about $100\mbox{MeV}$ is too  
+      noisy to distinguish the target source while the energy is above 
+      $30\mbox{GeV}$ there are so few photons that there is not a clear sign of the source. 
+      I choose three circle regions whose centers are the target sources and the radii 
+      are 1000 $''$ for all three figures and then calculate the total numbers of 
+      photon counts of the selected regions. 
+      As Table \ref{table:j0218_ccube_photon_counts} shows, though the total number of photon 
+      counts around the target source is similar between the left and middle count maps, 
+      the numbers of counts per energy are much different. Since there are few photons 
+      in high energy bands (above $50\mbox{GeV}$) compare to other energy bands, I focus 
+      more on the lower energy part. 
+
+      \begin{table}[!htp]   
+        \centering
+        \scalebox{0.85}{
+        \begin{tabular}{|m{4.5cm}ccc|}
+          \hline 
+          Energy range (MeV) & 100$\sim$123 & 1873$\sim$2310 & 35110$\sim$43290 \\
+          \hline \hline 
+          Total counts & 78 & 93 & 0 \\
+          Counts / MeV ($\text{MeV}^{-1}$)& 3.39 & 0.21 & 0.00 \\  
+          \hline
+        \end{tabular}}
+        \mycaption{Numbers of photon counts of count maps in different energy bands for 
+              PSR J0218+4232.}
+        \label{table:j0218_ccube_photon_counts}
+      \end{table}
+
+    \subsection{Binned Likelihood Analysis}
+      Figure \ref{fig: j0218_count_map_and_model} shows that the fit results of the model 
+      are consistent with the observation. However, there are lots of small red pixels 
+      in the left panel (generated directly by the observational data) while the 
+      right panel is very "clean". This means that a lot of photons are thought as 
+      generated by the modeled source. Thus, in the model, the sources are generally 
+      slightly brighter than the observation. However, the target
+      source is an exception. In the region I have used before (the center is the 
+      target source, and the radius is 1000$''$), the total photon counts in the left 
+      panel are 1815 compare to 1737 in the right panel. 
+
+      The reason why the count map generated directly by the observational data is a lot 
+      more messy is that the source model is generated based on the Fermi database 
+      and all sources' spatial positions are fixed. This means that if 
+      a photon comes from a particular direction and there is no any known pulsar in 
+      that direction, this photon has to be classified into other directions and there 
+      is a modeled source in the direction.  Thus, the spatial positions of photons are 
+      different between the observation and the model, and the count maps generated 
+      directly from models are usually cleaner. 
+      \begin{figure}[!htp]
+        \begin{center}
+        \begin{minipage}{0.45\textwidth}
+          \begin{center} 
+            \includegraphics[scale=0.4]
+                  {j0218_count_map_linear_scale.png}
+          \end{center}
+        \end{minipage}
+        \begin{minipage}{0.45\textwidth}
+          \begin{center}
+            \includegraphics[scale=0.34]
+                  {j0218_dif_map_linear_scale_new.png}
+          \end{center}
+        \end{minipage}
+      \end{center}
+      \caption[The count map and residual map of PSR J0218+4232.]
+        {The count map and residual map of PSR J0218+4232.
+        The figures are both in linear scale in order to compare the residual map 
+        with the original count map more intuitively. The left panel is the count 
+        map and the right panel is the residual map which shows the differences between 
+        the observation and the spectra model. It is created by directly subtracting 
+        the photon counts of each pixel between the count maps of observational data and 
+        the spectra model. The green circle region represents (the regions are 
+        completely the same in the two figures) the largest number photon counts of the 
+        residual map and its radius is $2000''$.}
+      \label{fig: j0218_count_map_diff}
+      \end{figure}
+
+      Figure \ref{fig: j0218_count_map_diff} basically describes how well the model is 
+      compared to the observational data. There are some bright dots in 
+      the residual map showing the differences between the spectra model and the 
+      observational data. In the residual map of Figure \ref{fig: j0218_count_map_diff}, 
+      most differences of absolute photon counts are small, however, in the green 
+      circle region, the absolute value 6003 is large. This means that in this region,
+      the number of photon counts of the observational data (21525) is 6003 larger than 
+      in our model. This is not negligible since it is nearly $28\%$ of the original 
+      photon counts. Does this mean that the model is not good? The answer should be 
+      yes, however, this does not mean the fit is not good since the model parameters 
+      in this region are all fixed and the fixed values are from the \textit{Fermi}
+      LAT four-year Point Source Catalog. Hence, the difference shows some problems of the 
+      spectra model, but has nothing to do with the fit results. Instead, from the 
+      residual map, we see that the fit results are good because the differences
+      of the number of photon counts are very small, which are about $5\%$ of the photon 
+      counts of the count map on average.
+
+      Table \ref{table: j0218_fit_result} lists the results of the fit parameters. 
+      We see from Table \ref{table: j0218_fit_result} that the new fit results are 
+      consistent with the old ones. However, the precision improves a lot which is 
+      ascribed to the \fgl{} and PASS 8 dataset. Figure \ref{fig: j0218_cur.png} is a 
+      plot of the spectrum according to Function \ref{eq: fermi_model}.
+      One thing should be noticed is that I need to multiply $E^2$ to Function 
+      \ref{eq: fermi_model} 
+      in order to get the flux. Figure \ref{fig: j0218_cur.png} shows that 
+      the global fit is consistent with flux points fitted by each energy bin separately. 
+      The TS value of PSR J0218+4232 is 7110, which gives 
+      a significance level $\sigma \approx \sqrt{TS} \approx 84$. This strongly implies the 
+      presence of the target source. I also plot TS maps to test the presence of the 
+      source as Figure \ref{fig: j0218_tsmap_comparison_20} shows. 
+            
+      \begin{table}[!htp]
+        \centering
+          \scalebox{0.8}{
+          \begin{tabular}{|ccc|}
+            \hline
+            & This Study & Previous Results \\
+            \hline \hline 
+            Photon Index ($\Gamma$) & $1.89\pm0.04$ & $2.0\pm0.1$ \\
+            Cutoff ($E_c$, GeV) & $3.77\pm0.40$ & $4.6\pm1.2$ \\
+            Photon Flux ($10^{-8}$ $\text{cm}^{-2} \text{s}^{-1}$) & $7.29\pm0.28$ & $7.7\pm0.7$ \\
+            Energy Flux ($10^{-11}$ erg $\text{cm}^{-2} \text{s}^{-1}$) & $4.45\pm0.16$ & $4.56\pm0.24$ \\
+            TS value & $6809$ &  $1313$  \\
+            \hline
+          \end{tabular}}  
+          \caption[Fit parameters of the spectra model of PSR J0218+4232.]
+            {Fit parameters of the spectra model of PSR J0218+4232. 
+            The names of parameters are consistent with Equation
+            \ref{eq: fermi_model}. The previous results are reported by
+            \cite{0067-0049-208-2-17}}
+          \label{table: j0218_fit_result}        
+      \end{table}  
+
+      \begin{figure}[!htp]
+        \centering 
+        \includegraphics[scale=0.35]{j0218_cur.png}
+        \caption[The log-log plot of flux to energy of PSR J0218+4232.]
+        {The log-log plot of flux to energy of PSR J0218+4232. The grey shade represents 
+        fit errors, black points with error bars are flux points, the blue dots are upper values and the 
+        red line is the PLEC model multiplied by $E^2$. Flux points 
+        are fitted separately by dividing the total energy bin (100 MeV $\sim$ 100 GeV) into multiple energy bins.
+        The horizontal error bars represents the width of each bin.}
+        \label{fig: j0218_cur.png}
+      \end{figure}
+        
+      % \singleFig{j0218_cur.png}{0.35}{The log-log plot of flux to energy of PSR J0218+4232. The grey shade represents 
+      %   fit errors, black points with error bars are flux points, the blue dots are upper values and the 
+      %   red line is the PLEC model multiplied by $E^2$. Flux points 
+      %   are fitted separately by dividing the total energy bin (100 MeV $\sim$ 100 GeV) into multiple energy bins.
+      %   The horizontal error bars represents the width of each bin. }
+      \vspace{1cm}
+      \begin{figure}[!htp]
+        \begin{center}
+        \begin{minipage}{0.46\textwidth}
+          \begin{center} 
+            \includegraphics[scale=0.37]{j0218_tsmap_with_source_20.png}
+          \end{center}
+        \end{minipage}
+        \begin{minipage}{0.45\textwidth}
+          \begin{center}
+            \includegraphics[scale=0.37]{j0218_nosource_20.png}
+          \end{center}
+        \end{minipage}
+      \end{center}
+      \caption[TS maps of PSR J0218+4232.]
+        {TS maps of PSR J0218+4232. The figures' dimensions are 
+        $4^{\circ} \times 4^{\circ}$ ($20$ pixels $\times$ $20$ pixels with 
+        $0.2^{\circ} \times 0.2^{\circ}$ for each pixel). The left and the right panels are 
+        generated by the xml models with and without the target source PSR J0218+4232 respectively.
+        The left panel shows that the possibility of adding an imputative point source is very low 
+        only with a maximum TS value of less than 5. However, the right panel strongly implies that 
+        there should be an additional source after I have removed the target MSP from the spectra 
+        model, which means it's highly likely that PSR J0218+4232 is contained in the observation 
+        data.}
+      \label{fig: j0218_tsmap_comparison_20}
+      \end{figure}
+
+      It is also instructive to check the count residuals of the fit as Figure 
+      \ref{fig: j0218_count_spectra} shows. The galactic and isotropic emissions are very 
+      bright compared with the target source and this can bring some difficulties to 
+      the fit (especially for the other two MSPs PSRs B1937+21 and B1821$-$24). The residuals 
+      and fluctuations become larger and more obvious when the energy is larger than 
+      $10\mbox{GeV}$. At the same time, in low gamma-ray part 
+      (from $100\mbox{MeV}$ to $200\mbox{MeV}$), the number of counts of the model 
+      deviates from observation counts obviously because of the relatively low energy 
+      resolution in the low-energy gamma-ray part. The error of the first bin is larger
+      than the next several bins in Figure \ref{fig: j0218_cur.png} also shows that 
+      the fit in the low-energy gamma-ray band (from $100\mbox{MeV}$ to $200\mbox{MeV}$) 
+      is not as good as higher energy bands (but not too high). 
+            
+      \begin{figure}[!htp]
+        \centering
+        \includegraphics[scale=0.42]{j0218_count_spectra.png}
+        \caption[The count spectra and count residuals of PSR J0218+4232.]
+                {The count spectra and count residuals of PSR J0218+4232.
+                The upper panel is the count spectra of all sources included in the 
+                fit procedure. Thick lines are those sources with free fit parameters 
+                while the thin lines are fixed sources. The green line and the black 
+                dots represent observed counts in different energy bands. The purple 
+                line represents galactic emissions. The lower panel shows the count 
+                residuals in different energy bands. } 
+        \label{fig: j0218_count_spectra}
+      \end{figure}
+
+  \section{PSR B1821$-$24}
+    The ROI region is also a circle whose radius is $20^\circ$ and all 
+    parameters of sources outside of $8^\circ$ are fixed. 
+    There are six free sources in the region of $8^\circ$. Figure
+    \ref{fig: b1821_count_map_with_region_and_model} 
+    is a combination of count maps of observational data and the model. 
+
+    \subsection{Count Maps And Count Cubes}
+      \begin{figure}[!ht]
+        \begin{center}
+        \begin{minipage}{0.45\textwidth}
+          \centering 
+          \includegraphics[scale=0.27]{b1821_count_map_with_region.png}
+        \end{minipage}
+        \begin{minipage}{0.45\textwidth}
+          \centering
+          \includegraphics[scale=0.27]{b1821_count_map_model.png}
+        \end{minipage}
+      \end{center}
+      \caption[The count map of PSR B1821$-$24 (left) and the count map generated by 
+              the model (right).]
+        {The count map of PSR B1821$-$24 (left) and the count map generated by 
+        the model (right). The green circles are sources with free parameters and the black circle
+        is PSR B1821$-$24. The sizes of the both figures are 141 pixels $\times$ 141 pixels, and 
+        each pixel's dimension is $0.2^\circ \times 0.2^\circ$.}
+      \label{fig: b1821_count_map_with_region_and_model}
+      \end{figure}
+  
+      \begin{figure}[!ht]
+        \begin{center}
+          \begin{minipage}{0.31\textwidth}
+            \begin{center} 
+              \includegraphics[scale=0.27]{b1821_ccube_start.png}
+            \end{center}
+          \end{minipage}
+          \begin{minipage}{0.31\textwidth}
+            \begin{center}
+              \includegraphics[scale=0.27]{b1821_ccube_middle.png}
+            \end{center}
+          \end{minipage}
+          \begin{minipage}{0.31\textwidth}
+            \begin{center}
+            \includegraphics[scale=0.27]{b1821_ccube_end.png}
+            \end{center}
+          \end{minipage}
+          \end{center}
+          \caption[Three count maps of PSR B1821$-$24's count cube.]
+            {Three count maps of PSR B1821$-$24's count cube. The energy ranges of the 
+            figures are 100$\sim$123MeV, 1.873$\sim$2.310GeV, 81.11$\sim$100GeV respectively from 
+            left to right.}
+          \label{fig: b1821_ccube_1_15_33.png}
+      \end{figure}
+
+      The left and right panels of Figure \ref{fig: b1821_count_map_diff.png} are the count 
+      map of the PSR B1821$-$24 generated from observational data and spectra model respectively. 
+      Like the situations of PSR J0218+4232, the count map from the model is clearly cleaner than 
+      from the observational data and the two figures are very similar, which implies that 
+      the spectra model describes the observational data well.  
+
+      Figure \ref{fig: b1821_ccube_1_15_33.png} are count maps of PSR B1821$-$24 in 
+      different energy bands. The target pulsar is too faint in very high energy bands 
+      and interfered too much by the ambient environment in low energy bands 
+      (slightly above 100MeV). PSR B1821$-$24 is in the M28 globular cluster and is the most 
+      energetic one, which is much brighter than other sources found in M28. However, since 
+      PSR B1821$-$24 is very faint observed from Earth, it is understandable that the fit 
+      results are not as good as the results of PSR J0218+4232. 
+    \subsection{Binned Likelihood Analysis}
+      \begin{figure}[!ht]
+        \begin{center}
+        \begin{minipage}{0.45\textwidth}
+          \begin{center} 
+            \includegraphics[scale=0.40]{b1821_countmap_noregion.png}
+          \end{center}
+        \end{minipage}
+        \begin{minipage}{0.45\textwidth}
+          \begin{center}
+            \includegraphics[scale=0.335]{b1821_count_map_diff_new.png}
+          \end{center}
+        \end{minipage}
+      \end{center}
+      \caption[The count map and residual map of PSR B1821$-$24 in linear scale.]
+        {The count map and residual map of PSR B1821$-$24 in linear scale. 
+        The left panel is the count map and the right panel is the residual map showing the 
+        difference between the observational data and the spectra model.}
+        \label{fig: b1821_count_map_diff.png}
+      \end{figure}
+
+      \singleFig{b1821_cur.png}{0.37}{The log-log plot of flux to energy of 
+        PSR B1821$-$24's gamma-ray spectrum. }
+      \vspace{1cm}
+
+      The differences of the count map between the observational data and the model are described 
+      as Figure \ref{fig: b1821_count_map_diff.png} which is in linear scale. Although there are 
+      many red and blue dots in the right panel of the figure, their absolute values are 
+      generally small compared with the original counts value.
+      Thus, the fits are acceptable in general. But I am still trying to get the better spectra 
+      model. 
+
+      Table \ref{table: b1821_fit_result} shows the global fit results of PSR B1821$-$24. 
+      The TS value of the model is 941 which gives us a significance level 
+      of about $\sqrt{941} \sim 31$. This strongly supports the existence of the target source in 
+      the observational data. As Table \ref{table: b1821_fit_result} shows, the energy flux from 
+      100MeV to 100GeV is not consistent between the two studies and gamma-ray spectrum of the 
+      previous study is also softer \cite{2013ApJ...778..106J}.
+
+      Figure \ref{fig: b1821_twolayer_cur.png} shows that the global fit is consistent with 
+      the flux points generated by fitting sub-energy bins separately. We notice the upper value 
+      for the first energy bin is slightly smaller than the global fit. 
+      Though it is strange that the upper value is smaller than the normal value at first glance, 
+      it is reasonable since the flux points are fitted separately and are independent to 
+      the global fit. In fact, I use a single power-law model to fit each sub-energy bin while 
+      PLEC model to do the global fit. As discussed previously, the lower energy parts of 
+      the observation (slightly above 100MeV) is not as reliable as other energy bands. As a result, the 
+      separate fit for the first energy bin is not as good as the global fit and it is reasonable 
+      that the two fit results are not completely consistent. When this happening, I have 
+      more confidence in the global fit than the separate fit.
+            
+      Figure \ref{fig: b1821_tsmap_comparison_20} contains TS maps of PSR B1821$-$24. The 
+      comparison of TS maps also show the significant of the target MSP. Figure 
+      \ref{fig: b1821_count_spectra} shows how well the fit is. Like the count residuals of 
+      the other two pulsars, the fit is not good in low energy part (from 100MeV to 500MeV)
+      and high energy band (above 10GeV). Besides, as Figures \ref{fig: j0218_count_spectra},
+      \ref{fig: b1821_count_spectra} and \ref{fig: j1939_count_spectra} show, the numbers of 
+      observed photon events are all larger than modeled photon counts for PSRs J0218+4232, 
+      B1821$-$24 and B1937+21. 
+
+      \begin{table}[!htp]
+        \centering
+          \scalebox{0.8}{
+          \begin{tabular}{|ccc|}
+            \hline 
+            & This Study & Previous Results \\
+            \hline \hline  
+            Photon Index ($\Gamma$) & $1.91\pm0.07$ & $1.6\pm0.3$ \\
+            Cutoff Energy($E_c$, GeV) & $4.50\pm0.71$ & $3.3\pm1.5$ \\
+            Photon Flux ($10^{-8}$ $\text{cm}^{-2} \text{s}^{-1}$) & $3.85\pm0.31$ & $1.5\pm0.6$ \\ 
+            Energy Flux ($10^{-11}$ erg $\text{cm}^{-2}$ $\text{s}^{-1}$) &$2.44\pm0.14$ & $1.3\pm0.2$\\
+            TS value & $941$ & $76$ \\
+            \hline
+          \end{tabular}}  
+          \caption[Fit parameters of the spectra model of PSR B1821$-$24.]
+            {Fit parameters of the spectra model of PSR B1821$-$24. 
+            The names of parameters are also consistent with Equation
+            \ref{eq: fermi_model}.}
+            
+          \label{table: b1821_fit_result}        
+      \end{table}  
+      \vspace{1cm}
+          
+      \begin{figure}[!ht]
+        \begin{center}
+        \begin{minipage}{0.46\textwidth}
+          \begin{center} 
+            \includegraphics[scale=0.35]{b1821_tsmap_with_source_20.png}
+          \end{center}
+        \end{minipage}
+        \begin{minipage}{0.45\textwidth}
+          \begin{center}
+            \includegraphics[scale=0.35]{b1821_tsmap_nosource_20.png}
+          \end{center}
+        \end{minipage}
+      \end{center}
+        \caption[TS maps of PSR B1821$-$24.]
+        {TS maps of PSR B1821$-$24. The figures' dimensions are $4^{\circ} \times4^{\circ}$ 
+        ($20$ pixels $\times$ $20$ pixels with $0.2^{\circ} \times 0.2^{\circ}$ for each pixel). 
+        The left and right panels are generated by the XML models with and without the 
+        target source PSR B1821$-$24 respectively. The left panel shows that the possibility 
+        of adding an imputative point source is very low only with a maximum TS value of 
+        less than 11 while the TS values of the right figure are generally much larger.}
+          \label{fig: b1821_tsmap_comparison_20}
+      \end{figure}
+      \vspace{1cm}
+            
+      \begin{figure}[!htp]
+        \centering
+        \includegraphics[scale=0.40]{b1821_count_spectra.png}
+        \caption[The count spectra and count residuals of PSR B1821$-$24.]
+                {The count spectra and count residuals of PSR B1821$-$24.
+                The upper panel is the count spectra of all sources included in the 
+                ROI. Thick lines are those sources with free fit parameters 
+                while the thin lines are fixed sources.} 
+        \label{fig: b1821_count_spectra}
+      \end{figure}
+
+
+  \section{PSR B1937+21}
+    \subsection{Phase Averaged Analysis}
+      First of all, I use a PLEC model to fit the gamma-ray spectra. 
+      In order to make the data analysis be more consistent, I choose the same parameters
+      to process the raw observational data. Like the other two MSPs, the radius of the ROI 
+      is $20^{\circ}$ degrees, and all parameters of sources $8^{\circ}$ degrees outside 
+      from the center are fixed with default values. There are nine point sources including 
+      the target source PSR B1937+21 and twenty-eight free parameters. In fact, PSR B1937+21
+      is not included in \fgl{} may be because that the MSP is very weak and the signal to 
+      noise ratio is so low that the reliable spectrum fit results with a large TS value 
+      had not been obtained when the \fgl{} was published. Thus I have to add the 
+      configuration file for the MSP manually and I set the initial value of photon index 
+      to be $-2.0$.
+
+      \subsubsection{Count Maps and Count Cubes}
+        Figure \ref{fig: j1939_count_map_ave} is the comparison of count maps between 
+        observational data. Like the previous conditions, the count map of observational data 
+        is more messy than the fitted model. 
+
+        \begin{figure}[!ht]
+          \begin{center}
+          \begin{minipage}{0.45\textwidth}
+            \begin{center} 
+              \includegraphics[scale=0.33]{j1939_cmap_ave.png}
+            \end{center}
+          \end{minipage}
+          \begin{minipage}{0.45\textwidth}
+            \begin{center}
+              \includegraphics[scale=0.33]{j1939_model_map_ave.png}
+            \end{center}
+          \end{minipage}
+        \end{center}
+        \caption[The count maps of PSR B1937+21 created from observation 
+            data (left) and from the spectra model (right).]
+            {The count maps of PSR B1937+21 created from observation 
+            data (left) and from the spectra model (right). The dimensions
+            of both figures are $141$ pixels $\times$ $141$ pixels and each pixel's size is
+            $0.2^{\circ}\times0.2^{\circ}$.}
+          \label{fig: j1939_count_map_ave}
+        \end{figure}
+
+        Figure \ref{fig: j1939_count_cube_ave} shows the count maps in different energy 
+        bands. When energy is above about $1.6\mbox{GeV}$, there are very few photons. In 
+        many cases, people analyze spectra from $100\mbox{MeV}$ to $300\mbox{GeV}$ with 
+        \textit{Fermi} LAT, however, the number of photon counts above $100\mbox{GeV}$ is 
+        nearly negligible compared with the total counts. The total number of photon counts 
+        from $100\mbox{MeV}$ to $300\mbox{GeV}$ is about $1.07\times10^7$ compared with 
+        $1175$ from $100\mbox{GeV}$ to $300\mbox{GeV}$. As a result, it is reasonable to 
+        use data only from $100\mbox{MeV}$ to $100\mbox{GeV}$ and there should not be any 
+        noticeable difference whether I use $100\mbox{GeV}$ to $100\mbox{GeV}$ or 
+        $100\mbox{GeV}$ to $300\mbox{GeV}$. The case is also true for 
+        the other two pulsars --- PSRs J0218+4232 and B1821$-$24. 
+
+        \begin{figure}[!htp]
+          \begin{minipage}{0.32\textwidth}
+            \begin{center} 
+              \includegraphics[scale=0.24]{j1939_ccube_1_ave.png}
+            \end{center}
+          \end{minipage}
+          \begin{minipage}{0.32\textwidth}
+            \begin{center}
+              \includegraphics[scale=0.24]{j1939_ccube_13_ave.png}
+            \end{center}
+          \end{minipage}
+          \begin{minipage}{0.32\textwidth}
+            \begin{center}
+            \includegraphics[scale=0.24]{j1939_ccube_19_ave.png}
+            \end{center}
+          \end{minipage}
+          \caption[Three count maps of PSR B1937+21's count cube.]
+            {Three count maps of PSR B1937+21's count cube. The energy ranges of the 
+            figures are from $100$ to $131$ MeV, from $2460$ to $3212$ MeV, from $12198$ to
+            $15929$ MeV respectively.}
+          \label{fig: j1939_count_cube_ave}
+        \end{figure}
+
+      \subsubsection{Binned Likelihood Analysis}
+        Figure \ref{fig: j1939_count_map_diff_ave} roughly describes how well the global fit 
+        is. Both left and right panel are in linear scale in order to make it easier to 
+        compare. As the residual map shows, there is no obvious difference between the fitted 
+        model and the observational data. The max value of the photon counts in the residual map 
+        is only about $270$. 
+        \begin{figure}[!htp]
+          \begin{center}
+          \begin{minipage}{0.45\textwidth}
+            \begin{center} 
+              \includegraphics[scale=0.31]{j1939_cmap_linear_ave.png}
+            \end{center}
+          \end{minipage}
+          \begin{minipage}{0.45\textwidth}
+            \begin{center}
+              \includegraphics[scale=0.365]{j1939_diff_map_linear_ave_new.png}
+            \end{center}
+          \end{minipage}
+          \end{center}
+            \caption[The count map created from observational data (left) and residual map 
+              (right) of PSR B1937+21.]
+              {The count map created from observational data (left) and residual map (right)
+              of PSR B1937+21. Both left and right panels are in linear scale. 
+              The dimension is $141$ pixels $\times 141$ pixels and each pixel's 
+              size is $0.2^{\circ}\times0.2^{\circ}$.}
+            \label{fig: j1939_count_map_diff_ave}
+        \end{figure}
+
+        Table \ref{table: j1939_fit_result_ave} lists the fit results of PLEC model. 
+        According to the previous work \cite{0004-637X-787-2-167}), 
+        the PLEC model is not preferred over the power-law model. Therefore, only 
+        the results of power-law model are reported in the paper. In this result, the 
+        PLEC model gives a TS value of 122, which is about the same as the previous 
+        results. 
+
+        \begin{table}[!ht]
+          \centering
+            \scalebox{0.8}{
+            \begin{tabular}{|ccc|}
+              \hline 
+              & This Study & Previous Results \\
+              \hline \hline 
+              Photon Index ($\Gamma$) & $2.61\pm0.22$ & $2.1\pm0.2$ \\
+              Cutoff Energy ($E_c$, GeV) & $4.90\pm2.29$ & $8\pm4$ \\
+              % \hline 
+              % Energy Flux ($10^{-11}$ erg $cm^{-2} s^{-1}$) & $4.61$ & $2.50$ & $~$ & $~$ \\ 
+              \hline
+            \end{tabular}}  
+            \caption[Fit parameters of the spectra model of PSR B1937+21.]
+              {Fit parameters of the spectra model of PSR B1937+21. 
+              The names of parameters are consistent with Equation
+              \ref{eq: fermi_model}. The old results are reported by
+              \cite{0004-637X-787-2-167} Note that since the paper prefers power-law model 
+              than PLEC model, it does not report the photon flux of PLEC model.}
+            \label{table: j1939_fit_result_ave}        
+        \end{table} 
+
+        Figure \ref{fig: j1939_count_spectra_ave} shows the residual counts of the global fit.
+        The fit is good from $100$MeV to about $20$GeV. However, it is significantly worse 
+        when the energy is too high and the residual counts are much larger than the PSRs 
+        J0218+4232 and B1821$-$24.
+
+        Although the TS value for PSR B1937+21 is only 122, existence in gamma-ray of the 
+        target source is more obvious in the TS maps as the Figure 
+        \ref{fig: j1939_tsmap_comparison_15_ave} shows. Figure 
+        \ref{fig: j1939_pl_and_cutoff_ave} contains the spectra shape of the PLEC model. 
+
+        \begin{figure}[!htp]
+          \centering
+          \begin{minipage}{0.40\textwidth}
+            \begin{center} 
+              \includegraphics[scale=0.31]{j1939_tsmap_nosource_15_ave.png}
+            \end{center}
+          \end{minipage}
+          \begin{minipage}{0.40\textwidth}
+            \begin{center}
+              \includegraphics[scale=0.31]{j1939_tsmap_withsource_15_ave.png}
+            \end{center}
+          \end{minipage}
+          \caption[TS maps of PSR B1937+21.]
+            {TS maps of PSR B1937+21. The dimension is $3^{\circ} \times 3^{\circ}$
+            ($15$ pixels $\times 15$ pixels and each pixel is 
+            $0.2^{\circ} \times 0.2^{\circ}$). The left panel is generated by the model 
+            after removing PSR B1937+21 while the right panel contains the target source.}
+          \label{fig: j1939_tsmap_comparison_15_ave}
+        \end{figure}
+  
+
+        \begin{figure}[!htp]
+          \centering 
+          \includegraphics[scale=0.37]{what_j1939_count_spectra.png}
+          \caption[The count spectra and count residuals of the fitted spectral model.]
+            {Top: count spectra for all sources included in the xml model (including 
+            sources with both free parameters and fixed parameters). Bottom: count residuals plot
+            of the model. The thick red line is the target source PSR B1937+21, the blue thick 
+            lines are sources with free parameters and the thin lines are the sources with only 
+            fixed parameters.}
+          \label{fig: j1939_count_spectra_ave}
+        \end{figure}
+            
+
+        % \add{PLEC more, below is power-law model }
+
+        Since the fit results of PLEC model is not very satisfiable, I also fit the 
+        gamma-ray spectra with a power-law model. Because I have shown lots of count maps 
+        and they actually do not give us very much information, I do not show more count maps 
+        and count cubes for the analysis of the power-law model. The photon index is 
+        $2.94\pm0.13$ with a TS value of $147$ as the Table 
+        \ref{table: j1939_power_law_compare_ave} shows. Although the energy flux is consistent 
+        with the previous study \cite{0004-637X-787-2-167}, the photon 
+        index is not.
+        \begin{table}[!htp]
+          \centering
+            \scalebox{0.8}{%
+            \begin{tabular}{|ccc|}
+              \hline
+              & This Thesis & Previous Results \\
+              \hline \hline 
+              Photon Index ($\Gamma$) & $2.94\pm0.13$ & $2.38\pm0.07$  \\
+              Energy Flux ($10^{-11}$ erg $\text{cm}^{-2} \text{s}^{-1}$) & $1.6\pm0.2$ & $1.6\pm0.2$   \\
+              \hline 
+            \end{tabular}}  
+            \caption[Photon index comparison of power-law model between different 
+              studies.]
+              {Photon index comparison of power-law model between different 
+              studies. The data of column Previous Results are from
+              \cite{0004-637X-787-2-167}.}
+            \label{table: j1939_power_law_compare_ave}        
+        \end{table}  
+
+        Figure \ref{fig: j1939_power_law_count_spectra} is the count residuals of the fit and 
+        it is no better than Figure \ref{fig: j1939_count_spectra_ave}. But I also prefer a 
+        power-law model since the likelihood of the power-law model is much larger than the 
+        PLEC model. The Fermi tool \textit{gtlike} gives a likelihood value of the 
+        fitting model. I compare the absolute value of the likelihood to decide which model 
+        is preferred. The absolute value for the power-law model is $18409504.4$ compared with 
+        $4427799.496$ for a PLEC model. And the spectrum of the power-law model is 
+        shown in Figure \ref{fig: j1939_pl_and_cutoff_ave}. Both power-law and PLEC 
+        models are consistent with the flux points, which are generated independently, and 
+        the flux points do not show a clear cutoff. 
+
+        \begin{figure}
+          \centering 
+          \includegraphics[scale=0.38]{j1939_power_law_count_spectra.png}
+          \caption{Top panel is counts spectra for all sources within the ROI. Bottom panel  
+            shows the count residuals. }
+          \label{fig: j1939_power_law_count_spectra}
+        \end{figure}
+
+        Figure \ref{fig: j1939_power_law_tsmap_withsource_20} shows the TS maps with the 
+        target source and without the target source. 
+
+        \begin{figure}[!htp]
+          \begin{center}
+          \begin{minipage}{0.45\textwidth}
+            \begin{center} 
+              \includegraphics[scale=0.36]{j1939_power_law_tsmap_no_source_20.png}
+            \end{center}
+          \end{minipage}
+          \begin{minipage}{0.45\textwidth}
+            \begin{center}
+              \includegraphics[scale=0.38]{j1939_power_law_tsmap_with_source_20_new.png}
+            \end{center}
+          \end{minipage}
+        \end{center}
+
+          \caption[TS maps of PSR B1937+21 (power-law model).]
+            {TS maps of PSR B1937+21 (power-law model). The dimension is $4^{\circ} \times 4^{\circ}$
+            ($20$ pixels $\times 20$ pixels and each pixel is 
+            $0.2^{\circ} \times 0.2^{\circ}$). The left panel is generated by the model 
+            after removing PSR B1937+21 while the right panel contains the target source.}
+          \label{fig: j1939_power_law_tsmap_withsource_20}
+        \end{figure}
+
+        \begin{figure}[!htp]
+          \centering
+          \includegraphics[scale=0.3]{j1939_pl_and_cutoff_ave_deprecated.png}
+          \caption[The log-log plot of flux to energy of PSR B1937+21’s gamma-ray spectrum.]
+            {The log-log plot of flux to energy of PSR B1937+21’s gamma-ray spectrum.
+            The red line represents the PLEC model and the green line is the power-law
+            model. }
+          \label{fig: j1939_pl_and_cutoff_ave}
+        \end{figure}
+
+
+    \subsection{Phase Resolved Analysis}
+      Since the PLEC model is not a good model for phase-averaged spectrum of 
+      PSR B1937+21, I did a quick phase-resolved analysis for the MPS. I choose the 
+      phase of $0.0 \sim 0.2$ and $0.5 \sim 0.7$ from the full good time interval (GTI) as 
+      Figure \ref{fig: j1939_phase} implies. 
+      \begin{figure}[!htp]
+        \centering 
+        \includegraphics[scale=0.55]{b1937_parfiles.png}
+        \caption{Top left panel shows the pulse phase of PSR B1937+21 in gamma-ray band. 
+          The figure is produced by tempo2.}
+        \label{fig: j1939_phase}
+      \end{figure}
+
+      The light curve generated by \textit{Fermi} LAT is consistent with previous results 
+      \cite{J1939_old} as Figure \ref{fig: j1939_light_curve_compare} shows. 
+      The new light curve by LAT is better than the previous LAT light curve
+      as shown in the figure. 
+
+      \begin{figure}
+        \centering 
+        \includegraphics[scale=0.4]{j1939_lightcurve_all.png}
+        \caption{Light curves of PSR B1937+21 by different telescopes. The data and figure
+          are from \cite{J1939_old}}
+        \label{fig: j1939_light_curve_compare}
+      \end{figure}
+
+
+      The radius of the ROI is also set to $20^{\circ}$ degrees, and all parameters of 
+      sources $8^{\circ}$ degrees outside from the center are fixed with default values, 
+      which is the same as the above analysis. 
+      Figure \ref{fig: j1939_count_map} is the comparison of count maps between 
+      observational data and the model.
+
+      \subsubsection{Count Maps and Count Cubes}
+        \begin{figure}[!ht]
+          \begin{center}
+          \begin{minipage}{0.45\textwidth}
+            \begin{center} 
+              \includegraphics[scale=0.38]{j1939_cmap.png}
+            \end{center}
+          \end{minipage}
+          \begin{minipage}{0.45\textwidth}
+            \begin{center}
+              \includegraphics[scale=0.38]{j1939_cmap_model.png}
+            \end{center}
+          \end{minipage}
+          \end{center}
+          \caption[The count maps of PSR B1937+21 created from observation 
+                  data (left) and from the spectra model (right).]
+              {The count maps of PSR B1937+21 created from observation 
+              data (left) and from the spectra model (right). The dimensions
+              of both figures are $141$ pixels $\times 141$ pixels and each pixel's size is
+              $0.2^{\circ}\times0.2^{\circ}$.}
+            \label{fig: j1939_count_map}
+        \end{figure}
+
+        There are four point sources with free parameters in the model which are represented 
+        by the green circles in Figure \ref{fig: j1939_count_map} and I add the PLEC model 
+        for PSR B1937+21 manually. 
+
+        Like the phase-averaged case, the count map is so messy that the source PSR B1937+21 
+        is completely not identifiable in this count map.  
+        Figure \ref{fig: j1939_count_cube} shows count maps in different energy bands. As 
+        the figure shows, the lower energy band is very messy while there is no valuable  
+        data in the high energy band. Therefore, the data in the middle energy range is 
+        more reliable and when fitting the two-layer model, it has higher priority to 
+        minimize the differences between the model and observational data in the middle part.
+
+        \begin{figure}[!htp]
+          \begin{minipage}{0.32\textwidth}
+            \begin{center} 
+              \includegraphics[scale=0.24]{j1939_ccube_start.png}
+            \end{center}
+          \end{minipage}
+          \begin{minipage}{0.32\textwidth}
+            \begin{center}
+              \includegraphics[scale=0.24]{j1939_ccube_middle.png}
+            \end{center}
+          \end{minipage}
+          \begin{minipage}{0.32\textwidth}
+            \begin{center}
+            \includegraphics[scale=0.24]{j1939_ccube_end.png}
+            \end{center}
+          \end{minipage}
+          \caption[Three count maps extracted from PSR B1937+21's count cube.]
+            {Three count maps extracted from PSR B1937+21's count cube. The energy ranges 
+            of the figures are from $100$ to $126$ MeV, from $1.99$ to $2.51$ GeV, from $50.12$ 
+            to $63.10$ GeV respectively.}
+          \label{fig: j1939_count_cube}
+        \end{figure}
+
+      \subsubsection{Binned Likelihood Analysis}
+        Figure \ref{fig: j1939_count_map_diff} is a combination of the residual map the 
+        original count map of PSR B1937+21 in linear scale. The fact that there are many 
+        dots in the residual map implies that the global fit is not as good as the 
+        other two pulsars. Furthermore, the fit is particularly bad in the cyan circle 
+        region in the right bottom part Figure \ref{fig: j1939_count_map_diff}. 
+        The total numbers of counts of the cyan region are $18975$ and $4212$ respectively 
+        for the count map and the residual map. The center of the region is 
+        $\left(290.53^{\circ}, 14.12^{\circ}\right)$ and is about $8.65^{\circ}$ away from 
+        the source, which means that spectral parameters of the sources in the region are 
+        fixed during the fit. Therefore, this may be because that the default values from 
+        \textit{Fermi} LAT four-year Point Source Catalog (3FGL) in this region 
+        are not consistent with the observational data. 
+        % during the fit. This may be the problem of the method of choosing the phase. 
+        % Firstly, I get the pulse phase of PSR B1937+21 and select $40\%$ of the whole 
+        % rotation period containing the pulse phase. At the same time, I need to change the 
+        % scales to $40\%$ of their original values for the sources with no free 
+        % parameters. This is reasonable, however, for some bright sources, a little 
+        % difference in percent can cause big residuals of photon counts. 
+        % \question{Not Sure}
+
+        \begin{figure}[!htp]
+          \begin{center}
+          \begin{minipage}{0.45\textwidth}
+            \begin{center} 
+              \includegraphics[scale=0.31]{j1939_cmap_linear.png}
+            \end{center}
+          \end{minipage}
+          \begin{minipage}{0.45\textwidth}
+            \begin{center}
+              \includegraphics[scale=0.34]{j1939_cmap_diff_linear_new.png}
+            \end{center}
+          \end{minipage}
+          \end{center}
+
+          \caption[The count maps of PSR B1937+21 created from observation 
+                  data (left) and from the spectra model (right).]
+            {The count maps of PSR B1937+21 created from observation 
+            data (left) and from the spectra model (right). The dimensions
+            of both figures are $141$ pixels $\times 141$ pixels and each pixel's size is
+            $0.2^{\circ}\times0.2^{\circ}$.}
+          \label{fig: j1939_count_map_diff}
+        \end{figure}
+
+        The Figure \ref{fig: j1939_count_spectra} is the combination of count spectra for 
+        all sources within the $20^{\circ}$ and the count residual plot. The count residual 
+        plot shows that except low gamma-ray energy part (from $100\hbox{MeV}$ to 
+        $200\hbox{MeV}$) and very high energy band (above 10GeV) the total number of photon 
+        counts of the model is very close to the observational data. This seems good but 
+        also implies some problems. As previously discussed, the modeled number of photon counts 
+        in the cyan circle is $7924$ smaller than the observational data. And the count residual 
+        plot shows that the count number of the whole map is nearly the same, which means that 
+        in the model there must be some sources forced to be larger than the real value to make 
+        up for the deficiency. This implies that the fit results of some sources with free 
+        parameters are not as good as the Figure \ref{fig: j1939_count_spectra} shows. 
+        
+        \begin{figure}[!htp]
+          \centering
+          \includegraphics[scale=0.42]{j1939_count_spectra.png}
+          \caption{The count spectra (top) of all sources including those with only fixed 
+            parameters and count residuals (bottom) of the fit for PSR B1937+21.}
+          \label{fig: j1939_count_spectra}
+        \end{figure}
+
+        Table \ref{table: j1939_fit_result} lists the results of the fit parameters of 
+        PSR B1937+21. We see from the table that the new fit results are 
+        consistent with the old ones and the precision improves a lot. 
+        Figure \ref{fig: j1939_pl_and_cutoff} is a plot of the PLEC model.
+        The global fit is consistent with flux points fitted by each energy bin separately 
+        as the flux points and the red line with shade shows. Surprisingly, the power-law model
+        is very close to the phase-resolved PLEC model. 
+        The TS value of our target source is $383$, which gives 
+        a significance level $\sigma \approx \sqrt{TS} = 19.6$. This implies the presence 
+        of the target source. I also generate TS maps to test the presence of the source 
+        as Figure \ref{fig: j1939_tsmap_comparison_15} shows. 
+        
+        \begin{figure}[!htp]
+          \centering 
+          \includegraphics[scale=0.4]{j1939_pl_and_cutoff.png}
+          \caption{PLEC model spectrum of PSR B1937+21 (phase resolved). }
+          \label{fig: j1939_pl_and_cutoff}
+        \end{figure}
+          
+        \begin{figure}[!htp]
+          \centering
+          \begin{minipage}{0.40\textwidth}
+            \begin{center} 
+              \includegraphics[scale=0.31]{j1939_tsmap_nosource_15.png}
+            \end{center}
+          \end{minipage}
+          \begin{minipage}{0.40\textwidth}
+            \begin{center}
+              \includegraphics[scale=0.31]{j1939_tsmap_withsource_15.png}
+            \end{center}
+          \end{minipage}
+          \caption[TS maps of PSR B1937+21.]
+            {TS maps of PSR B1937+21. The dimension is $3^{\circ} \times 3^{\circ}$
+            ($15$ pixels $\times 15$ pixels and each pixel is 
+            $0.2^{\circ} \times 0.2^{\circ}$). The left panel is generated by the model 
+            after removing PSR B1937+21 while the right panel contains the target source.}
+          \label{fig: j1939_tsmap_comparison_15}
+        \end{figure}
+
+        \begin{table}[!htp]
+          \centering
+            \scalebox{0.8}{
+            \begin{tabular}{|ccc|}
+              \hline 
+              & This Study & Previous Results \\
+              \hline \hline
+              Photon Index ($\Gamma$) & $2.37\pm0.06$ & $1.43\pm0.87$ \\
+              Cutoff Energy($E_c$, GeV) & $4.5\pm1.1$ & $1.15\pm0.74$ \\
+              % \hline 
+              % Energy Flux (erg $cm^{-2} s^{-1}$) ($10^{-12}$) & $19$ & $0.3$ & $16$ & $2$ \\ 
+              \hline
+            \end{tabular}}  
+            \caption[Fit parameters of the spectra model of PSR B1937+21 (phase resolved).]
+              {Fit parameters of the spectra model of PSR B1937+21 (phase resolved). 
+              The previous results are from \cite{0004-637X-787-2-167}.
+              Since the studied energy range is different, I do not list the energy flux for 
+              comparison.}
+            \label{table: j1939_fit_result}        
+        \end{table} 
+
+  \section{Summary of the Results}
+    The spectra of PSRs J0218+4232, B1937+21 and B1821$-$24 are studied using more observation 
+    data and newly published \textit{Pass 8} dataset. The new results of the thesis are 
+    generally consistent with the old results as the Table \ref{table: final_results} shows. 
+    For PSR B1937+21, I also list the results of power-law model as Table 
+    \ref{table: final_results_j1939_pl} shows.
+    \begin{table}[!htp]
+      \centering
+        \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|c|c|c|c|c|c|}
+          \cline{1-7}
+          & \multicolumn{2}{|c|}{J0218+2134} & \multicolumn{2}{|c|}{B1937+21} & \multicolumn{2}{|c|}{B1821$-$24} \\
+          \cline{1-7} 
+          & New & Previous & New & Previous & New & Previous \\
+          \cline{1-7}
+          Photon Index ($\Gamma$) & $1.89\pm 0.04$ & $2.0\pm0.1$ & $2.37\pm0.06$ & $2.1\pm0.2$ & $1.91\pm0.07$ & $1.6\pm0.3$  \\
+          Cutoff Energy (GeV)& $3.77\pm0.40$ & $4.6\pm1.2$ & $4.5\pm1.1$ & $8\pm4$ & $4.50\pm0.71$ & $3.3\pm1.5$\\
+          Photon Flux ($10^{-8}$ $\text{cm}^{-2} \text{s}^{-1}$) &$7.29\pm0.28$ &$7.7\pm0.7$ &$3.76\pm0.35$ & ~ &$3.85\pm0.31$ & $1.5\pm0.6$ \\
+          Energy Flux ($10^{-11}$ erg $\text{cm}^{-2} \text{s}^{-1}$) & $4.45\pm0.16$ & $4.56\pm0.24$ & $1.58\pm0.15$ & ~ & $2.44\pm0.14$ & $1.3\pm0.2$ \\
+          \hline 
+        \end{tabular}}  
+        \caption[Fit parameters of the spectra model of PSR J0218+4232.]
+          {Fit parameters of the spectra model of PSR J0218+4232. 
+          The names of parameters are consistent with Equation
+          \ref{eq: fermi_model}. The previous results are from  
+          \cite{0004-637X-787-2-167,0067-0049-208-2-17}}
+        \label{table: final_results}        
+
+    \end{table}  
+
+    \begin{table}[!htp]
+      \centering 
+      \scalebox{0.8}{
+        \begin{tabular}{|ccc|}
+        \hline 
+        & New Results & Previous Results \\ 
+        \hline \hline 
+        Photon Index ($\Gamma$) &  $2.94\pm0.13$ & $2.38\pm0.07$ \\
+        Photon Flux ($10^{-8}$ $\text{cm}^{-2} \text{s}^{-1}$) & $5.89\pm0.68$ & $2.93$ \\
+        Energy Flux ($10^{-11}$ erg $\text{cm}^{-2} \text{s}^{-1}$) & $1.92\pm0.18$ & $ 1.6\pm0.2$ \\ 
+        TS value & 147 & 112 \\
+        \hline 
+      \end{tabular}}
+      \caption[Fit results of power-law model for PSR B1937+21.]
+        {Fit results of power-law model for PSR B1937+21. Since the previous paper 
+        does not show the photon flux, I cannot calculate the error bars of photon flux for 
+        the previous value.}
+      \label{table: final_results_j1939_pl}
+    \end{table}
+
+    With \textit{Pass 8} data and more observational data, the new results have smaller 
+    error bars in terms of photon index and energy flux. Furthermore, we have much larger 
+    TS values for PSRs J0218+4232 and B1821$-$24 as the Table \ref{table: ts_value_compare} 
+    shows. 
+    
+    % For PSR B1937+21, a power-law model should be preferred because of the 
+    % following reasons. The $-log(likelihood)$ of PLEC model and power-law model are 
+    % $-4410944$ and $-18409504$ respectively, the 
+    % $TS_{cut} = 2\Delta log(likelihood) = -2.86 < 9$,  thus I follow the convention of the 
+    % paper \cite{2013ApJS..208...17A}.
+
+    \begin{table}[!htp]
+      \centering
+        \scalebox{0.8}{
+        \begin{tabular}{|cccc|}
+          \hline 
+          & J0218+4232 & B1821$-$24 & B1937+21 \\ 
+          \hline 
+          Previous & 1313 & 76 & 112 \\
+          New Results & 6809 & 941 & 147 \\
+          \hline 
+        \end{tabular}}  
+        \mycaption{TS values comparison between the new results and the previous results for 
+          the three MSPs. }
+        \label{table: ts_value_compare}        
+    \end{table}  
+
+    
+  
+        
+\chapter{Theory and Simulation}
+  \section{A Brief Introduction to the Outer Gap Model}
+    It is oversimplified to regard a pulsar as a magnetized sphere rotating in a vacuum. 
+    Actually, there are plenty of charged particles in a pulsar's magnetosphere 
+    which co-rotate with the pulsar. The creation of charged particles can 
+    be described following steps \cite{Sturrock:1971zc}.
+
+    % The co-rotating charged primary particles emit gamma-ray by \\curvature 
+    % radiation because they are accelerated by environmental magnetic fields.  
+    In the intense magnetic field, the high energy photons decay into electrons and 
+    positrons which are called secondary particles by the process: 
+    $\gamma + (B) \rightarrow e^++e^-+(B)$ and these charged particles can emit 
+    synchrotron radiation. The secondary particles in charge-deficient regions can also 
+    be accelerated to very high speed by strong magnetic field just like primary particles 
+    and some of them then emit gamma-rays which can further decay into electrons and 
+    positrons. As a result, these charged particles can create more secondary particles.
+    This chain of the processes is quite efficient to produce charged particles and 
+    make a pulsar's magnetosphere filled with plasma as a consequence. Therefore, a 
+    characteristic charge density $\rho_{GJ}=-\frac{\vec{\Omega}\cdot \vec{B}}{2\pi c}$ 
+    called Goldreich-Julian charge density is produced \cite{1969ApJ}.
+    By the definition of $\rho_{GJ}$, there is a surface called null charge surface where 
+    $\rho_{GJ}$ is very close or equal to $0$. 
+
+    Since the charged particles cannot move along the magnetic field lines near 
+    the light cylinder (they cannot exceed the speed of light), there are closed field 
+    lines and open field lines. Charged particles can move out of the magnetosphere along 
+    these open field lines. Thus, the charge densities in the regions near the light cylinder
+    can be much smaller than the \gj{} and electrons and positrons are accelerated to very high 
+    speeds by electric fields parallel to the magnetic field lines ($E_{\parallel}$). 
+    These regions are called the outer gap which is between the null charge surface and the 
+    light cylinder \cite{1986ApJ...300..500C}.
+    
+    Since electrons and positrons are accelerated to opposite directions, there are many 
+    charged particles move toward the pulsar's surface. As discussed above, there is no 
+    significant electric field to accelerate the incoming particles, they emit softer 
+    photons than the photons emitted by the particles moving outward. Furthermore, since the 
+    softer photons are close to the stellar surface, they can generate electrons and 
+    positrons with the help of high magnetic fields. These charged particles maintain the current 
+    moving along the open field lines. Meanwhile, the particles moving from the null charge 
+    surface to the light cylinder are largely accelerated by $E_{\parallel}$, and hence 
+    emit gamma-rays by curvature radiation. Part of the gamma-rays covert to
+    electron-positron pairs by colliding with soft photons, and the pairs compensate 
+    the deficit of charge densities, hence stop the growth of the outer gap. This is the 
+    very basic introduction of the outer gap model, which is helpful to understand the 
+    two-layer model. 
+        
+  \section{Two-Layer Model}
+    After reviewing the gamma-ray emission mechanism, we can proceed to
+    the two-layer model on which this thesis is mainly based
+    \cite{0004-637X-720-1-178}. The two-layer model is a variation of the outer-gap model 
+    since they both claim that the gamma-ray emission zone is close to the light cylinder. 
+    However, in the two-layer model, the outer layer consists of two regions --- a primary 
+    acceleration region and a screening region. 
+
+    In the primary region, charged particles moved out of pulsars along the open field 
+    lines, so the charge density is usually very low. 
+    However, by pair-production processes, a lot of $e^{-}$ and $e^{+}$ are produced. 
+    When lots of pairs are created initially, the charge density 
+    doesn't change very much because the pairs have not been separated yet. With the help 
+    of the strong electric field, the particles of opposite signs move to opposite directions. 
+    As a result, the two-layer model states that above the primary region, a screening 
+    region will be created and the charge density is very large because of the accumulation 
+    of the charged particles. This is basically the reason why there are two regions in 
+    pulsars' outer magnetosphere.
+
+    The next issue is that how to describe the distribution of charge densities in these two 
+    regions. For simplicity, the model just uses a step function to represent the charge 
+    density distribution and a step function can well describe the large charge density 
+    difference between the two regions. It uses a magnetic dipole model to approximate the 
+    magnetic distribution in the magnetosphere. Since by magnetic dipole model, the magnetic 
+    field at one position is only dependent on the position's distance from the source 
+    and altitude, the model also ignores the azimuthal distribution of charge density 
+    and uses two parameters which are distance $r$ and altitude $\theta$ to calculate the 
+    magnetic field at a particular position.
+
+    The two-layer model uses three parameters to express the structure of a pulsar's outer 
+    magnetosphere --- charge density of the primary region, the total height of the primary 
+    region and the screening region and the last one is the ratio of the thickness of the 
+    primary region and the screening region. Figure \ref{fig: charge_density} shows the 
+    basic structure of two-layer model. 
+
+    \begin{figure}[!htp]
+      \centering 
+      \includegraphics[scale=0.6]{charge_density.png}
+      \caption[Geometry and charge density distribution of the two-layer model.]
+        {(a): Geometry of the two-layer model. $h_{1}$ and 
+        $h_{2}$ is the height of the primary region and the screening region respectively. 
+        (b): the charge density distribution of the primary region and the screening region. 
+        In the primary region, the charge density is much smaller than Goldreich-Julian charge 
+        density while is larger in the screening region. The figure is reported by
+        \cite{0004-637X-720-1-178}.}
+      \label{fig: charge_density}
+    \end{figure}
+    % \singleFig{charge_density}{0.6}{(a): Geometry of the two-layer model. $h_{1}$ and 
+    %   $h_{2}$ is the height of the primary region and the screening region respectively. 
+    %   (b): the charge density distribution of the primary region and the screening region. 
+    %   In the primary region, the charge density is much smaller than Goldreich-Julian charge 
+    %   density while is larger in the screening region. The figure is from. 
+    %   \cite{0004-637X-720-1-178}}
+
+    As Figure \ref{fig: charge_density} shows, 
+    let the charge density of the primary region be $\rho_1 = (1-g_{1}) \rho_{GJ}$ and 
+    the total gap size be
+    $h_{2}$, where $\rho_{GJ}$ is the Goldreich-Julian charge density. For convenience, 
+    also denote the gap size of the primary region as $h_{1}$. 
+    \myComment{Then we can calculate electric potential and electric field by solving the 
+    Poisson equation }
+    Denote the electrical potential as $\phi_{0}$ which satisfies 
+    \begin{equation}
+      \label{eq: Poisson_corotating}
+      \nabla^{2}\phi_{0} = -4\pi\rho_{GJ} ,
+    \end{equation}
+    and the total electrical potential is $\phi = \phi_{0} + \phi^{\prime}$, 
+    where $\phi^{\prime}$ is a representation of the deviation from the co-rotating 
+    electrical potential. Let the total charge density be $\rho$ and subtract by
+    Equation \ref{eq: Poisson_corotating} we have,
+    \begin{equation}
+      \label{eq: Poisson_final}
+      \nabla^{2}\phi^{\prime} = -4\pi\left(\rho - \rho_{GJ} \right) .
+    \end{equation}
+
+    Because the model has ignored the distribution in the azimuthal direction, it uses two 
+    parameters $x, z$ to represent a position, where $x$ is the direction along the magnetic 
+    field line and $z$ is perpendicular to the magnetic field line. In order to solve 
+    Equation \ref{eq: Poisson_final}, the model also makes two approximations. The first is that 
+    the derivative of electrical potential $\phi$ is ignored. The second is that the \gj{} 
+    is uniformly distributed along the magnetic line direction ($x$ direction). These two 
+    approximations are based on a reasonable assumption that the change rate 
+    for both electrical potential ($\phi^{\prime}$) and \gj{}($\rho_{GJ}$) along the $x$ 
+    direction is much smaller than the $z$ direction. 
+    As a consequence, Equation \ref{eq: Poisson_final} can be written as: 
+    \begin{equation}
+      \label{eq: Poisson_final_final}
+      \frac{\partial^2}{\partial z^2} \phi^{\prime} = -4\pi\left(\rho - \rho_{GJ} \right) .
+    \end{equation}
+
+    In order to solve Equation \ref{eq: Poisson_final_final}, proper boundary conditions are also 
+    needed. First of all, we have to decide the boundary positions, which is determined by 
+    four parameters and they can be written as $x_{lo}, x_{hi}, z_{lo}, z_{hi}$. It is 
+    reasonable to set $x_{lo}$ and $x_{hi}$ be the stellar surface and the light cylinder 
+    respectively and $z_{lo}$ (lower boundary) be the last open field line. And let the 
+    electrical potential be $0$ along the last open field line (this is because the 
+    variation of electric field strength along the $x$ direction is ignored) as Equation 
+    \ref{eq: lower_boundary} shows.  
+
+    \begin{equation}
+      \label{eq: lower_boundary}
+      \phi \left(x, z_{lo}\right) = 0 .
+    \end{equation}
+    To determine the position of $z_{hi}$ is a little bit tricky. In order to make the electrical 
+    potential be continuous at $z = z_{hi} = h_2$, the model sets the 
+    $\phi^{\prime}\left(z=h_{2}\right) = 0$ since the non-co-rotating electrical potential 
+    outside the upper bound is $0$ and the co-rotating potential is continuous near the 
+    boundary. Additionally, because $\phi^{\prime}\left(z=h_{2}-\right) = 0$
+    and $\phi^{\prime}\left(z=h_{2}+\right) = 0$, it is known that the first derivative 
+    $\partial{\phi^{\prime}}/\partial{z}\vert_{z=h_{2}}$ is $0$, which means 
+    $E_{\perp}\vert_{z=h_{2}} = 0$. In order to solve Equation \ref{eq: Poisson_final_final}, 
+    denote charge densities of the two regions for convenience as the function 
+    \ref{eq: twolayer_charge_density} shows.
+    \begin{equation}
+      \label{eq: twolayer_charge_density}
+        \rho\left(z\right) = 
+        \begin{cases}
+          & \rho_{1} , \text{    if} \left(0 \leq z < h_{1}\right)\\
+          & \rho_{2} , \text{    if} \left(h_{1} \leq z \leq h_{2}\right) .
+        \end{cases}       
+    \end{equation}
+    With definition in Equation \ref{eq: twolayer_charge_density} and the three boundary 
+    conditions, the solution of Equation \ref{eq: Poisson_final_final} is, 
+    \begin{equation}
+      \label{eq: twolayer_potential}
+        \phi^{\prime}\left(z, x\right) = -2\pi
+        \left\{\begin{alignedat}{2}
+          & \left(\rho_{1} - \rho_{GJ}\left(x\right)\right)z^2 + C_{1} z ,  &&\left(0 \leq z < h_{1}\right)\\
+          & \left(\rho_{2}-\rho_{GJ}\left(x\right)\right)\left(z^2 - h_2^2\right) + D_{1} \left(z-h_2\right),  &&\qquad \left(h_{1} \leq z \leq h_{2}\right) ,
+        \end{alignedat}\right.
+    \end{equation}
+    where 
+    \begin{equation*}
+      C_{1} = \frac{\left(\rho_{1}-\rho_{GJ}\left(x\right)\right)h_1\left(h_1-2h_2\right)-\left(\rho_2-\rho_{GJ}\left(x\right)\right)\left(h_1-h_2\right)^2}{h_2} ,
+    \end{equation*}
+    and 
+    \begin{equation*}
+      D_{2} = \frac{\left(\rho_1-\rho_2\right)h_1^2-\left[\rho_2-\rho_{GJ}\left(x\right)\right]h_2^2}{h_2} .
+    \end{equation*}
+    From Equation \ref{eq: twolayer_potential} and apply 
+    $\rho_{GJ}\left(x\right)=-\left(\Omega B x\right)/\left(2\pi cs\right)$ 
+    we can directly derive the strength of electrical fields parallel to magnetic field lines as a 
+    function of $z$ as Equation \ref{eq: twolayer_field} shows.
+    \begin{equation}
+      \label{eq: twolayer_field}
+        E^{\prime}_{\parallel}\left(z\right) = \frac{\Omega B}{cs}
+        \left\{\begin{alignedat}{2}
+          & -g_1 z^2 + C_1^{\prime}z ,  &&\left(0 \leq z < h_{1}\right) \\
+          & g_2\left(z^2 - h_2^2\right) + D_1^{\prime}\left(z-h_2\right)  &&\qquad \left(h_{1} \leq z \leq h_{2}\right) .
+        \end{alignedat}\right.
+    \end{equation}
+    where 
+    \begin{equation*}
+      C_{1}^{\prime} = \frac{g_1 h_1 \left(h_1 - 2h_2\right)+ g_2\left(h_1-h_2\right)^2}{h_2} ,
+    \end{equation*}
+    and 
+    \begin{equation*}
+      D_{2}^{\prime} = -\frac{\left(g_1 + g_2\right)h_2^2 + g_2 h_2^2}{h_2} .
+    \end{equation*}
+
+    Since charged particles are accelerated in the primary region to relativistic speeds 
+    and then emit curvature radiation, we have
+    \begin{equation}
+      \label{eq: all_is_curvature_radiation}
+      e E_{\parallel}^{\prime} c = l_{cur} ,
+    \end{equation}
+    where $E_\parallel^{\prime}$ is the electric field strength along the magnetic field 
+    line described in Equation \ref{eq: twolayer_field}.
+    Lorentz factors of the charged particles is estimated according to Equation 
+    \ref{eq: curvature_radiation_power}.
+    \begin{equation}
+      \label{eq: curvature_radiation_power}
+      l_{cur} = \frac{2 e^2 c \gamma^{4}_{e}}{3s^2} ,
+    \end{equation}      
+    where $s$ is the radius of curvature. 
+    Combining Equations \ref{eq: all_is_curvature_radiation} and 
+    \ref{eq: curvature_radiation_power} we get expression for Lorentz factor: 
+    \begin{equation}
+      \label{eq: gamma_can_be_zero}
+      \gamma_{e} = \left(\frac{3s^2}{2e} E_{\parallel}^{\prime}\right)^{1/4} .
+    \end{equation}
+    With the Lorentz factor of a charge particle known, we can derive the curvature radiation 
+    spectrum for a single charged particle and then can get the total spectrum by integrating 
+    over all charged particles. This is the simplified idea of the two-layer model. 
+  
+
+  \section{X-ray Emission Model}
+    The three MSPs have very hard photon indices which is about one as Table 
+    \ref{table: X-ray_photon_indices} shows. The hard photon indices can be explained by 
+    inverse-Compton scattering between the radio waves and the primary particles in the 
+    outer magnetosphere. The hard X-ray flux is contributed by both inverse-Compton 
+    scattering and synchrotron radiation emitted by the secondary particles. 
+    
+    Firstly, we consider inverse-Compton scattering. \cite{0004-637X-787-2-167} uses a 
+    broken power-law model with a turnover at 10MHz to describe the radio spectrum as 
+    Function \ref{eq: radio_spectrum} shows \cite{0004-637X-787-2-167}.
+    \begin{equation}
+      \label{eq: radio_spectrum}
+        F_{rad}\left(\nu\right) = A \left.
+        \begin{cases}
+          \left(\frac{\nu}{100\text{MHz}}\right)^{\beta_1} & \text{for } \nu \geq 10\text{MHz} \\
+          \left(\frac{10\text{MHz}}{100\text{MHz}}\right)^{\beta_1} \left(\frac{\nu}{10\text{MHz}}\right)^{\beta_2}& \text{for } \nu > 10\text{MHz} .
+        \end{cases}     
+        \right.  
+    \end{equation} 
+    The spectral index $\beta_2$ is fixed to be $0.5$ and $\beta_1$ is estimated by the 
+    flux densities at 1.4GHz ($\mbox{F}_{1400}$) and 400MHz ($\mbox{F}_{400})$. The data 
+    used in the thesis are listed in Table \ref{table: radio_data_atnf}. 
+
+    By approximating the magnetic field lines as concentric circles, the collision angle 
+    between radio waves and primary particles can be estimated by 
+    $\sin{\theta_0}\sim \sqrt{2f}$, where $f$ is the fractional gap size which is the 
+    ratio of the total gap size to the length of the light cylinder. According to 
+    \cite{0004-637X-787-2-167}, inverse-Compton radiation power per unit energy per solid 
+    angle can be estimated by Function \ref{eq: IC_theory},
+    \begin{equation}
+      \label{eq: IC_theory}
+      \frac{dP_\text{IC}}{d\Omega} = \mathcal{D}^{2}\left(1-\beta \cos{\theta_{0}}\right) F_{rad} \frac{d\sigma^{\prime}}{d\Omega^{\prime}} ,
+    \end{equation}
+    where  $\mathcal{D} = \gamma^{-1}\left(1-\beta\cos{\theta_1}
+    \right)^{-1}$, $\theta_1$ is the angle between the scattered photon and the primary particle, 
+    $F_{rad}$ is the radio spectrum 
+    as discussed above, $d\sigma^{\prime}/d\Omega^{\prime}$ is the Klein-Nishina cross 
+    section in electron-rest frame.
+    Therefore, with the Functions \ref{eq: IC_theory} and \ref{eq: radio_spectrum}, the 
+    flux of inverse-Compton radiation can be calculated. 
+
+    Secondly, secondary particles can also emit non-thermal hard X-rays. Although it may 
+    not be as strong as inverse-Compton scattering in very hard X-ray band, it should also 
+    be included. As previous introduced, some particles are accelerated by the electric 
+    fields parallel to the magnetic field lines ($E_{\parallel}$) and move toward the 
+    stelar surface. These particles can heat up the polar cap region to about 1MK
+    \cite{0004-637X-745-1-100}. Then new electron-positron pairs can be created by collisions
+    between the thermal X-rays and gamma-rays. The optical depth can be calculated by 
+    Function \ref{eq: X-ray_optical_depth}, 
+    \begin{equation}
+      \label{eq: X-ray_optical_depth}
+      \tau_{X_{\gamma}} = \frac{L_{t} \sigma_{X_{\gamma}} R_{\text{lc}}}{4\pi R_{\text{lc}}^2 ck_{B}T} ,
+    \end{equation}
+    where $T$ is the surface temperature and
+    $L_{t}$ is the thermal radiation, $\sigma_{X_{\gamma}} \sim \sigma_T / 3$ and 
+    $k_B$ is the Boltzmann constant. Then the distribution of the secondary pairs can be 
+    described by Function \ref{eq: X-ray_pair_distribution},
+    \begin{equation}
+      \label{eq: X-ray_pair_distribution}
+      \frac{dN}{d\gamma_s} \left(\gamma_s\right) = \frac{m_e c^2}{\dot{E}_{sync}}\int_{2\gamma_s m_e c^2}^{\infty} Q\left(E_{\gamma}^{\prime}\right) dE_{\gamma}^{\prime} ,
+    \end{equation}
+    where $\gamma_s$ is the Lorentz
+    factor of the secondary particles, $\dot{E}_{sync}$ is the energy loss rate of the 
+    synchrotron radiation. According to \cite{0004-637X-787-2-167}, the synchrotron 
+    spectrum can be calculated by Function \ref{eq: X-ray_spectrum_final},
+    \begin{equation}
+      \label{eq: X-ray_spectrum_final}
+      F_{sync}\left(E_{\gamma}\right) = \frac{\sqrt{3}e^3B \sin{\theta_s}}{h m_e c^2} \int\frac{dN}{d\gamma_s} F\left(\frac{E_{\gamma}}{E_{sync}}\right)d\gamma_s ,
+    \end{equation}
+    where $E_{sync} = 3he\gamma_s^2B \sin{\theta_s}/4\pi m_e c$ and 
+    $\sin{\theta_s}\sim\sqrt{2f}$, which is like the approximation in the inverse-Compton 
+    scattering model.
+
+    Add the synchrotron radiation and inverse-Compton scattering together, we can calculate
+    the flux in hard X-ray and gamma-ray bands. In addition, by adding the observational data
+    from \textit{NuSTAR} \cite{0004-637X-845-2-159}, we generate broadband spectra for all
+    the three MSPs.
+
+    \begin{table}[!htp]
+      \centering
+      \scalebox{0.8}{
+        \begin{tabular}{|cccc|}
+          \hline 
+          & J0218+4232 & B1937+21 & B1821$-$24 \\
+          \hline \hline 
+          Photon Index ($\Gamma_{X}$) & $1.10\pm0.06$ & $0.9\pm0.1$ & $1.23\pm0.03$ \\
+          Luminosity ($L_{X}, 10^{32}$ erg $\mbox{s}^{-1}$) & $3.3$ & $6.8$ & $14$ \\
+          Pulse Fraction (\%) & $64\pm6$ & $\sim100$ & $82.5\pm4$ \\
+          \hline 
+        \end{tabular}}
+        \caption[X-ray Properties of the PSRs J0218+4232, B1937 and B1821$-$24.]
+          {X-ray Properties of the PSRs J0218+4232, B1937 and B1821$-$24. The data are from 
+          \cite{2011ApJ...730...81B,2004A&A...417..181W,2002ApJ...577..917K,2012ApJ...760...92H,
+          2010arXiv1006.0335B}}
+        \label{table: X-ray_photon_indices}
+    \end{table}
+    
+    \begin{table}[!htp]
+      \centering
+      \scalebox{0.8}{
+        \begin{tabular}{|cccc|}
+          \hline 
+          & J0218+4232 & B1937+21 & B1821$-$24 \\
+          \hline \hline 
+          $\mbox{F}_{400}$ (mJy) & $35\pm5$ & $40$ & $240$ \\
+          $\mbox{F}_{1400}$ (mJy) & $0.9\pm0.2$ & $2.0\pm0.4$ & $13.2\pm5$ \\
+          \hline 
+        \end{tabular}}
+        \caption[Flux densities of PSRs J0218+4232, B1937+21 and B1821$-$24.]
+          {Flux densities of PSRs J0218+4232, B1937+21 and B1821$-$24. The data are 
+          from the ATNF catalogue. \footnote{http://www.atnf.csiro.au/research/pulsar/psrcat/}}
+        \label{table: radio_data_atnf}
+    \end{table}
+  \section{Simple Optimizations of Numerical Calculation}
+    \subsection{Accuracy}
+      To make sure the numerical computation be right is the most important. 
+      The first consideration is underflow and overflow of floating digits.
+      One possible condition is calculating speeds of relativistic charged particles with 
+      Lorentz factor $\gamma$. By doing some simple test, I find that for 
+      $\gamma < 1.5\times 10^7$, the results are precise enough. However, there are 
+      significant rounding errors when $\gamma > 5\times 10^7$, which means that the 
+      results might be wrong for highly energetic particles if I directly use the formula 
+      $\beta = \sqrt{1 - 1/\gamma^2}$.
+      Likely, in the two-layer model, nearly all particles have $\gamma < 1\times 10^7$. 
+      Furthermore, there are nearly no situations where double precision floating digits
+      cannot handle calculation results of the two-layer model. Thus, as long as using 
+      64-bit floating digits instead of 32-bit floating digits, we are free from overflowing 
+      and underflow errors. 
+        
+      There are some cases when a whole function can be calculated while some parts of them 
+      are not. Take Function $f\left(x\right) = x\times1/x$ for example. When $x$ is too 
+      large, it can not be expressed by a computer and multiplication is not associative when 
+      doing floating point operation. I encounter some situations like this.
+      The formula of curvature radiation spectrum contains modified Bessel function of order 
+      $5/3$. In order to speed up the program, I use a polynomial to express the Bessel 
+      function, as Equation \ref{func: polynomial_appro} shows. 
+      \begin{equation}
+        K_{5/3} \left(x\right) \simeq a \left(\frac{1}{x} + b\right)^{-cx - 1/3} \sqrt{\frac{\pi}{2}} e^{-x - d} \sqrt{x + d} %
+        \left[1 + \frac{55}{72\left(x + d\right)} - \frac{10151}{10368}\left(x+d\right)^2\right] ,
+        \label{func: polynomial_appro}
+      \end{equation}
+      where $a,b,c,d$ are just positive constants and $c = 0.96 < 1$. As a result, 
+      the part $(1/x + b)^{-cx - 1/3}$ in Function \ref{func: polynomial_appro} is infinity
+      when $x$ is large though the total function is approximated to $0$. Thus, I have to 
+      explicitly assign the result to be $0$ instead of calculating it. Indeed, this error 
+      is not easy to find since in most cases the results are not infinity. 
+          
+    \subsection{Speed of Computation}
+      I did not check any accurate benchmarks in the following discussions and they 
+      depend on the average time of the simulations.
+      The most obvious solution is to use multicores to do the computation. However, 
+      most library functions do not support run concurrently and only run on a single core. 
+      For example, I need to do many integrations and the speed of integration is critical. 
+      I write some simple functions to utilize four CPU cores at the same time when doing 
+      integration. This gives me a huge performance improvement.
+
+      Furthermore, there are some facts about the basic operations. For instance, add is 
+      faster than multiplication which is faster than division. Multiplications and divisions 
+      are not associative between floating points. Though the performance differences between 
+      different operations for integers can usually be optimized away by modern compilers, 
+      the compilers can do nothing for floating points. Thus, I have to do it by ourselves. 
+      For example, I have $z^2 - h_2\left(x\right)^2$ in function \ref{eq: twolayer_field}.
+      In this formula, there are multiplications and one subtraction. After re-writing it to 
+      $\left(z-h_2\right)\left(z + h_2\right)$, we have one addition, one subtraction and one 
+      multiplication. Since addition and subtraction is not slower than multiplication, it 
+      has no performance harm by the rewriting. What need to be noticed is that the 
+      multiplication may not be slower than addition
+      and it is dependent on machines. However, a division is definitely slower than the other three operations. 
+      Therefore, in our program, expressions like $1 / 3$ are rewritten to $1*0.3333$ and so on.  
+
+      Finally, since the program is written in C++, I use some new features of C++ to speed
+      up the calculation. For instance, the keywords `constexpr' and `auto' is used a lot. 
+      Meanwhile, I am really careful when allocate arrays trying to make the array fit into
+      cache. 
+
+  \section{Numerical Calculation of Spectra Based on the Two-Layer Model}
+    After understanding the theory part of the two-layer model, 
+    I then carried out numerical calculations of the spectra for the three MSPs
+    based on the theory.  
+
+    There are three independent parameters in the calculation. 
+    The first parameter is fractional gap size $f=h_{2}/R_{lc}$, where $h_{2}$ is the 
+    total gap size including both the primary acceleration region and the screening region 
+    and $R_{lc}$ is the radius of the light cylinder. The second parameter is $g_{1}$ so that
+    the charge density in the primary accelerating region is $\left(1-g_{1}\right) \rho_{GJ}$, 
+    where $\rho_{GJ}$ is the Goldreich-Julian charge density. The third parameter is the ratio 
+    between the sizes of the two gaps ($h_{1}/h_{2}$). Note that I only need to set the charge 
+    densities in the primary acceleration region as an independent parameter, since the charge 
+    densities in the two gaps are related to each other. Figures 
+    \ref{fig: j0218_twolayer_cur.png}, \ref{fig: b1821_twolayer_cur.png}, and 
+    \ref{fig: j1939_twolayer_cur.png} are the spectra of the three MSPs generated from 
+    the two-layer model and the results of the 
+    fit parameters are listed in Table \ref{table: twolayer_fit_parameter}. Other than the 
+    low energy and high energy gamma-ray bands, the model is consistent with the observation 
+    data in terms of the gamma-ray part. 
+
+    % Generally speaking, the modeled spectra for the three MSPs are acceptable. Just as 
+    % we have discussed in the data analysis part that global fits are not very consistent 
+    % with separate fits in low energy gamma-ray band (about $100\mbox{MeV} - 500\mbox{MeV}$) 
+    % and high energy band (above $10 \mbox{GeV}$), the modeled spectra also have the same 
+    % problem. This can have two explanations. Firstly, the Fermi telescope is not sensitive 
+    % below about $100 \mbox{MeV}$. As a result, the observational data may not be very precise
+    % at this energy band. Secondly, the real emission mechanism in the energy band is different 
+    % from the model describes. Thus, the obvious inconsistencies between the calculations 
+    % and observations can be observed.
+
+    \singleFig{j0218_twolayer_cur.png}{0.37}{The observed gamma-ray spectrum of PSR 
+      J0218+4232 compared with the two-layer model.}
+    \singleFig{b1821_twolayer_cur.png}{0.37}{The gamma-ray spectrum of PSR B1821$-$24 by 
+      the two-layer model.}
+    \singleFig{j1939_twolayer_cur.png}{0.34}{The gamma-ray spectrum of PSR B1937+21 by 
+      the two-layer model. (blue line)}
+
+        % \mayChange{I wanted to combine the three figures together, if I do so, each 
+        %   figure is too small.}
+        
+    \begin{table}[!htp]
+      \centering
+      \scalebox{0.9}{
+      \begin{tabular}{|cccc|}
+        \hline
+        Pulsar Name & $f$ & $g_1$ & $h_1/h_2$ \\ 
+        \hline \hline
+        J0218+4232 & 0.330 & 0.920 & 0.915 \\
+        B1821$-$24 & 0.247 & 0.955 & 0.920 \\
+        B1937+21 & 0.320 & 0.975 & 0.925 \\
+        \hline 
+      \end{tabular}}
+      \caption[The results of fit parameters for the three MSPs.]
+        {The results of fit parameters for the three MSPs. The physical 
+        meaning of each parameter is consistent with the two-layer model described above.}
+        % \change{Table is ugly, but not sure how to make it more beautiful...}}
+      \label{table: twolayer_fit_parameter}
+    \end{table}
+    \vspace{0.5cm}
+          
+    After obtaining the spectral fit results in the gamma-ray band, I then generated 
+    broadband spectra as Figures \ref{fig: j0218_twolayer_all.png}, 
+    \ref{fig: b1821_twolayer_all.png}, and \ref{fig: j1939_twolayer_all_ave.png} show. 
+    The hard X-ray data are from \cite{0004-637X-845-2-159}. By tweaking the independent 
+    parameters of the two-layer model, I can make the modeled spectra 
+    very close to the observational data in the hard X-ray bands. Since the lack of data in 
+    the energy band from about $100$keV to $100$MeV, it is hard to tell if the two-layer model 
+    describes the right physical scenario in this energy range. However, the prediction made 
+    by the simplified two-layer model is generally accurate. In addition, the model is very 
+    intuitive, which is also a very important consideration for building a model. Just as 
+    the famous words "With four parameters I can fit an elephant, and with five I 
+    can make him wiggle his trunk" 
+    said by John von Neumann, in principle, we can fit any data by adding independent 
+    parameters. Therefore, in order to test if a theoretical model is good or not, not only we 
+    need to consider how precisely the model can predict, but also the physical meaning 
+    behind the model. In this sense, the two-layer model is a good start of explaining 
+    emission mechanism of pulsars. 
+    
+    \begin{figure}[!htp]
+      \centering 
+      \includegraphics[scale=0.37]{j0218_twolayer_all.png}
+      \caption[The broadband spectrum of PSR J0218+4232.]
+        {The broadband spectrum of PSR J0218+4232.
+        The grey shade is the error of the global fit. And the green shade in the left panel of 
+        the figure represents the error of hard X-ray spectrum. The `Total' legend represents the 
+        total flux combining the synchrotron radiation, inverse-Compton radiation and curvature 
+        radiation altogether.}
+      \label{fig: j0218_twolayer_all.png}
+    \end{figure}
+
+    % \singleFig{j0218_twolayer_all.png}{0.37}{The broadband spectrum of PSR J0218+4232.
+    %   The grey shade is the error of the global fit. And the green shade in the left panel of 
+    %   the figure represents the error of hard X-ray. The 'Total' legend represents the total 
+    %   flux combining the Synchrotron radiation, inverse Compton radiation and curvature 
+    %   radiation altogether.}
+    \vspace{0.5cm} 
+    \begin{figure}[!htp]
+      \centering 
+      \includegraphics[scale=0.37]{b1821_twolayer_all.png}
+      \caption[Broadband spectrum of PSR B1821$-$24.]
+        {The broadband spectrum of PSR B1821$-$24. The meanings of grey shade and the green 
+        shade are the same as Figure \ref{fig: j0218_twolayer_all.png}.}
+      \label{fig: b1821_twolayer_all.png}
+    \end{figure}
+
+    % \singleFig{b1821_twolayer_all.png}{0.37}{The broadband spectrum of PSR B1821$-$24.
+    %   The meanings of grey shade and the green shade are the same as Figure 
+    %   \ref{fig: j0218_twolayer_all.png}.}
+    \vspace{0.5cm} 
+      
+    \begin{figure}[!htp]
+      \centering 
+      \includegraphics[scale=0.37]{j1939_twolayer_all_ave.png}
+      \caption[The broadband spectrum of PSR B1937+21.]
+        {The broadband spectrum of PSR B1937+21. The meanings of grey shade and the green 
+        shade are the same as Figure \ref{fig: j0218_twolayer_all.png}.}
+      \label{fig: j1939_twolayer_all_ave.png}
+    \end{figure}
+
+    % \singleFig{j1939_twolayer_all_ave.png}{0.39}{The broadband spectrum of PSR B1937+21.
+    %   The meanings of grey shade and the green shade are the same as Figure
+    %   \ref{fig: j0218_twolayer_all.png}}
+    \vspace{0.5cm}        
+
+  
+
+\chapter{Discussion}
+  The parameters $f$, $g_1$, and $h_1/h_2$ have different impacts on the shapes of 
+  the gamma-ray spectra as Figures \ref{fig: j0218_test_f}, \ref{fig: j0218_test_g1}, and 
+  \ref{fig: j0218_test_ratio} show. The parameter $f$ controls the flux and cutoff energy
+  ($\text{E}_{\text{cut}}$) of the spectra. Both the flux and $\text{E}_{\text{cut}}$ increase 
+  with the increases of $f$. Moreover, this parameter has the most significant impacts on 
+  the shape of the spectra. 
+  The parameter $g_1$ mainly affects $\text{E}_{\text{cut}}$.
+  Additionally, when $g_1$ is large enough (larger than $0.98$), the shapes of the spectra 
+  becomes a little bit irregular. 
+  The parameter which has the strangest influences on the spectra is $h_1/h_2$. As Figure
+  \ref{fig: j0218_test_ratio} shows, the spectra are classified into two groups with 
+  different cutoff energies. In each group, $h_1/h_2$ has nearly no impact on 
+  $\text{E}_{\text{cut}}$. In addition, it also has small effects on the slopes of the 
+  spectra below $\text{E}_{\text{cut}}$. 
+  Like $g_1$, if $h_1/h_2$ becomes too large, the shapes of the spectra are a little 
+  bit irregular. I have not found a convincing explanation yet and not sure if it reveals 
+  some emission properties or just numerical errors when the parameters become too extreme. 
+
+  The patterns discussed above only apply to a particular pulsar. For instance, 
+  the values of $f$ of PSRs J0218+4232 and B1821$-$24 are $0.330$ and $0.247$.
+  Thus $\text{E}_{\text{cut}}$ of PSR J0218+4232 should be larger than PSR B1821$-$24 because 
+  $f$ has the most significant effects on the shapes of the spectra among the three parameters.  
+  However, $\text{E}_{\text{cut}}$ is $3.77\pm0.40$ GeV for PSR J0218+4232 and 
+  $4.5\pm0.71$ GeV for PSR B1821$-$24, which is not consistent with the 
+  previous discussions. In addition, other pulsars does not follow the pattern neither as 
+  Table \ref{table: two_layer_other_parameters} shows. This may be because that the spectral 
+  properties are related to the sizes of light cylinders, magnetic fields at the light 
+  cylinders, inclination angles and many other properties of pulsars. The three parameters 
+  of the two-layer model describe the structure of the outer gap of a particular pulsar. 
+  % In addition, the two-layer model used in the thesis is oversimplified,
+  Therefore, we may not get much information by comparing the three parameters between 
+  different pulsars. 
+
+  \begin{figure}[!htp]
+    \centering 
+    \includegraphics[scale=0.45]{j0218_test_f.png}
+    \caption[Effects of $f$ on the shape of the gamma-ray spectrum.]
+      {Effects of $f$ on the shape of the gamma-ray spectrum. The parameters of PSR 
+      J0218+4232 are used. The other two parameters are $g_1=0.92$ and $h_1/h_2=0.915$. }
+    \label{fig: j0218_test_f}
+  \end{figure}
+
+  \begin{figure}[!htp]
+    \centering 
+    \includegraphics[scale=0.45]{j0218_test_g1.png}
+    \caption[Effects of $g_1$ on the shape of the gamma-ray spectrum.]
+      {Effects of $g_1$ on the shape of the gamma-ray spectrum. The parameters of PSR 
+      J0218+4232 are used and $f=0.33$, $h_1/h_2=0.915$.}
+    \label{fig: j0218_test_g1}
+  \end{figure}
+
+  \begin{figure}[!htp]
+    \centering 
+    \includegraphics[scale=0.45]{j0218_test_ratio.png}
+    \caption[Effects of $h_1/h_2$ on the shape of the gamma-ray spectrum.]
+      {Effects of $h_1/h_2$ on the shape of the gamma-ray spectrum. The parameters of PSR 
+      J0218+4232 are used and $f=0.33$, $g_1=0.92$.}
+    \label{fig: j0218_test_ratio}
+  \end{figure}
+
+  \begin{table}[!htp]
+    \centering 
+    \scalebox{0.9}{
+      \begin{tabular}{|ccccccc|}
+        \hline 
+        Pulsar Name & $P$ (ms) & $f$ & $g_1$ & $h_1/h_2$ & $\makecell{E_{\text{cut}}\\ (\text{GeV})}$ & \makecell{Energy Flux  \\ ($10^{-11}$ erg $\text{cm}^{-2}$ $\text{s}^{-1}$)} \\
+        \hline \hline 
+        J0633+1746 & $237$ & $0.76$ & $0.85$ & $0.933$ & $2.2\pm0.1$ & $423.3\pm1.2$ \\ 
+        J0835-4510 & $89.3$ & $0.16$ & $0.92$ & $0.927$ & $3.0\pm0.1$ & $906\pm2$ \\ 
+        J0007+7303 & $316$ & $0.65$ & $0.94$ & $0.967$ & $4.7\pm0.2$ & $40\pm0.4$ \\ 
+        J1057-5226 & $197$ & $0.60$ & $0.85$ & $0.933$ & $1.4\pm0.1$ & $29.5\pm0.3$ \\
+        J0030+0451 & $4.9$ & $0.60$ & $0.88$ & $0.947$ & $1.8\pm0.2$ & $6.14\pm0.18$ \\ 
+        J0437-4715 & $5.8$ & $0.38$ & $0.95$ & $0.927$ & $1.1\pm0.3$ & $1.67\pm0.11$ \\
+        \hline
+      \end{tabular}}
+      \caption[The best-fit parameters of the two-layer model and observational properties 
+        for a few pulsars]
+        {The best-fit parameters of the two-layer model and observational properties 
+        for a few pulsars. Both young pulsars and MSPs are included. }
+      \label{table: two_layer_other_parameters}
+  \end{table}
+  \section{Constraints of the Two-Layer Model} 
+    The simplified two-layer model is consistent with observational data to some extent. 
+    (The relevant data are reported by \cite{0004-637X-720-1-178})
+    The model uses four parameters to get a fairly good prediction of the gamma-ray 
+    spectra of many pulsars. And all these four parameters have very obvious physical 
+    meanings. However, the problems of the model are clear --- it is somewhat 
+    oversimplified. Although there are other more sophisticated versions of the 
+    two-layer model such as three-dimensional two-layer model 
+    \cite{doi:10.1111/j.1365-2966.2011.18577.x} and I used the simpler 
+    one, which may cause some inconsistencies between the simulations and observations. 
+
+    Therefore, we can briefly analyze which part is oversimplified and can be improved. 
+    First of all, we directly use a step function to describe the charged particle 
+    distribution. Though the charge density of the screening region is much larger than 
+    the primary region, using a step function is not very physical and may exaggerate 
+    the change rate of charge density. At the same time, the dramatic change of charge 
+    density also brings some numerical instabilities.
+
+    Secondly, the model sets the total of screening region and primary region to be 
+    rectangular. Though the actual shape is not clear, it should not be a 
+    rectangular in theory and may be very different. In the numerical simulation, changes 
+    in the shape of the regions will directly lead to a different integration region, 
+    which may change the simulated spectra.
+  
+    Thirdly, there are some inconsistencies in the model itself according to its 
+    assumptions. According to Equation \ref{eq: curvature_radiation_power} and Equation 
+    \ref{eq: gamma_can_be_zero}, since $E_{\parallel}^{\prime}$ can be $0$, we know that 
+    $\gamma_{e}$ can also be $0$, which is absolutely non-physical. Although this may not 
+    have large influences on the spectra, it is the problem that should be avoided.
+
+    All in all, though the model has some constraints, it is very physical and the gamma-ray 
+    spectra computed based on the model is generally consistent with the observational data.
+
+    % Those models may have addressed the problems described above, but the model used in 
+    % the thesis do have some defects.  
+
+  \section{Inconsistency Between the Two-Layer \\ Model and Fit Results}
+    As Figures \ref{fig: j0218_twolayer_all.png}, \ref{fig: j1939_twolayer_all_ave.png}, and 
+    \ref{fig: b1821_twolayer_all.png} show, the two-layer model does not fit well for all 
+    three MSPs in the lower gamma-ray band (about $100$ MeV), even though
+    I have tried different reasonable parameter combinations.  
+    I think it is because the two-layer model used in the thesis is oversimplified. In 
+    most cases, the spectrum produced by the theoretical model is not monotonic and highly 
+    curved. However, the global fits of the PLEC model are usually very flat from $100$MeV 
+    to $500$MeV. This means that I can hardly reproduce the similar shape in this energy 
+    range, no matter what parameters I used. The fact that the gamma-ray emission predicted
+    by the two-layer model is not as strong as the observational data in the energy range 
+    from $100$MeV to $500$MeV may also be explained by inverse-Compton radiation. 
+
+    % This could be attributed to a few reasons. 
+    % First of all, 
+    % the energy resolution of \textit{Fermi} LAT in a few hundred MeV is not as good as in 
+    % other gamma-ray bands. Secondly, the energy band of several hundred MeV, the 
+    % signal-to-noise is low compared with high energy part. By directly analyzing the 
+    % events files, I find that about $90\%$ of the photons are between $100$MeV and $1000$MeV 
+    % and the background is too bright compared with the target sources. 
+    
+    
+   
+
+    % Generally speaking, the modeled spectra for the three MSPs are acceptable. Just as 
+    % we have discussed in the data analysis part that global fits are not very consistent 
+    % with separate fits in low energy gamma-ray band (about $100\mbox{MeV} - 500\mbox{MeV}$) 
+    % and high energy band (above $10 \mbox{GeV}$), the modeled spectra also have the same 
+    % problem. This can have two explanations. Firstly, the Fermi telescope is not sensitive 
+    % below about $100 \mbox{MeV}$. As a result, the observational data may not be very precise
+    % at this energy band. Secondly, the real emission mechanism in the energy band is different 
+    % from the model describes. Thus, the obvious inconsistencies between the calculations 
+    % and observations can be observed.
+  
+\chapter{Conclusion and Future Works}
+  \section{Conclusion}
+    I do phase-averaged gamma-ray spectral analysis with about nine-year \textit{Fermi} LAT
+    data for PSRs J0218+4232, B1821$-$24 and B1937+21. The fit results are listed in Tables 
+    \ref{table: final_results} and \ref{table: final_results_j1939_pl}. The new results 
+    have smaller error bars thanks to Pass 8 dataset and much more observational data.
+    Meanwhile, the TS values for PSRs J0218+4232 and B1821$-$24 are larger than previous 
+    studies as Table \ref{table: final_results} shows. For PSR B1937+21, the power-law 
+    model is preferred since $TS_{cut} = 2\Delta log(likelihood) = -2.86 < 9$ and I follow 
+    the convention in \cite{0067-0049-208-2-17} like the previous study
+    \cite{0004-637X-787-2-167}.
+
+    I also use the two-layer model to generate gamma-ray spectra for the three MSPs and obtain 
+    broadband spectra by combining inverse-Compton scattering and synchrotron radiation.
+    The broadband spectra for the three MSPs are generally consistent with the observation 
+    in both hard X-rays and gamma-rays, except in a few hundred MeV energy range. Thus, it 
+    is reasonable to speculate that the radio and gamma-ray emission regions are co-located. 
+
+  \section{Analysis With LAT 8-year Point Source List}
+    The latest preliminary LAT 8-year Point Source List (FL8Y) is released 
+    on May 03, 2018. Since the release date is a little bit late and the point source list 
+    is a preliminary version, I have not finished all the spectral analysis with the data.
+    However, I would like to show some results I have done with the new source list
+    together with my further plan.
+
+    Some spectra models are changed, for instance, the expression of PLSuperExpCutoff model 
+    has been changed as Equation \ref{eq: new_fermi_model} shows \footnote[1]%
+    {\url{https://fermi.gsfc.nasa.gov/ssc/data/access/lat/fl8y/FL8Y_description_v8.pdf}}%\cite{newFermiModel}.
+    \begin{equation}
+      \frac{dN}{dE} = K\left(\frac{E}{E_0}\right)^{\Gamma} e^{a\left(E_0^b-E^b\right)} . 
+      \label{eq: new_fermi_model}
+    \end{equation}
+    Particularly, Fermi tools combine the $E_0^b$ with $K$ as Equation 
+    \ref{eq: new_fermi_model_modified} shows and the model is renamed to PLSuperExpCutoff2. 
+    \begin{equation}
+      \frac{dN}{dE} = K\left(\frac{E}{E_0}\right)^{\Gamma} e^{-aE^b} .
+      \label{eq: new_fermi_model_modified}
+    \end{equation}
+    In principle, there is no difference between the Equations \ref{eq: fermi_model} and 
+    \ref{eq: new_fermi_model_modified}, however, the parameters needed to be fitted are 
+    different. The new point source list contains the source PSR B1937+21 and the default 
+    spectra model is PLEC2. However, the fit results for the MSP are still not easy 
+    to obtain. Table \ref{table: new_results_all_three} lists the fit parameters for all 
+    the three MSPs.
+    % \begin{table}[!htp]
+    %   \centering
+    %     \scalebox{0.8}{
+    %     \begin{tabular}{|cccc|}
+    %       \hline
+    %       & J0218+4232 & B1821$-$24 & B1937+21 \\
+    %       \hline \hline 
+    %       Photon Index ($\Gamma$) & $1.77\pm0.07$ & $1.14\pm0.02$ & $1.84\pm0.03$ \\
+    %       Expfactor (a, $10^{-3}$) & $6.73\pm0.86$ & $11.76\pm0.12$ & $6.77\pm0.25$ \\
+    %       Scale ($E_0$) & $821.48$ & $1128.68$ & $1901$ \\ 
+    %       Index2 (b) & $0.67$ & $0.67$ & $0.67$ \\
+    %       Photon Flux ($10^{-8}$ $cm^{-2} s^{-1}$) & $7.44\pm0.32$ & $2.44\pm0.08$ & $3.00\pm0.19$ \\
+    %       Energy Flux ($10^{-11}$ erg $cm^{-2} s^{-1}$) & $4.45\pm0.16$ & $2.08\pm0.04$ & $1.69\pm0.06$ \\
+    %       TS value & $7189$ &  $980$  & $149$ \\
+    %       \hline
+    %     \end{tabular}}  
+    %     \mycaption{Fit results of PSRs J0218+4232, B1821$-$24 and B1937+21 with 
+    %       LAT 8-year Point Source List.}
+    %     \label{table: new_results_all_three}        
+    % \end{table}  
+
+    \begin{table}[!htp]
+      \centering
+        \scalebox{0.8}{
+        \begin{tabular}{|ccc|}
+          \hline
+          & J0218+4232 & B1821$-$24  \\
+          \hline \hline 
+          Photon Index ($\Gamma$) & $1.77\pm0.07$ & $1.14\pm0.02$  \\
+          Expfactor (a, $10^{-3}$) & $6.73\pm0.86$ & $11.76\pm0.12$  \\
+          Scale ($E_0$) & $821.48$ & $1128.68$  \\ 
+          Index2 (b) & $0.67$ & $0.67$  \\
+          Photon Flux ($10^{-8}$ $\text{cm}^{-2} \text{s}^{-1}$) & $7.44\pm0.32$ & $2.44\pm0.08$ \\
+          Energy Flux ($10^{-11}$ erg $\text{cm}^{-2} \text{s}^{-1}$) & $4.45\pm0.16$ & $2.08\pm0.04$  \\
+          TS value & $7189$ &  $980$  \\
+          \hline
+        \end{tabular}}  
+        \mycaption{Fit results of PSRs J0218+4232 and B1821$-$24 with LAT 8-year Point 
+          Source List.}
+        \label{table: new_results_all_three}        
+    \end{table}  
+  
+    The TS values for PSRs J0218+4232 and B1821$-$24 are both a little bit larger as Table 
+    \ref{table: new_ts_compare} shows. Figures \ref{fig: j0218_new_cur} and 
+    \ref{fig: b1821_new_cur} are the fit spectra of the PSRs
+    J0218+4232 and B1821$-$24. I still have not got a good fit result for PSR B1937+21 because 
+    this MSP takes more effort which is the same case as the 3FGL. Besides, the fit 
+    results for the two MSPs are also not the final results because I only have tried a 
+    few spectra models and have not compared the likelihood and TS values between different 
+    models. 
+
+    Figures \ref{fig: new_j0218_count_spectra} and \ref{fig: new_b1821_count_spectra} are 
+    count spectra and count residuals plot for the two MSPs. 
+    \begin{table}[!htp]
+      \centering
+        \scalebox{0.8}{
+        \begin{tabular}{|ccc|}
+          \hline
+          & J0218+4232 & B1821$-$24\\
+          \hline \hline 
+          FL8Y & $7189$ & $980$  \\ 
+          3FGL & $6809$ & $941$ \\ 
+          \hline
+        \end{tabular}}  
+        \mycaption{TS values comparison between 3FGL (older) and FL8Y (newer) source list.}
+        \label{table: new_ts_compare}        
+    \end{table}  
+    
+
+    \begin{figure}[!htp]
+      \centering 
+      \includegraphics[scale=0.4]{j0218_new_cur.png}
+      \caption{Gamma-ray spectra of PSR J0218+4232 with PLEC2 model.}
+      \label{fig: j0218_new_cur}
+    \end{figure}
+
+    \begin{figure}[!htp]
+      \centering 
+      \includegraphics[scale=0.4]{b1821_new_cur.png}
+      \caption{Gamma-ray spectra of PSR B1821$-$24 with PLEC2 model.}
+      \label{fig: b1821_new_cur}
+    \end{figure}
+
+    %% add figure for j1939 
+
+    \begin{figure}[!htp]
+      \centering 
+      \includegraphics[scale=0.36]{new_j0218_count_spectra.png}
+      \caption{Count spectra and residuals of PSR J0218+4232}
+      \label{fig: new_j0218_count_spectra}
+    \end{figure}
+
+    \begin{figure}[!htp]
+      \centering 
+      \includegraphics[scale=0.36]{new_b1821_count_spectra.png}
+      \caption{Count spectra and residuals of PSR B1821$-$24.}
+      \label{fig: new_b1821_count_spectra}
+    \end{figure}
+    
+
+    \section{Future Works}
+      LAT 8-year Point Source List is only a preliminary list and 4FGL is being processed. 
+      I will continue to analyze the gamma-ray spectra of the three MSPs with the 
+      newer point source list in order to get more precise results. In addition, since 
+      \textit{Fermi} LAT is producing large quantities of data, it is important to be able 
+      to handle the data effectively. I have created some pipeline scripts and am going to
+      improve them, which can help me to study more pulsars with higher efficiency.
+      Additionally, I am going to study the two-layer model more thoroughly and other 
+      emission models, then compare the predictions of the models with newer observational data.
+
+
+    % \begin{thebibliography}{9}
+
+
+% \end{thebibliography}
+
+% setting for reference 
+\printbibliography
+ 
+\end{document}
+
+
+
+
+

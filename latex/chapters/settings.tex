@@ -1,0 +1,133 @@
+\renewcommand{\arraystretch}{2}
+\renewcommand{\bibname}{REFERENCES}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    %linkcolor=[RGB]{0,204,0},
+    linkcolor=black,
+    urlcolor=black
+}
+
+% \captionsetup[figure]{labelfont=bf, font=footnotesize}
+
+\setlength{\parskip}{1em}
+% \setcounter{tocdepth}{4}
+% \setcounter{secnumdepth}{4}
+
+%this several lines is for: no number before suction. (This is a bug)
+\makeatletter
+\patchcmd{\ttlh@hang}{\parindent\z@}{\parindent\z@\leavevmode}{}{}
+\patchcmd{\ttlh@hang}{\noindent}{}{}{}
+\makeatother
+
+
+\geometry{
+	a4paper,
+	% total={210mm,297mm},
+ 	left=30mm,
+ 	top=30mm,
+  right=30mm,
+  bottom=30mm,
+}
+
+\newcommand{\mycaption}[1]{\protect \caption{#1}}
+%Below is the main content.
+
+%insert a single figure.
+%parameters: 
+%%  1. path
+%%  2. scale
+%%  3. caption
+\newcommand{\singleFig}[3]{
+  \begin{figure}[!htp]
+    \centering
+    \includegraphics[scale=#2]{#1}
+    \caption{#3}
+    \label{fig: #1}
+  \end{figure}
+}
+
+\newcommand{\doubleFig}[6]{
+  \begin{figure}[!ht]  
+    \begin{center}
+    \begin{minipage}{0.45\textwidth}
+      \begin{center} 
+          \includegraphics[scale=#2]{#1}
+      \end{center}
+    \end{minipage}
+    \begin{minipage}{0.45\textwidth}
+      \begin{center} 
+          \includegraphics[scale=#4]{#3}
+      \end{center}
+    \end{minipage}
+  \end{center}
+  \begin{center}
+    \caption[#5]{#6}
+    \label{fig: #1-#3} 
+    \end{center} 
+  \end{figure}
+}
+
+
+\newcommand{\gj}[0]{
+  Goldreich-Julian charge density
+}
+
+\newcommand{\fgl}[0]{
+  \textit{Fermi} LAT four-year Point Source Catalog
+}
+
+\newcommand{\question}[1]{
+  $<$\textbf{question}$>$#1$<$\textbf{/question}$>$
+}
+
+\newcommand{\change}[1]{
+  $<$\colorbox{red}{\textbf{change}}$>$#1$<$\colorbox{red}{\textbf{/change}}$>$
+}
+
+\newcommand{\add}[1]{
+  $<$\colorbox{red}{\textbf{add}}$>$#1$<$\colorbox{red}{\textbf{/add}}$>$
+}
+
+\newcommand{\mayAdd}[1]{
+  $<$\colorbox{red}{\textbf{mayAdd}}$>$#1$<$\colorbox{red}{\textbf{/mayAdd}}$>$
+}
+
+
+\newcommand{\mayChange}[1]{
+  $<$\colorbox{red}{\textbf{mayChange}}$>$#1$<$\colorbox{red}{\textbf{/mayChange}}$>$
+}
+
+\newcommand{\myComment}[1]{
+  %#1 
+  \newline
+}
+
+\newcommand{\Notice}[1]{
+  $<$\textbf{Notice}$>$#1$<$\textbf{/Notice}$>$
+}
+
+\newcommand{\blackhref}[2]{
+  \href{#1}{\color{black}{\textit{\small #2}}}
+}
+
+
+\newcommand\aj{AJ}
+
+\newcommand\apj{ApJ}
+
+\newcommand\apjl{ApJL}
+
+\newcommand\apjs{ApJS}
+
+\newcommand\araa{ARA\& A}
+
+\newcommand\mnras{MNRAS}
+
+\newcommand\nat{Nature}
+
+\newcommand\pasp{PASP}
+
+\newcommand\procspie{Proc. SPIE}
+

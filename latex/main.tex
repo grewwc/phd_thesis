@@ -1,0 +1,103 @@
+\documentclass[a4paper, 12pt]{report}
+\usepackage{geometry}	
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{multicol}
+\usepackage{titlesec}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{textcomp}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{comment}
+\usepackage{etoolbox}
+\usepackage{anyfontsize}
+\usepackage{url}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{tabu}
+\usepackage{color}
+\usepackage{epigraph}
+\usepackage{makebox}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{setspace}
+\usepackage{natbib}
+\usepackage{mathrsfs}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{makecell}
+\usepackage[hang, flushmargin]{footmisc}
+\usepackage[colorlinks=false]{hyperref}
+\usepackage{footnotebackref}
+
+\captionsetup{font={stretch=1.2}}
+\usepackage[english]{babel}
+\graphicspath{{C:/Users/User/Desktop/images/}}
+
+% BASIC FORMAT SETTINGS
+\input{chapters/settings}
+
+\title{\textbf{Identify Exoplanet Candidates with Deep Learning Models} \\ \vspace{1cm}
+  {\large Department of Physics, The University of Hong Kong, Pokfulam Road, Hong Kong}}
+
+\date{}
+\author{Wang Wenchao  \\3030053350}
+\setlength{\columnsep}{1cm}
+
+
+\begin{document}
+
+\input{chapters/title}
+
+\bibpunct{(}{)}{;}{a}{}{,}
+\bibliographystyle{apj}
+
+\linespread{1.25}
+\maketitle
+
+\pagenumbering{roman}
+
+% DECLERATION
+\input{chapters/declaration}
+
+% ACKNOWLEDGMENTS
+\input{chapters/acknowledgements}
+
+% ABSTRACT
+\input{chapters/abstract}
+
+\tableofcontents
+
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{\listfigurename}
+\listoffigures
+% \newpage
+
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{\listtablename}
+% \newpage
+
+\pagenumbering{arabic}
+ 
+\cleardoublepage
+\newpage
+\listoftables
+
+% INTRODUCTION
+\input{chapters/introduction}
+
+% DATA PREPARATION
+\input{chapters/data_preparation.tex}
+
+% setting for reference 
+\bibliography{bibfile}
+
+\end{document}
+
+
+
+
+

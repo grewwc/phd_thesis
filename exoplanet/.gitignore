@@ -1,0 +1,9 @@
+__pycache__/
+/**/*.h5
+nohup.out
+log/
+.idea/
+.vscode/
+.pytest_cache/
+models/*.h5
+

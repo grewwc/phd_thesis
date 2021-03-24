@@ -1,0 +1,7 @@
+test
+**/.ipynb_checkpoints
+*.aux
+*.gz
+*.toc
+*.out
+*.fdb_latexmk

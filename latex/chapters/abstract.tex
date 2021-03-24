@@ -1,0 +1,34 @@
+\cleardoublepage
+\chapter*{Abstract}
+  \doublespacing
+  \noindent The work is about identifying planet candidates using deep learning models.
+  Finding these objects manually is a very labor intensive task.
+  For example, \textit{The Large
+      Synoptic Survey Telescope (LSST)} is expected to generate about
+  $200,000$ images per year, which is equivalent of more than
+  $10^{6}$ GB of data. Therefore using reliable algorithms to
+  manage the data is necessary. Deep learning can be helpful
+  because it suits well for very large input data. In general,
+  having more data only makes deep learning models perform better.
+  
+  \vspace{\baselineskip}
+  
+  \noindent We use \textit{Kepler Space Telescope} and
+  \textit{Transiting Exoplanet Survey Satellite} (\textit{TESS})
+  to detect planet candidates by using a convolutional neural
+  network model. We apply the Q1-Q17 (DR24) table as our training
+  and test sets. The model takes
+  two phase-folded light curves and some parameters of each transit-like signal
+  and then outputs whether the signal represents a planet candidate (PC), 
+  a non-transiting phenomena (NTP) or a false positive (FP).
+  In the current model, we feed 17 features into a dense neural network
+  model, such as transit durations and depth of signals.
+  At this stage, the models achieve AUROC and accuracy
+  of about $97.7\%$, $95.9\%$ respectively for the test set.
+  The accuracy for the training set can be over $99\%$, which means that
+  the model can easily overfit the data. The most straightforward way to the
+  problem is to use more data to train the model.
+  Therefore, we plan to train it with more simulated data later in order to
+  increase the AUROC and accuracy of predictions.
+			
+\addcontentsline{toc}{chapter}{Abstract}

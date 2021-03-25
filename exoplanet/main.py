@@ -111,7 +111,7 @@ def main():
             num=np.inf, overwrite=overwrite)
 
     if parsed_args.gen_all_dr24:
-        write_global_and_local_PC()
+        write_global_and_local_PC(processes=2)
 
     if parsed_args.gen_dr25_flux:
         write_dr25()

@@ -930,7 +930,7 @@ def write_global_and_local_PC(processes=32):
 
     count = 1
     f = open('./failed.txt', 'w')
-    for kepid in kepids:
+    for kepid in kepids[:10]:
         try:
             time, flux = get_time_flux_by_ID(kepid)
             targets = df_clean[df_clean['kepid'] == kepid]

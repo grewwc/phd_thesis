@@ -95,11 +95,13 @@ def remove_points_other_tce(all_time,
             continue
         fold_time = all_time % period
         t0 %= period
-        half_duration = duration / 2.0
-        mask = np.logical_or(fold_time > t0 + half_duration,
-                             fold_time < t0 - half_duration)
-        all_time = all_time[mask]
-        all_flux = all_flux[mask]
+        half_duration = duration / 1.0
+        while (t0 + half_duration) <= period:
+            mask = np.logical_or(all_time > t0 + half_duration,
+                                all_time < t0 - half_duration)
+            all_time = all_time[mask]
+            all_flux = all_flux[mask]
+            t0 += period
 
     return all_time, all_flux
 
@@ -160,14 +162,14 @@ def flatten_interp_transits(all_time, all_flux, period, t0, duration):
     """
     fold_time = all_time % period
     t0 %= period
-    half_duration = duration / 2.0
+    half_duration = duration / 1.0
     mask = np.logical_and(fold_time <= t0 + half_duration,
                           fold_time >= t0 - half_duration)
 
     tce_time, tce = all_time[mask], all_flux[mask]
 
     lc = LightCurve(all_time, all_flux).flatten(
-        window_length=201, polyorder=2, break_tolerance=40, sigma=3
+        window_length=301, polyorder=2, break_tolerance=40, sigma=3
     )
 
     all_time, flat_flux = lc.time, lc.flux
@@ -193,7 +195,7 @@ def process_global(time, flux, period, t0, duration):
 
     time, flux = fold(time, flux, period, t0)
 
-    bin_width = period / num_bins
+    bin_width = 1
     # if period < 1:
     #     bin_width *= 40
     # elif period < 10:

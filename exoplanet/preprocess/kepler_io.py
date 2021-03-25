@@ -311,7 +311,7 @@ def write_flux_by_IDs(kepids,
                       num_bins=num_bins,
                       scramble_id=None):
     """
-    write to "${train_root_dir}/flux/${label}kepid[:4]/kepid/flux_p[i].txt"
+    write to "${train_root_dir}/flux/${label}kepid[:4]/kepid/flux_p[i].npy"
     flux_p[i]: some kepid may have multiple periods
     """
     periods, durations, first_epochs = \
@@ -364,7 +364,9 @@ def write_flux_by_IDs(kepids,
 
             binned = process_global(time, flux, p, t0, duration)
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            np.savetxt(fname, binned)
+            # np.savetxt(fname, binned)
+            np.save(fname, binned)
+            
 
 
 def get_binned_normalized_flux_by_IDs(kepids,
@@ -403,9 +405,9 @@ def get_binned_normalized_flux_by_IDs(kepids,
             )
 
             if label == '1':
-                pc.append(np.loadtxt(fname).reshape(1, -1))
+                pc.append(np.load(fname).reshape(1, -1))
             else:
-                non_pc.append(np.loadtxt(fname).reshape(1, -1))
+                non_pc.append(np.load(fname).reshape(1, -1))
 
         count += 1
         write_info(f'{count / kepids_len * 100: .2f}%')
@@ -470,7 +472,7 @@ def get_binned_normalized_PC_flux(num=1,
             and not overwrite:
         print('argument "return_kepids" is ignored')
         with load_ctx(all_pc_flux_filename):
-            res = np.loadtxt(all_pc_flux_filename)
+            res = np.load(all_pc_flux_filename)
         return res
 
     if shuffle:
@@ -519,7 +521,7 @@ def get_binned_normalized_Non_PC_flux(num=1,
     if num == np.inf and os.path.exists(all_non_pc_flux_filename) \
             and not overwrite:
         with load_ctx(all_non_pc_flux_filename):
-            res = np.loadtxt(all_non_pc_flux_filename)
+            res = np.load(all_non_pc_flux_filename)
         return res
 
     if shuffle:
@@ -705,10 +707,10 @@ def get_binned_local_view_by_IDs(kepids,
                 np.savetxt(fname, binned_flux, fmt=_float_fmt)
             # read from the file
             if label == '1':
-                pc.append(np.loadtxt(fname).reshape(1, -1))
+                pc.append(np.load(fname).reshape(1, -1))
             else:
                 test += 1
-                non_pc.append(np.loadtxt(fname).reshape(1, -1))
+                non_pc.append(np.load(fname).reshape(1, -1))
         count += 1
     if merge:
         pc = np.concatenate(pc) if len(pc) != 0 else None
@@ -730,7 +732,7 @@ def get_local_binned_normalized_PC_flux(num=1,
     if num == np.inf and os.path.exists(local_all_pc_flux_filename) \
             and not overwrite:
         with load_ctx(local_all_pc_flux_filename):
-            res = np.loadtxt(local_all_pc_flux_filename)
+            res = np.load(local_all_pc_flux_filename)
             return res
 
     if shuffle:
@@ -773,7 +775,7 @@ def get_local_binned_normalized_Non_PC_flux(num=1,
     if num == np.inf and os.path.exists(local_all_non_pc_flux_filename) \
             and not overwrite:
         with load_ctx(local_all_non_pc_flux_filename):
-            res = np.loadtxt(local_all_non_pc_flux_filename)
+            res = np.load(local_all_non_pc_flux_filename)
         return res
 
     if shuffle:

@@ -155,7 +155,67 @@
         \label{table: params_1162345}
       \end{table}
     
-    \subsection{Remove Long-term Trend}
-      In this thesis, we use a python package called Lightkurve 
+    \subsection{Remove Outliers and Long-term Trend}
+      Before doing further processing to the light curves, we need to remove the outliers 
+      first to increase our model's performance. We just use a simple sigma clip to do the 
+      job. The method firstly derive the median and standard deviation value
+      of the flux ($m, \sigma$). Then any points not within the range of $m \pm n\sigma$ 
+      are removed, where n is a parameter with default value of 3.
+
+      Then we should remove the long-term trend in the light curves. 
+      In this thesis, we use a python package called lightkurve 
       \footnote{https://docs.lightkurve.org/} which internally uses 
-      Savizky-Golay filter to remove the low-frequency trend. 
+      Savizky-Golay filter to remove the low-frequency trend. The lightkurve package 
+      contains an python object called LightKurve which has a "flatten" method. After 
+      some experiments, we change some default parameter values as the following table shown:
+
+      \begin{table}[!htp]
+        \centering
+        \scalebox{0.8}{
+        \begin{tabular}{|c|c|c|c|c|} 
+          \hline 
+           & \textbf{window\_length} & \textbf{polyorder} & \textbf{break\_tolerance} & \textbf{sigma} \\
+          \hline 
+          \textbf{values} & 201 & 2 & 40 & 3 \\
+          \hline
+        \end{tabular}}
+        \centering
+        \caption[Parameter values chosen in the LightKurve flatten method.]
+          {Parameter values chosen in the LightKurve flatten method. The detailed 
+          descriptions of these parameters can be found on the lightkurve official 
+          website.}
+        \label{table: params_1162345}
+      \end{table}
+
+      Take kepid 1164109 for example, the following figures are original normalized flux 
+      and flattened flux. After removing the long-term trend from the original normalized 
+      light curve, the transit signal becomes more clear. 
+
+      \begin{figure}[!ht]  
+        \begin{center}
+        \begin{minipage}{0.45\textwidth}
+          \begin{center} 
+              \includegraphics[scale=0.35]{original__1164109.png}
+          \end{center}
+        \end{minipage}
+        \begin{minipage}{0.45\textwidth}
+          \begin{center} 
+              \includegraphics[scale=0.35]{flattened_1164109.png}
+          \end{center}
+        \end{minipage}
+      \end{center}
+      \begin{center}
+        \caption[Comparison between original light curve and flattened light curve.]
+          {Comparison between original light curve and flattened light curve. The right 
+          panel is the normalized light curve of kepid 1164109 after flattening. }
+        \label{fig: 1164109_comparison} 
+        \end{center} 
+      \end{figure}
+
+    \subsection{Fold and Bin Light Curves}
+      In order to increase the transit signal, we fold the light curves based on the periods
+      fitted by \textit{Kepler} pipeline. 
+
+      
+
+     

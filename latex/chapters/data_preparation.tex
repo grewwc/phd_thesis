@@ -49,9 +49,11 @@
 
   \section{Download Light Curves}
     Light curves are downloaded based on the column name "kepid" in the \textit{Kepler} DR24 
-    data table previously discussed. All the light curves can be found on the website 
-    \blackhref{https://archive.stsci.edu/pub/kepler/lightcurves/0020/}
-    {https://archive.stsci.edu/pub/kepler/lightcurves/0020/}. However, there are 20367 TCE
+    data table previously discussed. There are about 16 fits files which is composed of four 
+    year observation corresponding to a kepid. All the light curves can be found on the 
+    website \blackhref{https://archive.stsci.edu/pub/kepler/lightcurves/0020/}
+    {https://archive.stsci.edu/pub/kepler/lightcurves/0020/}. A tricky thing is that 
+    there are 20367 TCE
     in the table containing more than 330,000 light curve files. Downloading these 
     files can be very time consuming (about 2 weeks by estimation). Therefore, I scrape the 
     webpage in parallel to filter the light curves data and download them. 
@@ -72,13 +74,84 @@
     found on \blackhref{https://github.com/grewwc/exoplanet}{github}.
     In short, the basic procedure is 
     \begin{enumerate}
-      \item Get all the hyper links from the root URL 
-        \blackhref{http://archive.stsci.edu/pub/kepler/lightcurves/}
-        {http://archive.stsci.edu/pub/kepler/lightcurves/}. Join the current URL with 
-        the parsed hyperlinks to generate the new URL. 
-      \item Launch a new goroutine to search from that webpage.
-      \item Get the hyper links from the child URL. If the hyper links are fits files, then 
-        download them to a local directory. Otherwise, as the procedure 1, get the new 
-        URL and launch a new goroutine to do the search recursively.
+      \item Parse all the hyperlinks from the root URL: \\
+        \blackhref{http://archive.stsci.edu/pub/kepler/lightcurves}
+        {http://archive.stsci.edu/pub/kepler/lightcurves}. Join the current URL with 
+        the parsed hyperlinks to generate new URLs. 
+      \item Launch new goroutine to search from the newly generated URLs.
+      \item Get the hyper links from the child URLs. If the hyper links are fits files, 
+        then download them to a local directory in parallel. 
+        Otherwise, as the procedure 1, get new 
+        URLs and launch new goroutine to do the search recursively.
     \end{enumerate}
-  
+
+    Another problem is if I search from too many URL simultaneously, my IP will be blocked
+    temporarily. Therefore, I need to control the total amount of processes. After some 
+    attempts, I find that 200 processes are good enough and all light curves can be 
+    downloaded within 3 hours. The point is data are usually very large and complex 
+    in the field of astronomy, thus dealing with data efficiently is important.
+
+    
+  \section{Light Curves Pre-processing}
+    As previously discussed, the depths of TCE are in general very small and the median 
+    value is around 125 ppm. The following figure is the four-year observation data. 
+    Thus we need to fold the light curves and bin them in order to magnify the effect.
+    Moreover, we can see some data points in the top right side of the figure. We also 
+    need to remove the outliers to improve out model's prediction accuracy.
+    
+    \begin{figure}[!htp]
+      \centering
+      \includegraphics[scale=0.6]{11442793_time_flux.png}
+      \caption[Plot of normalized flux to time of kepid 11442793.]
+        {Plot of normalized flux to time of kepid 11442793. The flux is normalized by 
+        dividing the original flux by their median value.}
+      \label{fig: 11442793_time_flux}
+    \end{figure}
+
+    In addition, there is long-term trend which is clearly not a transit signal
+    in the light curves for some kepids. For example, we can see a clear periodical 
+    fluctuation in the light curve for kepid 1164109 as the following figure shown.
+    The fluctuation has bad effects for the deep learning model, thus even though we don't 
+    have to deal with the long-term trend, removing the trend may increase the model's 
+    performance.
+
+    \begin{figure}[!htp]
+      \centering
+      \includegraphics[scale=0.5]{1164109_time_flux.png}
+      \caption[Plot of normalized flux to time of kepid 1164109.]
+        {Plot of normalized flux to time of kepid 1164109.}
+      \label{fig: 1164109_time_flux}
+    \end{figure}
+
+    Finally, since there may be more than one planet associated with a kepid, we remove 
+    signals of other planets in the same system to avoid interference. The complete 
+    progress of light curves preprocessing is described as follows.
+
+    \subsection{Remove Multiple Signals in the Same Stellar System}
+      The following table shows some useful parameters of TCE for kepid 1162345. 
+      When preprocessing kepid 1162345, we fetch all the TCE --- there are 3 TCE in the stellar 
+      system. Then we process the TCE one by one, with other two TCE removed. The remove logic is simple:
+      mask out the data points within the range [center-duration, center+duration] and return the new 
+      flux and time pairs. 
+
+      \begin{table}[!htp]
+        \centering
+        \scalebox{0.8}{
+        \begin{tabular}{|c|c|c|c|} 
+          \hline 
+          \textbf{tce\_plnt\_number} & \textbf{tce\_period (day)} & \textbf{tce\_duration (hr)} & \textbf{tce\_depth (ppm)} \\
+          \hline 
+          2	& 0.831850 & 2.392 & 2.636\\
+          \hline 
+          3	& 0.831833 & 2.181 & 27.100\\
+          \hline 
+          1	& 0.831777 & 2.349 & 24.270	\\ 
+          \hline 
+        \end{tabular}}
+        \centering
+        \caption[Parameters of three TCE for kepid 1162345.]
+          {Parameters of three TCE for kepid 1162345. When processing the TCE for planet 2, we remove the signals for 
+          planet 1 and 3.}
+        \label{table: params_1162345}
+      \end{table}
+    

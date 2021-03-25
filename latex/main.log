@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2019.8.5)  24 MAR 2021 23:56
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2019.8.5)  25 MAR 2021 18:59
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -574,7 +574,11 @@ File: babel.def 2019/07/19 3.33 Babel common definitions
 \l@newzealand = a dialect from \language\l@british 
 )) (c:/Users/User/Desktop/thesis/latex/chapters/settings.tex
 Package hyperref Info: Option `colorlinks' set `true' on input line 10.
-) (c:/Users/User/Desktop/thesis/latex/main.aux)
+) (c:/Users/User/Desktop/thesis/latex/main.aux
+
+LaTeX Warning: Label `table: difinitions_of_column_names' multiply defined.
+
+)
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 49.
@@ -696,13 +700,13 @@ l.58
 ]) [3
 
 
-] (c:/Users/User/Desktop/thesis/latex/main.toc)
+] (c:/Users/User/Desktop/thesis/latex/main.toc [4
+
+])
 \tf@toc=\write5
 \openout5 = `main.toc'.
 
- [4
-
-] [5] (c:/Users/User/Desktop/thesis/latex/main.lof)
+ [5] (c:/Users/User/Desktop/thesis/latex/main.lof)
 \tf@lof=\write6
 \openout6 = `main.lof'.
 
@@ -723,7 +727,7 @@ l.2 \chapter
 
 ]
 Chapter 1.
-<C:/Users/User/Desktop/images/tce_depth_hist.png, id=123, 433.62pt x 289.08pt>
+<C:/Users/User/Desktop/images/tce_depth_hist.png, id=139, 433.62pt x 289.08pt>
 File: C:/Users/User/Desktop/images/tce_depth_hist.png Graphic file (type png)
 <use C:/Users/User/Desktop/images/tce_depth_hist.png>
 Package pdftex.def Info: C:/Users/User/Desktop/images/tce_depth_hist.png  used on input line 22.
@@ -748,23 +752,29 @@ Overfull \hbox (1.85724pt too wide) in paragraph at lines 15--23
 [6
 
 ]
-<C:/Users/User/Desktop/images/kepid_light_curves_example.PNG, id=160, 1043.69925pt x 533.5935pt>
+<C:/Users/User/Desktop/images/kepid_light_curves_example.PNG, id=176, 1043.69925pt x 533.5935pt>
 File: C:/Users/User/Desktop/images/kepid_light_curves_example.PNG Graphic file (type png)
 <use C:/Users/User/Desktop/images/kepid_light_curves_example.PNG>
-Package pdftex.def Info: C:/Users/User/Desktop/images/kepid_light_curves_example.PNG  used on input line 65.
+Package pdftex.def Info: C:/Users/User/Desktop/images/kepid_light_curves_example.PNG  used on input line 67.
 (pdftex.def)             Requested size: 417.4723pt x 213.43361pt.
- [7]
-Overfull \hbox (45.2175pt too wide) in paragraph at lines 75--79
-[]\OT1/cmr/m/n/12 Get all the hy-per links from the root URL  [][][]\OT1/cmr/m/it/10.95 http://archive.stsci.edu/pub/kepler/lightcurves/[][][]
- []
-
-) (c:/Users/User/Desktop/thesis/latex/main.bbl [8 <c:/Users/User/Desktop/images/kepid_light_curves_example.PNG>]
+ [7] [8 <c:/Users/User/Desktop/images/kepid_light_curves_example.PNG>]
+<C:/Users/User/Desktop/images/11442793_time_flux.png, id=194, 433.62pt x 289.08pt>
+File: C:/Users/User/Desktop/images/11442793_time_flux.png Graphic file (type png)
+<use C:/Users/User/Desktop/images/11442793_time_flux.png>
+Package pdftex.def Info: C:/Users/User/Desktop/images/11442793_time_flux.png  used on input line 104.
+(pdftex.def)             Requested size: 260.17401pt x 173.44933pt.
+<C:/Users/User/Desktop/images/1164109_time_flux.png, id=195, 578.16pt x 361.35pt>
+File: C:/Users/User/Desktop/images/1164109_time_flux.png Graphic file (type png)
+<use C:/Users/User/Desktop/images/1164109_time_flux.png>
+Package pdftex.def Info: C:/Users/User/Desktop/images/1164109_time_flux.png  used on input line 120.
+(pdftex.def)             Requested size: 289.07928pt x 180.67456pt.
+ [9 <c:/Users/User/Desktop/images/11442793_time_flux.png>]) (c:/Users/User/Desktop/thesis/latex/main.bbl [10 <c:/Users/User/Desktop/images/1164109_time_flux.png>]
 
 Package natbib Warning: Empty `thebibliography' environment on input line 4.
 
 )
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 98.
- [9
+ [11
 
 ]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 98.
@@ -772,21 +782,25 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 98.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 98.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 98.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 790E7CE250F41FDA927C8B6520BE3551;671.
+(rerunfilecheck)             Checksum: D750E658B7BB714F5EFA6026050B78E3;849.
+
+
+LaTeX Warning: There were multiply-defined labels.
+
  ) 
 Here is how much of TeX's memory you used:
- 10769 strings out of 492609
- 159033 string characters out of 6132819
- 285104 words of memory out of 5000000
- 14447 multiletter control sequences out of 15000+600000
+ 10790 strings out of 492609
+ 159689 string characters out of 6132819
+ 286308 words of memory out of 5000000
+ 14459 multiletter control sequences out of 15000+600000
  13579 words of font info for 51 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  36i,10n,39p,828b,443s stack positions out of 5000i,500n,10000p,200000b,80000s
 <c:/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><c:/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><c:/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><c:/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on c:/Users/User/Desktop/thesis/latex/main.pdf (19 pages, 390264 bytes).
+Output written on c:/Users/User/Desktop/thesis/latex/main.pdf (21 pages, 629684 bytes).
 PDF statistics:
- 227 PDF objects out of 1000 (max. 8388607)
- 191 compressed objects within 2 object streams
- 44 named destinations out of 1000 (max. 500000)
- 107 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 257 PDF objects out of 1000 (max. 8388607)
+ 214 compressed objects within 3 object streams
+ 51 named destinations out of 1000 (max. 500000)
+ 133 words of extra memory for PDF output out of 10000 (max. 10000000)
 

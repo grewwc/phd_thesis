@@ -904,8 +904,8 @@ def __process_global_local(kepler_info: str,
         # 3 Nones for unpack purpose
 
 
-def write_global_and_local_PC():
-    pool = mp.Pool(processes=32)
+def write_global_and_local_PC(processes=4):
+    pool = mp.Pool(processes=4)
     write_queue = mp.Manager().Queue()
     write_file_process = mp.Process(
         target=__write_file, args=(write_queue,)
@@ -928,47 +928,53 @@ def write_global_and_local_PC():
     # first sort by kepler ids
 
     count = 1
+    f = open('./failed.txt', 'w')
     for kepid in kepids:
-        time, flux = get_time_flux_by_ID(kepid)
-        targets = df_clean[df_clean['kepid'] == kepid]
+        try:
+            time, flux = get_time_flux_by_ID(kepid)
+            targets = df_clean[df_clean['kepid'] == kepid]
 
-        plnt_nums, labels, periods, t0s, durations = \
-            targets[['tce_plnt_num', 'av_training_set',
-                     'tce_period', 'tce_time0bk', 'tce_duration']] \
-                .values.T
+            plnt_nums, labels, periods, t0s, durations = \
+                targets[['tce_plnt_num', 'av_training_set',
+                        'tce_period', 'tce_time0bk', 'tce_duration']] \
+                    .values.T
 
-        labels = \
-            list(map(lambda label: 1 if label == 'PC' else 0, labels))
-        # transfer labels to 0/1 (integer)
+            labels = \
+                list(map(lambda label: 1 if label == 'PC' else 0, labels))
+            # transfer labels to 0/1 (integer)
 
-        # remove_indices = [i for i, label in enumerate(labels)
-        #                   if label == 1]
+            # remove_indices = [i for i, label in enumerate(labels)
+            #                   if label == 1]
 
-        remove_indices = [i for i, label in enumerate(labels)]
+            remove_indices = [i for i, label in enumerate(labels)]
 
-        remove_periods = [periods[i] for i in remove_indices]
-        remove_t0s = [t0s[i] for i in remove_indices]
-        remove_durations = [durations[i] for i in remove_indices]
-        # only remove the confirmed PCs' transit
+            remove_periods = [periods[i] for i in remove_indices]
+            remove_t0s = [t0s[i] for i in remove_indices]
+            remove_durations = [durations[i] for i in remove_indices]
+            # only remove the confirmed PCs' transit
 
-        for plnt_num, label, period, t0, duration in zip(
-                plnt_nums, labels, periods, t0s, durations):
-            print(f'{count}/{len(df_clean)} ({kepid} - {plnt_num})')
+            for plnt_num, label, period, t0, duration in zip(
+                    plnt_nums, labels, periods, t0s, durations):
+                print(f'{count}/{len(df_clean)} ({kepid} - {plnt_num})')
 
-            cur_time, cur_flux = remove_points_other_tce(
-                time, flux, period,
-                period_list=remove_periods,
-                t0_list=remove_t0s,
-                duration_list=remove_durations
-            )
-            result.append(pool.apply_async(
-                func=__process_global_local,
-                args=(f'{kepid}-{plnt_num}', label,
-                      cur_time, cur_flux, period,
-                      t0, duration, write_queue)
-            ))
-            count += 1
-
+                cur_time, cur_flux = remove_points_other_tce(
+                    time, flux, period,
+                    period_list=remove_periods,
+                    t0_list=remove_t0s,
+                    duration_list=remove_durations
+                )
+                result.append(pool.apply_async(
+                    func=__process_global_local,
+                    args=(f'{kepid}-{plnt_num}', label,
+                        cur_time, cur_flux, period,
+                        t0, duration, write_queue)
+                ))
+                count += 1
+        except Exception as e:
+            print('failed', kepid)
+            f.write(str(kepid))
+            f.write('\n')
+    f.close()
     all_flux = [p.get() for p in result]
     pool.close()
 

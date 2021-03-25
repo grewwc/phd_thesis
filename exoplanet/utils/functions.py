@@ -11,7 +11,7 @@ import math
 
 
 def almost_same(x, y):
-    delta = 1e-2
+    delta = 1e-5
     return math.fabs(x - y) <= delta
 
 
@@ -97,6 +97,7 @@ def remove_points_other_tce(all_time,
         half_duration = duration / 2.0
         mask = np.logical_or(fold_time > t0 + half_duration,
                              fold_time < t0 - half_duration)
+        print("here", mask)
         all_time = all_time[mask]
         all_flux = all_flux[mask]
 
@@ -109,7 +110,6 @@ def __flatten_interp_transits(
     all_time, all_flux: real time of the lightcurve, before folding.\n
     duration: in Days
     return the flattened time, flux, not folding
-
     """
 
     fold_time = all_time % period
@@ -175,11 +175,12 @@ def flatten_interp_transits(
 
     all_time, flat_flux = lc.time, lc.flux
 
-    flat_flux[mask] = tce
     # keep the transit original
+    flat_flux[mask] = tce
 
-    # tce_time, tce = sigma_clip(tce_time, tce, sigma=3.0)
     # sigma clip the outliers in the transit
+    tce_time, tce = sigma_clip(tce_time, tce, sigma=3.0)
+    
     return all_time, flat_flux
 
 

@@ -700,7 +700,7 @@ def get_binned_local_view_by_IDs(kepids,
                     )
                 except IndexError as e:
                     logger.exception(f"kepid: {kepid}")
-                    print()
+                    print(e)
                     continue
                 # write to a file
                 np.save(fname, binned_flux)

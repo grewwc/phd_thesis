@@ -42,8 +42,8 @@ csv_name_drop_unk_25 = 'q1_q17_dr25_tce_clean.csv'
 kepid_filename = "./exchange/kepids.txt"
 kepid_filename_25 = "./exchange/kepids_25.txt"
 
-num_bins = 2001
-num_local_bins = 201
+num_bins = 2048
+num_local_bins = 256
 bin_width_factor = 0.16  # from google ai code
 
 yes_pickle, no_pickle = 'yes.pkl', 'no.pkl'

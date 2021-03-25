@@ -9,9 +9,9 @@ def median_bin(x, y, num_bins, bin_width=None, normalize=True):
     """
     x_min, x_max = x[0], x[-1]
     default_bin_width = (x_max - x_min) / num_bins
-    bin_width = default_bin_width if bin_width is None else bin_width*default_bin_width
-    bin_spacing = (x_max - x_min) / num_bins
+    bin_width = default_bin_width if bin_width is None else bin_width
 
+    bin_spacing = (x_max - x_min) / num_bins
     # if bin_spacing < 0:
     #     raise ValueError(
     #         f'bin space {bin_spacing} < 0 (maybe "bin_width" is too large)')

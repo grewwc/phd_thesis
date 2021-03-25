@@ -198,7 +198,8 @@ def process_global(time, flux, period, t0, duration):
 
     time, flux = fold(time, flux, period, t0)
 
-    bin_width = 1
+    bin_width = None
+    # print('bin width', bin_width)
     # if period < 1:
     #     bin_width *= 40
     # elif period < 10:
@@ -234,7 +235,7 @@ def process_local(time, flux, period, t0, duration):
     time, flux = time[lo:hi], flux[lo:hi]
 
     # experimental
-    bin_width = bin_width_factor * duration
+    bin_width = bin_width_factor
 
     # if duration < 5:
     #     bin_width *= 4

@@ -322,7 +322,6 @@ def write_flux_by_IDs(kepids,
         kepids = [int(kepids)]
 
     for id_ in kepids:
-        print('why', id_)
         id_str = f'{int(id_):09d}'
         period_list = [p[1] for p in periods[id_str]]
         t0_list = [t[1] for t in first_epochs[id_str]]
@@ -361,8 +360,8 @@ def write_flux_by_IDs(kepids,
 
             duration /= 24.0
 
-            # sigma_clip(time, flux)
-            # print("begin", fname)
+            sigma_clip(time, flux, sigma=1)
+
             binned = process_global(time, flux, p, t0, duration)
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             np.savetxt(fname, binned)

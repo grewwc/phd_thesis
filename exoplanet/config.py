@@ -25,10 +25,10 @@ if __platform == 'Windows':
     train_root_dir = "C:/Users/User/dev/data/train"
     test_root_dir = "C:/Users/User/dev/data/test"
 elif __platform == 'Linux':
-    csv_folder = "/home/chao/dev/data"
-    classification_dir = "/home/chao/dev/data/classification_info"
-    train_root_dir = "/home/chao/dev/data/train"
-    test_root_dir = "/home/chao/dev/data/test"
+    csv_folder = "/home/wwc129/dev/data"
+    classification_dir = "/home/wwc129/dev/data/classification_info"
+    train_root_dir = "/home/wwc129/dev/data/train"
+    test_root_dir = "/home/wwc129/dev/data/test"
 
 else:
     print(f"{__platform} is not supported")

@@ -335,7 +335,7 @@ def write_flux_by_IDs(kepids,
 
             fname = os.path.join(
                 train_root_dir, 'flux', label,
-                id_str[:4], id_str, f"flux_{i}.txt"
+                id_str[:4], id_str, f"flux_{i}.npy"
             )
             dirname = os.path.dirname(fname)
             # create directory
@@ -360,7 +360,7 @@ def write_flux_by_IDs(kepids,
 
             duration /= 24.0
 
-            sigma_clip(time, flux, sigma=1)
+            # sigma_clip(time, flux, sigma=1)
 
             binned = process_global(time, flux, p, t0, duration)
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -401,7 +401,7 @@ def get_binned_normalized_flux_by_IDs(kepids,
             # label = '1' if id_str in yes else '0'
             fname = os.path.join(
                 flux_root_dir, label, id_str[:4],
-                id_str, f'flux_{i}.txt'
+                id_str, f'flux_{i}.npy'
             )
 
             if label == '1':
@@ -503,7 +503,7 @@ def get_binned_normalized_PC_flux(num=1,
         # write all data to a file
         # filename is import from config.py
         with save_ctx(all_pc_flux_filename):
-            np.savetxt(all_pc_flux_filename, pcs, fmt=_float_fmt)
+            np.save(all_pc_flux_filename, pcs)
 
     res = pcs if not return_kepids else (pcs, all_pcs)
     return res
@@ -546,8 +546,7 @@ def get_binned_normalized_Non_PC_flux(num=1,
                           or overwrite):
         # write to file (import from config.py)
         with save_ctx(all_non_pc_flux_filename):
-            np.savetxt(all_non_pc_flux_filename, others,
-                       fmt=_float_fmt)
+            np.save(all_non_pc_flux_filename, others)
     res = others if not return_kepids else (others, all_others)
     return res
 
@@ -674,7 +673,7 @@ def get_binned_local_view_by_IDs(kepids,
 
             fname = os.path.join(
                 train_root_dir, 'flux', label,
-                norm_kepid[:4], norm_kepid, f'local_flux_{i}.txt'
+                norm_kepid[:4], norm_kepid, f'local_flux_{i}.npy'
             )
 
             dirname = os.path.dirname(fname)
@@ -704,7 +703,7 @@ def get_binned_local_view_by_IDs(kepids,
                     print()
                     continue
                 # write to a file
-                np.savetxt(fname, binned_flux, fmt=_float_fmt)
+                np.save(fname, binned_flux)
             # read from the file
             if label == '1':
                 pc.append(np.load(fname).reshape(1, -1))
@@ -753,8 +752,7 @@ def get_local_binned_normalized_PC_flux(num=1,
         # write all data to a file
         # filename is import from config.py
         with save_ctx(local_all_pc_flux_filename):
-            np.savetxt(local_all_pc_flux_filename,
-                       pcs, fmt=_float_fmt)
+            np.save(local_all_pc_flux_filename, pcs)
 
     if return_kepids:
         return pcs, all_pcs
@@ -799,8 +797,7 @@ def get_local_binned_normalized_Non_PC_flux(num=1,
         # write all data to a file
         # filename is import from config.py
         with save_ctx(local_all_non_pc_flux_filename):
-            np.savetxt(local_all_non_pc_flux_filename,
-                       others, fmt=_float_fmt)
+            np.save(local_all_non_pc_flux_filename, others)
     if return_kepids:
         return others, all_non_pcs
     return others
@@ -867,7 +864,7 @@ def __write_file(queue: mp.Queue):
         plnt_num = str(next_item.plnt_num)
         data = next_item.data
         is_global = next_item.is_global
-        filename = f'flux_{plnt_num}.txt' if is_global else f'local_flux_{plnt_num}.txt'
+        filename = f'flux_{plnt_num}.npy' if is_global else f'local_flux_{plnt_num}.npy'
 
         next_file = os.path.join(
             train_root_dir, 'flux', label, kepid[:4],
@@ -877,7 +874,7 @@ def __write_file(queue: mp.Queue):
             print("making directory:", os.path.dirname(next_file))
             os.makedirs(os.path.dirname(next_file))
 
-        np.savetxt(fname=next_file, X=data, fmt=_float_fmt)
+        np.save(next_file, data)
 
 
 def __process_global_local(kepler_info: str,
@@ -1006,10 +1003,10 @@ def write_global_and_local_PC(processes=32):
     all_local_pc = np.concatenate(all_local_pc)
     all_local_non_pc = np.concatenate(all_local_non_pc)
 
-    np.savetxt(all_pc_flux_filename, all_global_pc, fmt=_float_fmt)
-    np.savetxt(all_non_pc_flux_filename, all_global_non_pc, fmt=_float_fmt)
-    np.savetxt(local_all_pc_flux_filename, all_local_pc, fmt=_float_fmt)
-    np.savetxt(local_all_non_pc_flux_filename, all_local_non_pc, fmt=_float_fmt)
+    np.save(all_pc_flux_filename, all_global_pc)
+    np.save(all_non_pc_flux_filename, all_global_non_pc)
+    np.save(local_all_pc_flux_filename, all_local_pc)
+    np.save(local_all_non_pc_flux_filename, all_local_non_pc)
 
     pool.join()
     write_file_process.join()

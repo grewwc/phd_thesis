@@ -178,7 +178,7 @@ def flatten_interp_transits(all_time, all_flux, period, t0, duration):
     # sigma clip the outliers in the transit
     # tce_time, tce = sigma_clip(tce_time, tce, sigma=3.0)
     
-    return all_time, flat_flux
+    return all_time.value, flat_flux.value
 
 
 def process_global(time, flux, period, t0, duration):

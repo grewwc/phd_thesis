@@ -74,8 +74,9 @@ def sigma_clip(time, flux, sigma=3.0):
     if len(tce_time) < 2:
         return time, flux
 
-    func = interp1d(tce_time, tce, fill_value='extrapolate', kind='linear')
-    return time, func(time)
+    # func = interp1d(tce_time, tce, fill_value='extrapolate', kind='linear')
+    # return time, func(time)
+    return tce_time, tce
 
 
 def remove_points_other_tce(all_time,
@@ -97,7 +98,6 @@ def remove_points_other_tce(all_time,
         half_duration = duration / 2.0
         mask = np.logical_or(fold_time > t0 + half_duration,
                              fold_time < t0 - half_duration)
-        print("here", mask)
         all_time = all_time[mask]
         all_flux = all_flux[mask]
 
@@ -152,15 +152,12 @@ def __flatten_interp_transits(
     return all_time, flat_flux
 
 
-def flatten_interp_transits(
-        all_time, all_flux, period, t0, duration):
+def flatten_interp_transits(all_time, all_flux, period, t0, duration):
     """
     all_time, all_flux: real time of the lightcurve, before folding.\n
     duration: in Days
     return the flattened time, flux, not folding
-
     """
-
     fold_time = all_time % period
     t0 %= period
     half_duration = duration / 2.0
@@ -170,7 +167,7 @@ def flatten_interp_transits(
     tce_time, tce = all_time[mask], all_flux[mask]
 
     lc = LightCurve(all_time, all_flux).flatten(
-        window_length=801, polyorder=2, break_tolerance=40, sigma=3
+        window_length=301, polyorder=2, break_tolerance=40, sigma=3
     )
 
     all_time, flat_flux = lc.time, lc.flux
@@ -179,7 +176,7 @@ def flatten_interp_transits(
     flat_flux[mask] = tce
 
     # sigma clip the outliers in the transit
-    tce_time, tce = sigma_clip(tce_time, tce, sigma=3.0)
+    # tce_time, tce = sigma_clip(tce_time, tce, sigma=3.0)
     
     return all_time, flat_flux
 
@@ -191,7 +188,7 @@ def process_global(time, flux, period, t0, duration):
     return: binned flux
     """
     t0 %= period
-
+    
     time, flux = flatten_interp_transits(time, flux, period, t0, duration)
 
     time, flux = fold(time, flux, period, t0)

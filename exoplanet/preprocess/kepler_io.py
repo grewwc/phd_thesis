@@ -322,6 +322,7 @@ def write_flux_by_IDs(kepids,
         kepids = [int(kepids)]
 
     for id_ in kepids:
+        print('why', id_)
         id_str = f'{int(id_):09d}'
         period_list = [p[1] for p in periods[id_str]]
         t0_list = [t[1] for t in first_epochs[id_str]]
@@ -360,6 +361,8 @@ def write_flux_by_IDs(kepids,
 
             duration /= 24.0
 
+            # sigma_clip(time, flux)
+            # print("begin", fname)
             binned = process_global(time, flux, p, t0, duration)
             # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             np.savetxt(fname, binned)
@@ -384,6 +387,13 @@ def get_binned_normalized_flux_by_IDs(kepids,
     kepids_len = len(kepids)
     pc, non_pc = [], []
 
+    # write_flux_by_IDs can distinguish if overwrite
+    # so we don't check overwrite here
+    write_flux_by_IDs(
+        kepids, overwirte=overwrite,
+        num_bins=num_bins,
+        scramble_id=scramble_id)
+
     for id_ in kepids:
         id_str = f'{int(id_):09d}'
         for i, (label, p) in enumerate(periods[id_str]):
@@ -392,13 +402,6 @@ def get_binned_normalized_flux_by_IDs(kepids,
                 flux_root_dir, label, id_str[:4],
                 id_str, f'flux_{i}.txt'
             )
-
-            # write_flux_by_IDs can distinguish if overwrite
-            # so we don't check overwrite here
-            write_flux_by_IDs(
-                id_str, overwirte=overwrite,
-                num_bins=num_bins,
-                scramble_id=scramble_id)
 
             if label == '1':
                 pc.append(np.loadtxt(fname).reshape(1, -1))
@@ -904,8 +907,8 @@ def __process_global_local(kepler_info: str,
         # 3 Nones for unpack purpose
 
 
-def write_global_and_local_PC(processes=4):
-    pool = mp.Pool(processes=4)
+def write_global_and_local_PC(processes=32):
+    pool = mp.Pool(processes=processes)
     write_queue = mp.Manager().Queue()
     write_file_process = mp.Process(
         target=__write_file, args=(write_queue,)
@@ -916,16 +919,16 @@ def write_global_and_local_PC(processes=4):
     fname = os.path.join(csv_folder, csv_name_drop_unk)
     df_clean = pd.read_csv(fname, comment='#')
 
-    df_clean['tce_duration'] = df_clean['tce_duration'] / 24.0
     # hours to days
+    df_clean['tce_duration'] = df_clean['tce_duration'] / 24.0
 
     sort_df(df_clean)
 
     result = []
     kepids = list(set(df_clean['kepid'].values))
 
-    kepids = sorted(kepids, key=norm_kepid)
     # first sort by kepler ids
+    kepids = sorted(kepids, key=norm_kepid)
 
     count = 1
     f = open('./failed.txt', 'w')

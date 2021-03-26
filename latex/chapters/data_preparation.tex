@@ -92,7 +92,7 @@
     in the field of astronomy, thus dealing with data efficiently is important.
 
     
-  \section{Light Curves Pre-processing}
+  \section{Light Curves Preprocessing}
     As previously discussed, the depths of TCE are in general very small and the median 
     value is around 125 ppm. The following figure is the four-year observation data. 
     Thus we need to fold the light curves and bin them in order to magnify the effect.
@@ -251,15 +251,75 @@
       Take the TCE with kepid 1164109 for example, the period is around 622 days while 
       the period is only 12 hours. Thus we would like to focus more on the data points within 
       the TCE durations and have more bins in this range. In short, the binning logic is the 
-      following. We divide a light curve into three parts: before transit, during and after 
-      transit. Firstly, we pass the duration as a parameter to the bin function. Because 
+      following. Firstly, we pass the duration as a parameter to the bin function. Because 
       we have already arranged the transit signals in the center of light curves, 
-      we choose the data points within the range [-duration, +duration] around the center.
+      we choose the data points within the range of [-duration, +duration] around the center.
+      Therefore we divide the light curve into three parts: before transit, during and after 
+      transit. And for each part, we apply the median bin method discussed above.
       Then we count the number of the data points ($n$), and the number of bins in the 
-      transit range is ($n/5$). If we denote the 
+      transit range is  under most situations ($n/5$). If we denote the 
       total desired number of bins (the input shape of the model) as $n\_total$.
       For the other two parts, the number of bins are the same, which equals to 
-      $\left(n\_total-n/5\right)/2$. 
-      
+      $\left(n\_total-n/5\right)/2$. The Fig. \ref{fig: binning_method} is the 
+      screen shot of parts of the binning code.
+
+      \begin{figure}[!htp]
+        \centering
+        \includegraphics[scale=0.5]{another_bin.png}
+        \caption[Screen shot of code snippets of binning method.]
+          {Screen shot of code snippets of binning method. In the figure, n2 is the 
+          number of bins we want in the range of [-duration, +duration], which equals 
+          to $\left(n\_total-n/5\right)/2$, where $n=len(x)$ is the total number of 
+          data points. Sometimes a there are too many data points within the range and 
+          exceeds the total bin number, thus we need to use \textbf{min} function to 
+          limit the bins in the transit.}
+        \label{fig: binning_method}
+      \end{figure}
+
+      The binning operation is the last step of the preprocessing. 
+      The Fig. \ref{fig: binning_method} is an binned "light curve" of kepid 1164109.
+
+      \begin{figure}[!htp]
+        \centering
+        \includegraphics[scale=0.75]{binned_1164109.png}
+        \caption[Light curve of kepid 1164109 after binning. ]
+          {Light curve of kepid 1164109 after binning. The binned light curve 
+          contains much less data points compare to Fig. 
+          \ref{fig: 1164109_comparison}, thus can save lots of computational time. 
+          In addition, kepid 1164109 is not a planet candidate.}
+        \label{fig: binning_method}
+      \end{figure}
+
+      After normalizing,
+      removing transit signals in same stellar systems, outliers, low-frequency signals, 
+      fold and bin the original light curves, we obtain a final "light curve" with  
+      shape of (2048, 1). Since all light curves have the same shape after preprocessing,
+      we can then feed them into machine learning models finally. The Fig. 
+      \ref{fig: pc_non_pc} compares the binned light curves of planet candidates with non 
+      planet candidates.
+
+      \begin{figure}[!ht]  
+        \begin{center}
+        \begin{minipage}{0.45\textwidth}
+          \begin{center} 
+              \includegraphics[scale=0.35]{pc.png}
+          \end{center}
+        \end{minipage}
+        \begin{minipage}{0.45\textwidth}
+          \begin{center} 
+              \includegraphics[scale=0.35]{non-pc.png}
+          \end{center}
+        \end{minipage}
+      \end{center}
+      \begin{center}
+        \caption[Binned light curves of some PCs and Non-PCs.]
+          {Binned light curves of some PCs and Non-PCs. The left and right panels 
+          are PCs' and Non-PCs' binned light curves respectively.
+          We can clearly see the transit signals in the subplot of PCs and the light 
+          curves are a bit more messy for Non-PCs.}
+        \label{fig: pc_non_pc}
+        \end{center}
+      \end{figure}
+  
 
       

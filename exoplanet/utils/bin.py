@@ -50,7 +50,6 @@ def another_bin(x, y, num_bins, duration=None, normalize=True):
     i2 = np.argwhere((x>=tce_min) & (x<=tce_max)).ravel()
     i3 = np.argwhere(x>tce_max).ravel()
 
-    # n2 = int((tce_max-tce_min)/(x_max-x_min) * num_bins)
     n2 = int(min(len(i2)/5, 0.4*num_bins))
     if n2 == 0:
         return median_bin(x, y, num_nins, normalize=normalize)

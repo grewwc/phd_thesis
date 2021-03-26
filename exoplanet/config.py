@@ -49,14 +49,14 @@ bin_width_factor = 0.16  # from google ai code
 yes_pickle, no_pickle = 'yes.pkl', 'no.pkl'
 
 
-all_pc_flux_filename = path.join(train_root_dir, "flux", "all_PCs_flux.txt")
+all_pc_flux_filename = path.join(train_root_dir, "flux", "all_PCs_flux.npy")
 all_non_pc_flux_filename = path.join(
-    train_root_dir, "flux", "all_Non_PCs_flux.txt")
+    train_root_dir, "flux", "all_Non_PCs_flux.npy")
 
 local_all_pc_flux_filename = path.join(
-    train_root_dir, "flux", "local_all_PCs_flux.txt")
+    train_root_dir, "flux", "local_all_PCs_flux.npy")
 local_all_non_pc_flux_filename = path.join(
-    train_root_dir, "flux", "local_all_Non_PCs_flux.txt")
+    train_root_dir, "flux", "local_all_Non_PCs_flux.npy")
 
 dr25_global_flux_filename = path.join(
     test_root_dir, 'global_dr25.txt'

@@ -215,24 +215,37 @@
     \subsection{Fold and Bin Light Curves}
       First of all, we fold the flattened light curves to increase the data points within 
       the range of the transit signals. Then we move the transit signal in the center 
-      of the folded light curve. This may increase the performance the deep learning model 
+      of the folded light curve. This may increase the performance of the deep learning model 
       since the data is more "clean". Then we need to bin the folded light curves for the 
-      following reasons. 
+      following benefits. 
       \begin{itemize}
         \item There are too many data points in the folded light curves 
           (around 65000 for each folded light curve). 
           As we know, the number of "useful" data points which are within the range of a 
           TCE's duration is very small. Therefore, most of the 65000 data points are 
-          nearly "useless" and will cost a lot of computing power. 
+          nearly "useless" and will waste a lot of computing power. 
         \item Binning can make the light curves a bit more smoother and reduce variants.
           Since a complex machine learning model tend to fit the variants and causes
           over-fitting, which is very bad for the model generalization. Thus, the performance
           of the over-fitted model tend to perform bad on the unseen data.
       \end{itemize}
 
-      The binning method is 
-      
+      There are some python packages such as lightkurve to do the binning operation, however, 
+      we can only choose the bin width ($w$) or number of bins. And the distance between 
+      each bin ($d$) is equal to the bin width ($d=w$). But these two values can be different:
+      if $d<w$, the binned light curves can be more smooth and may can improve the model's 
+      performance. Therefore, we need to write our own bin method. Even though the logic 
+      of binning method is simple, it is a little bit tricky to implement. For example, if the bin width is so small that there is no data points in this range, what value 
+      should we choose to 
+      represent this bin? In this thesis, we choose the median value if the bin has no 
+      data points. Another question is should we choose the same 
+      bin width and distance for all the light curves? After some experiments, 
+      we don't find a 
+      good criteria to tune the binning parameters for each light curve. Therefore, we use 
+      the same parameter configuration for all the light curves. Finally, the performance for 
+      this method is very important because we need to do 
+      many training experiments, thus we have to generate preprocessed light curves for all 
+      the TCE multiple times. 
 
-      
-
-     
+      The binning parameters also have a huge influence on the performance of the model. 
+      We use 2048 bins and bin width $w=(time\_max-time\_min)/num\_bins*1.5$.

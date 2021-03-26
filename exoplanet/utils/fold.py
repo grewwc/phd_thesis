@@ -4,8 +4,8 @@ from lightkurve.lightcurve import LightCurve
 
 
 def fold(time, flux, period, t0=None):
-    half_period = period / 2.0
 
+    half_period = period / 2.0
     if t0 is None:
         t0 = half_period
 

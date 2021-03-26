@@ -48,15 +48,16 @@ bin_width_factor = 0.16  # from google ai code
 
 yes_pickle, no_pickle = 'yes.pkl', 'no.pkl'
 
+# _float_fmt = '%1.3f'
 
-all_pc_flux_filename = path.join(train_root_dir, "flux", "all_PCs_flux.npy")
+all_pc_flux_filename = path.join(train_root_dir, "flux", "all_PCs_flux.txt")
 all_non_pc_flux_filename = path.join(
-    train_root_dir, "flux", "all_Non_PCs_flux.npy")
+    train_root_dir, "flux", "all_Non_PCs_flux.txt")
 
 local_all_pc_flux_filename = path.join(
-    train_root_dir, "flux", "local_all_PCs_flux.npy")
+    train_root_dir, "flux", "local_all_PCs_flux.txt")
 local_all_non_pc_flux_filename = path.join(
-    train_root_dir, "flux", "local_all_Non_PCs_flux.npy")
+    train_root_dir, "flux", "local_all_Non_PCs_flux.txt")
 
 dr25_global_flux_filename = path.join(
     test_root_dir, 'global_dr25.txt'
@@ -65,7 +66,6 @@ dr25_global_flux_filename = path.join(
 dr25_local_flux_filename = path.join(
     test_root_dir, 'local_dr25.txt'
 )
-
 
 # settings for logging
 log_dir = path.join(root_dir, 'log')

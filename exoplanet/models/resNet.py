@@ -63,7 +63,7 @@ def get_global_model():
     global_name = 'global'
     res_block.clear()
 
-    inputs = keras.layers.Input(shape=[2001, 1])
+    inputs = keras.layers.Input(shape=[2048, 1])
 
     x = inputs
 

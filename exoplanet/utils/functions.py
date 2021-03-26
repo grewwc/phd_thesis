@@ -5,7 +5,7 @@ from lightkurve import LightCurve
 from scipy.interpolate import interp1d
 
 from config import *
-from .bin import median_bin
+from .bin import median_bin, another_bin
 from .fold import fold
 import math
 
@@ -162,14 +162,14 @@ def flatten_interp_transits(all_time, all_flux, period, t0, duration):
     """
     fold_time = all_time % period
     t0 %= period
-    half_duration = duration / 1.0
+    half_duration = duration / 2.0
     mask = np.logical_and(fold_time <= t0 + half_duration,
                           fold_time >= t0 - half_duration)
 
     tce_time, tce = all_time[mask], all_flux[mask]
 
-    lc = LightCurve(all_time, all_flux).flatten(
-        window_length=301, polyorder=2, break_tolerance=40, sigma=3
+    lc = LightCurve(time=all_time, flux=all_flux).flatten(
+        window_length=501, polyorder=2, break_tolerance=40, sigma=3
     )
 
     all_time, flat_flux = lc.time, lc.flux
@@ -206,10 +206,10 @@ def process_global(time, flux, period, t0, duration):
     #     bin_width *= 20
     # elif period < 100:
     #     bin_width *= 10
-    binned_flux = median_bin(
+    binned_flux = another_bin(
         time, flux,
         num_bins=num_bins,
-        bin_width=bin_width
+        duration=duration
     )
     return binned_flux
 

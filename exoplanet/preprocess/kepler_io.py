@@ -27,7 +27,7 @@ Item = namedtuple('Item', "kepid, plnt_num, label, is_global, data")
 df = None
 __df_clean = None
 
-_float_fmt = '%.6f'
+_float_fmt = '%.3f'
 
 # scramble patters
 __scramble_1 = [13, 14, 15, 16, 9, 10, 11, 12, 5, 6, 7, 8, 1, 2, 3, 4, 17]
@@ -112,29 +112,31 @@ def get_time_flux_by_ID(kepid,
     root_dir = os.path.join(train_root_dir, kepid[:4], kepid)
     files = os.listdir(root_dir)
     files = sorted(files)
-    for file in files:
-        file = os.path.join(root_dir, file)
-        with fits.open(file) as hdu:
-            cur_quarter = hdu[0].header['quarter']
-            flux = hdu[1].data.PDCSAP_FLUX
-            time = hdu[1].data.TIME
-            # remove nan
-            finite_mask = np.isfinite(flux)
-            time = time[finite_mask]
-            flux = flux[finite_mask]
-            flux /= np.median(flux)
+    try:
+        for file in files:
+            file = os.path.join(root_dir, file)
+            with fits.open(file) as hdu:
+                cur_quarter = hdu[0].header['quarter']
+                flux = hdu[1].data.PDCSAP_FLUX
+                time = hdu[1].data.TIME
+                # remove nan
+                finite_mask = np.isfinite(flux)
+                time = time[finite_mask]
+                flux = flux[finite_mask]
+                flux /= np.median(flux)
 
-            if quarter is not None and str(cur_quarter) == str(quarter):
-                return time, flux
+                if quarter is not None and str(cur_quarter) == str(quarter):
+                    return time, flux
 
-            ##################################
-            # later add remove outliers ???  #
-            #                                #
-            ##################################
+                ##################################
+                # later add remove outliers ???  #
+                #                                #
+                ##################################
 
-            all_time.append(time)
-            all_flux.append(flux)
-
+                all_time.append(time)
+                all_flux.append(flux)
+    except:
+        return None
     # quarter is beyond [1,17]
     if quarter is not None:
         print(f'quarter {quarter} not exist')
@@ -219,6 +221,7 @@ def get_NonPC_IDs(num=1, shuffle=True, nth=1):
 
     if not shuffle:
         res = sorted(res)
+
     return res
 
 
@@ -311,7 +314,7 @@ def write_flux_by_IDs(kepids,
                       num_bins=num_bins,
                       scramble_id=None):
     """
-    write to "${train_root_dir}/flux/${label}kepid[:4]/kepid/flux_p[i].npy"
+    write to "${train_root_dir}/flux/${label}kepid[:4]/kepid/flux_p[i].txt"
     flux_p[i]: some kepid may have multiple periods
     """
     periods, durations, first_epochs = \
@@ -322,51 +325,54 @@ def write_flux_by_IDs(kepids,
         kepids = [int(kepids)]
 
     for id_ in kepids:
-        id_str = f'{int(id_):09d}'
-        period_list = [p[1] for p in periods[id_str]]
-        t0_list = [t[1] for t in first_epochs[id_str]]
-        duration_list = [d[1] / 24.0 for d in durations[id_str]]
-        for i, ((label, p), (_, duration), (_, t0)) in \
-                enumerate(zip(
-                    periods[id_str],
-                    durations[id_str],
-                    first_epochs[id_str]
-                )):
+        try:
+            id_str = f'{int(id_):09d}'
+            print(f'write: {id_str}')
+            period_list = [p[1] for p in periods[id_str]]
+            t0_list = [t[1] for t in first_epochs[id_str]]
+            duration_list = [d[1] / 24.0 for d in durations[id_str]]
+            for i, ((label, p), (_, duration), (_, t0)) in \
+                    enumerate(zip(
+                        periods[id_str],
+                        durations[id_str],
+                        first_epochs[id_str]
+                    )):
 
-            fname = os.path.join(
-                train_root_dir, 'flux', label,
-                id_str[:4], id_str, f"flux_{i}.npy"
-            )
-            dirname = os.path.dirname(fname)
-            # create directory
-            if not os.path.exists(dirname):
-                os.makedirs(dirname)
+                fname = os.path.join(
+                    train_root_dir, 'flux', label,
+                    id_str[:4], id_str, f"flux_{i}.txt"
+                )
+                dirname = os.path.dirname(fname)
+                # create directory
+                if not os.path.exists(dirname):
+                    os.makedirs(dirname)
 
-            # if flux already exists && !overwrite, continue
-            if os.path.exists(fname) and not overwirte:
-                continue
+                # if flux already exists && !overwrite, continue
+                if os.path.exists(fname) and not overwirte:
+                    continue
 
-            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            # real work is done here
-            time, flux = get_time_flux_by_ID(
-                id_,
-                scramble_id=scramble_id
-            )
+                # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                # real work is done here
+                time, flux = get_time_flux_by_ID(
+                    id_,
+                    scramble_id=scramble_id
+                )
 
-            time, flux = remove_points_other_tce(
-                time, flux, p, period_list,
-                t0_list, duration_list
-            )
+                time, flux = remove_points_other_tce(
+                    time, flux, p, period_list,
+                    t0_list, duration_list
+                )
 
-            duration /= 24.0
+                duration /= 24.0
 
-            # sigma_clip(time, flux, sigma=1)
+                # sigma_clip(time, flux, sigma=1)
 
-            binned = process_global(time, flux, p, t0, duration)
-            # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            # np.savetxt(fname, binned)
-            np.save(fname, binned)
-            
+                binned = process_global(time, flux, p, t0, duration)
+                # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                np.savetxt(fname, binned, fmt=_float_fmt)
+                # np.save(fname, binned)
+        except:
+            continue
 
 
 def get_binned_normalized_flux_by_IDs(kepids,
@@ -390,27 +396,30 @@ def get_binned_normalized_flux_by_IDs(kepids,
 
     # write_flux_by_IDs can distinguish if overwrite
     # so we don't check overwrite here
-    write_flux_by_IDs(
-        kepids, overwirte=overwrite,
-        num_bins=num_bins,
-        scramble_id=scramble_id)
 
     for id_ in kepids:
-        id_str = f'{int(id_):09d}'
-        for i, (label, p) in enumerate(periods[id_str]):
-            # label = '1' if id_str in yes else '0'
-            fname = os.path.join(
-                flux_root_dir, label, id_str[:4],
-                id_str, f'flux_{i}.npy'
-            )
+        try:
+            write_flux_by_IDs(
+                id_, overwirte=overwrite,
+                num_bins=num_bins,
+                scramble_id=scramble_id)
+            id_str = f'{int(id_):09d}'
+            for i, (label, p) in enumerate(periods[id_str]):
+                # label = '1' if id_str in yes else '0'
+                fname = os.path.join(
+                    flux_root_dir, label, id_str[:4],
+                    id_str, f'flux_{i}.txt'
+                )
 
-            if label == '1':
-                pc.append(np.load(fname).reshape(1, -1))
-            else:
-                non_pc.append(np.load(fname).reshape(1, -1))
+                if label == '1':
+                    pc.append(np.loadtxt(fname).reshape(1, -1))
+                else:
+                    non_pc.append(np.loadtxt(fname).reshape(1, -1))
 
-        count += 1
-        write_info(f'{count / kepids_len * 100: .2f}%')
+            count += 1
+            write_info(f'{count / kepids_len * 100: .2f}%')
+        except:
+            continue
 
     if merge:
         pc = np.concatenate(pc) if len(pc) != 0 else None
@@ -472,7 +481,7 @@ def get_binned_normalized_PC_flux(num=1,
             and not overwrite:
         print('argument "return_kepids" is ignored')
         with load_ctx(all_pc_flux_filename):
-            res = np.load(all_pc_flux_filename)
+            res = np.loadtxt(all_pc_flux_filename)
         return res
 
     if shuffle:
@@ -503,7 +512,7 @@ def get_binned_normalized_PC_flux(num=1,
         # write all data to a file
         # filename is import from config.py
         with save_ctx(all_pc_flux_filename):
-            np.save(all_pc_flux_filename, pcs)
+            np.savetxt(all_pc_flux_filename, pcs, fmt=_float_fmt)
 
     res = pcs if not return_kepids else (pcs, all_pcs)
     return res
@@ -521,7 +530,7 @@ def get_binned_normalized_Non_PC_flux(num=1,
     if num == np.inf and os.path.exists(all_non_pc_flux_filename) \
             and not overwrite:
         with load_ctx(all_non_pc_flux_filename):
-            res = np.load(all_non_pc_flux_filename)
+            res = np.loadtxt(all_non_pc_flux_filename)
         return res
 
     if shuffle:
@@ -532,7 +541,6 @@ def get_binned_normalized_Non_PC_flux(num=1,
             print("shuffle ignored because nth != 1")
 
     all_others = get_NonPC_IDs(num=num, shuffle=shuffle, nth=nth)
-    # print(all_others)
     pcs, others = get_binned_normalized_flux_by_IDs(
         all_others, merge=merge, overwrite=overwrite,
         num_bins=num_bins, bin_width=bin_width,
@@ -546,7 +554,7 @@ def get_binned_normalized_Non_PC_flux(num=1,
                           or overwrite):
         # write to file (import from config.py)
         with save_ctx(all_non_pc_flux_filename):
-            np.save(all_non_pc_flux_filename, others)
+            np.savetxt(all_non_pc_flux_filename, others, fmt=_float_fmt)
     res = others if not return_kepids else (others, all_others)
     return res
 
@@ -669,11 +677,11 @@ def get_binned_local_view_by_IDs(kepids,
         for i, ((label, period),
                 (_, duration),
                 (_, t0)) in enumerate(
-            zip(kepid_period, kepid_duration, kepid_first_epoch)):
+                zip(kepid_period, kepid_duration, kepid_first_epoch)):
 
             fname = os.path.join(
                 train_root_dir, 'flux', label,
-                norm_kepid[:4], norm_kepid, f'local_flux_{i}.npy'
+                norm_kepid[:4], norm_kepid, f'local_flux_{i}.txt'
             )
 
             dirname = os.path.dirname(fname)
@@ -703,13 +711,13 @@ def get_binned_local_view_by_IDs(kepids,
                     print(e)
                     continue
                 # write to a file
-                np.save(fname, binned_flux)
+                np.savetxt(fname, binned_flux, fmt=_float_fmt)
             # read from the file
             if label == '1':
-                pc.append(np.load(fname).reshape(1, -1))
+                pc.append(np.loadtxt(fname).reshape(1, -1))
             else:
                 test += 1
-                non_pc.append(np.load(fname).reshape(1, -1))
+                non_pc.append(np.loadtxt(fname).reshape(1, -1))
         count += 1
     if merge:
         pc = np.concatenate(pc) if len(pc) != 0 else None
@@ -731,7 +739,7 @@ def get_local_binned_normalized_PC_flux(num=1,
     if num == np.inf and os.path.exists(local_all_pc_flux_filename) \
             and not overwrite:
         with load_ctx(local_all_pc_flux_filename):
-            res = np.load(local_all_pc_flux_filename)
+            res = np.loadtxt(local_all_pc_flux_filename)
             return res
 
     if shuffle:
@@ -752,7 +760,7 @@ def get_local_binned_normalized_PC_flux(num=1,
         # write all data to a file
         # filename is import from config.py
         with save_ctx(local_all_pc_flux_filename):
-            np.save(local_all_pc_flux_filename, pcs)
+            np.savetxt(local_all_pc_flux_filename, pcs, fmt=_float_fmt)
 
     if return_kepids:
         return pcs, all_pcs
@@ -773,7 +781,7 @@ def get_local_binned_normalized_Non_PC_flux(num=1,
     if num == np.inf and os.path.exists(local_all_non_pc_flux_filename) \
             and not overwrite:
         with load_ctx(local_all_non_pc_flux_filename):
-            res = np.load(local_all_non_pc_flux_filename)
+            res = np.loadtxt(local_all_non_pc_flux_filename)
         return res
 
     if shuffle:
@@ -797,7 +805,7 @@ def get_local_binned_normalized_Non_PC_flux(num=1,
         # write all data to a file
         # filename is import from config.py
         with save_ctx(local_all_non_pc_flux_filename):
-            np.save(local_all_non_pc_flux_filename, others)
+            np.save(local_all_non_pc_flux_filename, others, fmt=_float_fmt)
     if return_kepids:
         return others, all_non_pcs
     return others
@@ -815,9 +823,9 @@ def get_summary_by_IDs(kepid):
     period = get_period_by_IDs(kepid)[norm_kepid]
     duration = get_tce_duration_by_IDs(kepid)[norm_kepid]
     first_epoch = get_tce_epochs_by_IDs(kepid)[norm_kepid]
-    print(json.dumps(
-        dict(zip(['period', 'tce duration', 'tce epoch'],
-                 [period, duration, first_epoch])), indent='  '))
+    print('period', period)
+    print('duration', duration)
+    print('first_epoch', first_epoch)
 
 
 def get_unknown_kepids():
@@ -864,7 +872,7 @@ def __write_file(queue: mp.Queue):
         plnt_num = str(next_item.plnt_num)
         data = next_item.data
         is_global = next_item.is_global
-        filename = f'flux_{plnt_num}.npy' if is_global else f'local_flux_{plnt_num}.npy'
+        filename = f'flux_{plnt_num}.txt' if is_global else f'local_flux_{plnt_num}.txt'
 
         next_file = os.path.join(
             train_root_dir, 'flux', label, kepid[:4],
@@ -874,7 +882,7 @@ def __write_file(queue: mp.Queue):
             print("making directory:", os.path.dirname(next_file))
             os.makedirs(os.path.dirname(next_file))
 
-        np.save(next_file, data)
+        np.savetxt(next_file, data, fmt=_float_fmt)
 
 
 def __process_global_local(kepler_info: str,
@@ -937,8 +945,8 @@ def write_global_and_local_PC(processes=32):
 
             plnt_nums, labels, periods, t0s, durations = \
                 targets[['tce_plnt_num', 'av_training_set',
-                        'tce_period', 'tce_time0bk', 'tce_duration']] \
-                    .values.T
+                         'tce_period', 'tce_time0bk', 'tce_duration']] \
+                .values.T
 
             labels = \
                 list(map(lambda label: 1 if label == 'PC' else 0, labels))
@@ -967,8 +975,8 @@ def write_global_and_local_PC(processes=32):
                 result.append(pool.apply_async(
                     func=__process_global_local,
                     args=(f'{kepid}-{plnt_num}', label,
-                        cur_time, cur_flux, period,
-                        t0, duration, write_queue)
+                          cur_time, cur_flux, period,
+                          t0, duration, write_queue)
                 ))
                 count += 1
         except Exception as e:
@@ -1003,10 +1011,10 @@ def write_global_and_local_PC(processes=32):
     all_local_pc = np.concatenate(all_local_pc)
     all_local_non_pc = np.concatenate(all_local_non_pc)
 
-    np.save(all_pc_flux_filename, all_global_pc)
-    np.save(all_non_pc_flux_filename, all_global_non_pc)
-    np.save(local_all_pc_flux_filename, all_local_pc)
-    np.save(local_all_non_pc_flux_filename, all_local_non_pc)
+    np.savetxt(all_pc_flux_filename, all_global_pc, fmt=_float_fmt)
+    np.savetxt(all_non_pc_flux_filename, all_global_non_pc, fmt=_float_fmt)
+    np.savetxt(local_all_pc_flux_filename, all_local_pc, fmt=_float_fmt)
+    np.savetxt(local_all_non_pc_flux_filename, all_local_non_pc, fmt=_float_fmt)
 
     pool.join()
     write_file_process.join()

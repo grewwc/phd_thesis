@@ -247,5 +247,19 @@
       many training experiments, thus we have to generate preprocessed light curves for all 
       the TCE multiple times. 
 
-      The binning parameters also have a huge influence on the performance of the model. 
-      We use 2048 bins and bin width $w=(time\_max-time\_min)/num\_bins*1.5$.
+      As mentioned previously, the TCE duration is very small compare to the period. 
+      Take the TCE with kepid 1164109 for example, the period is around 622 days while 
+      the period is only 12 hours. Thus we would like to focus more on the data points within 
+      the TCE durations and have more bins in this range. In short, the binning logic is the 
+      following. We divide a light curve into three parts: before transit, during and after 
+      transit. Firstly, we pass the duration as a parameter to the bin function. Because 
+      we have already arranged the transit signals in the center of light curves, 
+      we choose the data points within the range [-duration, +duration] around the center.
+      Then we count the number of the data points ($n$), and the number of bins in the 
+      transit range is ($n/5$). If we denote the 
+      total desired number of bins (the input shape of the model) as $n\_total$.
+      For the other two parts, the number of bins are the same, which equals to 
+      $\left(n\_total-n/5\right)/2$. 
+      
+
+      

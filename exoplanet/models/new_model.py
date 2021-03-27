@@ -1,28 +1,27 @@
 import six
-from keras.models import Model
-from keras.layers import (
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import (
     Input,
     Activation,
     Dense,
     Flatten
 )
-from keras.layers.convolutional import (
+from tensorflow.keras.layers import (
     Conv1D,
     MaxPooling1D,
-    AveragePooling1D
+    AveragePooling1D,
+    add,
+    BatchNormalization
 )
-from keras.layers.merge import add
-from keras.layers.normalization import BatchNormalization
-from keras.regularizers import l2
-from keras import backend as K
+from tensorflow.keras.regularizers import l2
+from tensorflow.keras import backend as K
 
-CHANNEL_AXIS = -1
-ROW_AXIS = 1
+ROW_AXIS = 0
 
 def _bn_relu(input):
     """Helper to build a BN -> relu block
     """
-    norm = BatchNormalization(axis=CHANNEL_AXIS)(input)
+    norm = BatchNormalization()(input)
     return Activation("relu")(norm)
 
 
@@ -76,12 +75,12 @@ def _shortcut(input, residual):
     input_shape = K.int_shape(input)
     residual_shape = K.int_shape(residual)
     stride_width = int(round(input_shape[ROW_AXIS] / residual_shape[ROW_AXIS]))
-    equal_channels = input_shape[CHANNEL_AXIS] == residual_shape[CHANNEL_AXIS]
+    equal_channels = input_shape[-1] == residual_shape[-1]
 
     shortcut = input
     # 1 X 1 conv if shape is different. Else identity.
     if stride_width > 1  or not equal_channels:
-        shortcut = Conv1D(filters=residual_shape[CHANNEL_AXIS],
+        shortcut = Conv1D(filters=residual_shape[-1],
                           kernel_size=1,
                           strides=stride_width,
                           padding="valid",
@@ -106,7 +105,7 @@ def _residual_block(block_function, filters, repetitions, is_first_layer=False):
     return f
 
 
-def basic_block(filters, init_strides=(1, 1), is_first_block_of_first_layer=False):
+def basic_block(filters, init_strides=1, is_first_block_of_first_layer=False):
     """Basic 3 X 3 convolution blocks for use on resnets with layers <= 34.
     Follows improved proposed scheme in http://arxiv.org/pdf/1603.05027v2.pdf
     """

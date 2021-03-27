@@ -1,4 +1,7 @@
 \begin{thebibliography}{}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 
+\bibitem[{Shallue \& Vanderburg(2018)}]{Shallue_2018}
+Shallue, C.~J., \& Vanderburg, A. 2018, The Astronomical Journal, 155, 94
+
 \end{thebibliography}
